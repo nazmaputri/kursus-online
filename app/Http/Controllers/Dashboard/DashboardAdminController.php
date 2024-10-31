@@ -9,18 +9,32 @@ use Illuminate\Http\Request;
 class DashboardAdminController extends Controller
 {
     public function index() {
+        $users = User::all(); 
         return view('layouts.dashboard-admin');
     }
 
-    public function data() {
-    $users = User::all(); 
-    return view('dashboard-admin.data-user', compact('users'));
+    public function mentor() {
+        $users = User::where('role', 'mentor')->get(); 
+        return view('dashboard-admin.data-mentor', compact('users'));
+    }    
 
+    public function peserta() {
+        $users = User::where('role', 'student')->get(); 
+        return view('dashboard-admin.data-peserta', compact('users'));
     }
 
     public function show() {
         return view('dashboard-admin.welcome');
     }
+
+    public function kursus() {
+        return view('dashboard-admin.daftar-kursus');
+    }
+
+    public function detailkursus() {
+        return view('dashboard-admin.detail-kursus');
+    }
+
 
     public function laporan()
     {

@@ -56,6 +56,12 @@
                         Login
                     </button>
                 </div>
+
+                @if($errors->any())
+    <div class="text-red-500">
+        {{ $errors->first() }}
+    </div>
+@endif
             </form>
         </div>
     </div>

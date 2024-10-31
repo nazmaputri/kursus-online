@@ -1,15 +1,15 @@
-@extends('layouts.dashboard-admin')
+@extends('layouts.dashboard-mentor')
 @section('content')
     <div class="bg-white rounded-lg shadow-md p-8 w-full flex flex-col md:flex-row h-60 items-center">
         <div class="md:w-2/3 text-center md:text-left">
             <h1 class="text-3xl font-bold mb-4 text-gray-800">Selamat datang, {{ Auth::user()->name }}!</h1>
             <p class="mb-6 text-gray-600">
-                Semoga hari ini membawa kemudahan dan kelancaran dalam tugas-tugas Anda. 
-                <br>Mari kita capai hal-hal hebat bersama.
+                Menginspirasi satu orang mungkin terlihat kecil, tapi bisa menciptakan perubahan besar. 
+                Teruslah berbagi ilmu, karena setiap hal yang Anda ajarkan adalah langkah menuju masa depan yang lebih cerah.
             </p>
         </div>
         <div class="md:w-1/3 flex justify-center md:justify-end">
-            <img src="{{ asset('storage/admin.png') }}" alt="Welcome Image" class="w-54"/>
+            <img src="{{ asset('storage/mentor.png') }}" alt="Welcome Image" class="w-54"/>
         </div>
     </div>
 
@@ -22,8 +22,8 @@
                 </svg>
             </div>
             <div class="ml-4">
-                <h2 class="text-2xl font-bold text-red-800">Jumlah Mentor</h2>
-                <p class="text-xl font-semibold text-red-600">mentor</p>
+                <h2 class="text-2xl font-bold text-red-800">Jumlah Peserta</h2>
+                <p class="text-xl font-semibold text-red-600">Peserta</p>
             </div>
         </div>
 
@@ -35,8 +35,8 @@
                 </svg>
             </div>
             <div class="ml-4">
-                <h2 class="text-2xl font-bold text-yellow-800">Jumlah Peserta</h2>
-                <p class="text-xl font-semibold text-yellow-600">peserta</p>
+                <h2 class="text-2xl font-bold text-yellow-800">Jumlah Materi</h2>
+                <p class="text-xl font-semibold text-yellow-600">Materi</p>
             </div>
         </div>
 

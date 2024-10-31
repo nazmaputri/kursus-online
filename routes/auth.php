@@ -15,4 +15,4 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 
 // Route untuk logout
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');

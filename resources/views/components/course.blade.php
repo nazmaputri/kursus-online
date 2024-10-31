@@ -91,6 +91,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <!-- Course Card 6: Masak -->
                 <div class="course-card bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden flex-none w-80 flex-shrink-0 flex flex-col transition-transform duration-300 ease-in-out">
                     <div class="flex justify-center mt-5">
