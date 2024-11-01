@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardMentor\CourseController;
+use App\Http\Controllers\DashboardAdmin\CategoryController;
+use App\Models\Category;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,8 +26,8 @@ class DashboardMentorController extends Controller
 
     public function kursus()
     {
-        $courses = Course::all(); // Anda dapat menambahkan metode paginate() jika ingin membagi halaman
-        return view('dashboard-mentor.kursus', compact('courses')); // Ganti dengan path view yang sesuai
+        $courses = Course::all(); 
+        return view('dashboard-mentor.kursus', compact('courses')); 
     }
 
     public function materi() {
@@ -37,7 +39,8 @@ class DashboardMentorController extends Controller
     }
 
     public function tambahkursus() {
-        return view('dashboard-mentor.tambah-kursus');
+        $categories = Category::all(); // Mengambil semua kategori dari tabel categories
+        return view('dashboard-mentor.tambah-kursus', compact('categories'));
     }
 
     public function tambahmateri() {

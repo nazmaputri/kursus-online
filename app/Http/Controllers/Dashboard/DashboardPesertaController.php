@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DashboardMentor\CourseController;
+use App\Http\Controllers\DashboardAdmin\CategoryController;
+use App\Models\Category;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class DashboardPesertaController extends Controller
@@ -20,7 +24,8 @@ class DashboardPesertaController extends Controller
     }
 
     public function kursus() {
-        return view('dashboard-peserta.kursus');
+        $categories = Category::all(); // Mengambil semua data kategori dari database
+        return view('dashboard-peserta.kursus', compact('categories'));
     }
 
     public function study() {

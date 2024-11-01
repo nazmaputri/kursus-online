@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\DashboardAdminController;
 use App\Http\Controllers\Dashboard\DashboardPesertaController;
 use App\Http\Controllers\Dashboard\DashboardMentorController;
 use App\Http\Controllers\DashboardMentor\CourseController;
+use App\Http\Controllers\DashboardAdmin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -52,6 +53,26 @@ Route::get('dashboard-mentor/tambah-quiz', [DashboardMentorController::class, 't
 Route::get('dashboard-mentor/laporan', [DashboardMentorController::class, 'laporan'])->name('laporan-mentor');
 
 Route::post('dashboard-mentor/tambah-kursus', [CourseController::class, 'store'])->name('courses-store');
+
+
+
+// Route untuk menampilkan daftar kategori
+Route::get('/kategori', [CategoryController::class, 'index'])->name('kategori-admin');
+
+// Route untuk menampilkan form tambah kategori
+Route::get('/kategori/tambah', [CategoryController::class, 'create'])->name('kategori-create');
+
+// Route untuk menyimpan kategori baru
+Route::post('/kategori', [CategoryController::class, 'store'])->name('kategori-store');
+
+// Route untuk menampilkan form edit kategori
+Route::get('/kategori/edit/{id}', [CategoryController::class, 'edit'])->name('kategori-edit');
+
+// Route untuk mengupdate kategori
+Route::put('/kategori/{id}', [CategoryController::class, 'update'])->name('kategori-update');
+
+// Route untuk menghapus kategori
+Route::delete('/kategori/{id}', [CategoryController::class, 'destroy'])->name('kategori-delete');
 
 
 require __DIR__.'/auth.php';

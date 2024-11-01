@@ -28,9 +28,16 @@
 
         <!-- Input untuk kategori -->
         <div class="mb-4">
-            <label for="category" class="block text-gray-700 font-bold mb-2">Kategori</label>
-            <input type="text" name="category" id="category" class="w-full p-2 border rounded @error('category') border-red-500 @enderror" placeholder="Masukkan Kategori" value="{{ old('category') }}">
-            @error('category')
+            <label for="category_id" class="block text-gray-700 font-bold mb-2">Kategori</label>
+            <select name="category_id" id="category_id" class="w-full p-2 border rounded @error('category_id') border-red-500 @enderror">
+                <option value="">Pilih Kategori</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('category_id')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>

@@ -15,6 +15,7 @@
     <table class="min-w-full bg-white border border-gray-300">
         <thead>
             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <th class="py-3 px-6 text-left">Foto</th>
                 <th class="py-3 px-6 text-left">Judul</th>
                 <th class="py-3 px-6 text-left">Deskripsi</th>
                 <th class="py-3 px-6 text-left">Kategori</th>
@@ -25,13 +26,21 @@
         <tbody class="text-gray-600 text-sm font-light">
             @foreach ($courses as $course)
                 <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <!-- Kolom Foto -->
+                    <td class="py-3 px-6">
+                        @if($course->image_path)
+                            <img src="{{ asset('storage/' . $course->image_path) }}" alt="Foto Kursus" class="w-20 h-20 object-cover rounded">
+                        @else
+                            <span class="text-gray-500">Tidak ada foto</span>
+                        @endif
+                    </td>
                     <td class="py-3 px-6">{{ $course->title }}</td>
                     <td class="py-3 px-6">{{ Str::limit($course->description, 50) }}</td>
                     <td class="py-3 px-6">{{ $course->category }}</td>
                     <td class="py-3 px-6">{{ $course->price ? 'Rp. ' . number_format($course->price, 0, ',', '.') : 'Gratis' }}</td>
                     <td class="py-3 px-6">
-                        <a href="{{ route('courses.edit', $course->id) }}" class="text-blue-500 hover:underline">Edit</a>
-                        <form action="{{ route('courses.destroy', $course->id) }}" method="POST" class="inline">
+                        <a href="#" class="text-blue-500 hover:underline">Edit</a>
+                        <form action="#" method="POST" class="inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-red-500 hover:underline">Hapus</button>
