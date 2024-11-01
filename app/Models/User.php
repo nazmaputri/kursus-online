@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,16 +21,12 @@ class User extends Authenticatable
         'email',
         'password',
         'phone_number',
-        'role',
-        'course',
-        'experience',
-        'status',
+        'role',          
+        'course',       
+        'experience',   
+        'status', 
+        'email_verified_at',       
     ];
-
-    public function role()
-    {
-        return $this->belongsToMany(Role::class);
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -60,6 +55,8 @@ class User extends Authenticatable
      */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value);
+        if ($value) { // Tambahkan ini agar hashing hanya terjadi jika password ada dan perlu diubah
+            $this->attributes['password'] = bcrypt($value);
+        }
     }
 }

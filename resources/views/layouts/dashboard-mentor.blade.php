@@ -67,16 +67,16 @@
                         </div>
                     
                         <!-- Submenu -->
-                        <ul id="dropdown-menu" class="{{ Request::routeIs('datamentor-admin', 'datapeserta-admin') ? '' : 'hidden' }} ml-4 space-y-1 mt-2 dark:bg-gray-700 rounded-sm p-2">
-                            <li class="border-l-4 {{ Request::routeIs('datapeserta-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
-                                <a href="{{ route('datapeserta-admin') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <ul id="dropdown-menu" class="{{ Request::routeIs('kursus-mentor', 'tambahmateri-mentor', 'tambahquiz-mentor') ? '' : 'hidden' }} ml-4 space-y-1 mt-2 dark:bg-gray-700 rounded-sm p-2">
+                            <li class="border-l-4 {{ Request::routeIs('kursus-mentor') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                                <a href="{{ route('kursus-mentor') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
                                     <!-- Ikon SVG -->
                                     <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/courses.png" alt="courses"/>
                                     Kursus
                                 </a>
                             </li>
-                            <li class="border-l-4 {{ Request::routeIs('datamentor-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
-                                <a href="{{ route('datamentor-admin') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
+                            <li class="border-l-4 {{ Request::routeIs('tambahmateri-mentor') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                                <a href="{{ route('tambahmateri-mentor') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
                                     <!-- Ikon SVG -->
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                         <path d="M96 0C43 0 0 43 0 96L0 416c0 53 43 96 96 96l288 0 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-64c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L384 0 96 0zm0 384l256 0 0 64L96 448c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16zm16 48l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/>
@@ -84,8 +84,8 @@
                                     Materi
                                 </a>
                             </li>
-                            <li class="border-l-4 {{ Request::routeIs('datapeserta-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
-                                <a href="{{ route('datapeserta-admin') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
+                            <li class="border-l-4 {{ Request::routeIs('tambahquiz-mentor') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                                <a href="{{ route('tambahquiz-mentor') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
                                     <!-- Ikon SVG -->
                                     <img width="20" height="20" src="https://img.icons8.com/material-outlined/24/documents--v2.png" alt="documents--v2"/>
                                     Quiz
@@ -109,8 +109,8 @@
                         }
                     </script>
                             
-                    <li class="border-l-4 {{ Request::routeIs('kursus-mentor') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
-                        <a href="{{ route('kursus-mentor') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <li class="border-l-4 {{ Request::routeIs('chat-mentor') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                        <a href="{{ route('chat-mentor') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
                                 <path d="M208 352c114.9 0 208-78.8 208-176S322.9 0 208 0S0 78.8 0 176c0 38.6 14.7 74.3 39.6 103.4c-3.5 9.4-8.7 17.7-14.2 24.7c-4.8 6.2-9.7 11-13.3 14.3c-1.8 1.6-3.3 2.9-4.3 3.7c-.5 .4-.9 .7-1.1 .8l-.2 .2s0 0 0 0s0 0 0 0C1 327.2-1.4 334.4 .8 340.9S9.1 352 16 352c21.8 0 43.8-5.6 62.1-12.5c9.2-3.5 17.8-7.4 25.2-11.4C134.1 343.3 169.8 352 208 352zM448 176c0 112.3-99.1 196.9-216.5 207C255.8 457.4 336.4 512 432 512c38.2 0 73.9-8.7 104.7-23.9c7.5 4 16 7.9 25.2 11.4c18.3 6.9 40.3 12.5 62.1 12.5c6.9 0 13.1-4.5 15.2-11.1c2.1-6.6-.2-13.8-5.8-17.9c0 0 0 0 0 0s0 0 0 0l-.2-.2c-.2-.2-.6-.4-1.1-.8c-1-.8-2.5-2-4.3-3.7c-3.6-3.3-8.5-8.1-13.3-14.3c-5.5-7-10.7-15.4-14.2-24.7c24.9-29 39.6-64.7 39.6-103.4c0-92.8-84.9-168.9-192.6-175.5c.4 5.1 .6 10.3 .6 15.5z"/>
                             </svg>

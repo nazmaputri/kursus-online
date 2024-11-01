@@ -12,7 +12,8 @@
                     <tr class="bg-sky-200">
                         <th class="border border-gray-300 px-4 py-2 rounded-md">No</th>
                         <th class="border border-gray-300 px-4 py-2 rounded-md">Nama</th>
-                        <th class="border border-gray-300 px-4 py-2 rounded-md">Email</th>
+                        <th class="border border-gray-300 px-4 py-2 rounded-md">Kategori</th>
+                        <th class="border border-gray-300 px-4 py-2 rounded-md">Status</th>
                         <th class="border border-gray-300 px-4 py-2 rounded-md">Aksi</th>
                     </tr>
                 </thead>
@@ -21,7 +22,20 @@
                         <tr class="bg-white hover:bg-sky-50 user-row" data-role="{{ $user->role }}">
                             <td class="border border-gray-300 px-4 py-2 rounded-md text-center">{{ $index + 1 }}</td>
                             <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $user->name }}</td>
-                            <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $user->email }}</td>
+                            <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $user->course }}</td>
+                            <td class="py-3 px-6 text-left border border-gray-300 rounded-md">
+                                <div class="flex items-center space-x-1">
+                                    <form action="{{ route('admin.users.updateStatus', $user->id) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        @if($user->status === 'pending')
+                                            <button type="submit" class="text-green-500 hover:text-green-700">Set Active</button>
+                                        @else
+                                            <span class="text-gray-500">Active</span>
+                                        @endif
+                                    </form>
+                                </div>
+                            </td>                            
                             <td class="py-3 px-6 text-left border border-gray-300 rounded-md">
                                 <div class="flex items-center space-x-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -43,6 +57,18 @@
         </div>
     </div>
 </div>
+
+@if(session('success'))
+    <div class="bg-green-200 text-green-800 p-2 rounded mb-4">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('info'))
+    <div class="bg-yellow-200 text-yellow-800 p-2 rounded mb-4">
+        {{ session('info') }}
+    </div>
+@endif
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

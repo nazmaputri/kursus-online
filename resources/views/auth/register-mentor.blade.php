@@ -8,7 +8,7 @@
 </head>
 <body class="bg-sky-50">
     <div class="flex justify-center items-center min-h-screen">
-        <div class="w-full max-w-md p-5 space-y-6 bg-white rounded-lg shadow-lg">
+        <div class="w-full max-w-md p-5 space-y-6 bg-white rounded-lg shadow-lg m-10">
             <!-- Logo and Website Name -->
             <div class="flex flex-col items-center justify-center space-y-2">
                 <div class="flex items-center space-x-3">
@@ -16,10 +16,17 @@
                     <h1 class="text-3xl font-bold text-sky-600">Eduflix</h1>
                 </div>
                 <h4 class="text-center text-sky-600">
-                    Klik disini untuk daftar sebagai mentor! 
-                    <a href="register-mentor" class="text-blue-900 underline">Daftar</a>
+                    Ayo daftar dan menjadi bagian mentor di EduFlix!
                 </h4>
             </div>  
+
+           
+            <!-- Notifikasi Sukses -->
+            @if (session('success'))
+                <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
 
             <!-- Error Messages -->
             @if ($errors->any())
@@ -66,8 +73,28 @@
                     <input type="text" name="phone_number" id="phone_number" class="w-full px-4 py-2 border border-sky-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500">
                 </div>
 
+                <!-- Kategori -->
+                <div>
+                    <label for="course" class="block text-sm font-medium text-sky-600 pb-2">Kategori</label>
+                    <select name="course" id="course" class="w-full px-4 py-2 border border-sky-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-gray-400">
+                        <option class="text-gray-400" value="" disabled selected hidden>Pilih Kategori</option>
+                        <option value="teknologi" class="text-black">Teknologi</option>
+                        <option value="bisnis" class="text-black">Bisnis</option>
+                        <option value="desain" class="text-black">Desain</option>
+                        <option value="bahasa" class="text-black">Bahasa</option>
+                        <option value="umum" class="text-black">Umum</option>
+                        <option value="pengembangan-diri" class="text-black">Pengembangan Diri</option>
+                    </select>
+                </div>
+
+                <!-- Deskripsi -->
+                <div>
+                    <label for="experience" class="block text-sm font-medium text-sky-600 pb-2">Deskripsi Pengalaman</label>
+                    <textarea name="experience" id="experience" rows="4" placeholder="Deskripsikan pengalaman anda saat menjadi pengajar atau motivator" class="text-sm w-full px-4 py-2 border border-sky-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"></textarea>
+                </div>
+
                 <!-- Hidden Role Field -->
-                <input type="hidden" name="role" value="student">
+                <input type="hidden" name="role" value="mentor">
 
                 <!-- Submit Button -->
                 <div>

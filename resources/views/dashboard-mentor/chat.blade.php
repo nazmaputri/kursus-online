@@ -1,4 +1,4 @@
-@extends('layouts.chat-peserta')
+@extends('layouts.dashboard-mentor')
 @section('content')
 <div class="h-screen flex">
     <!-- Sidebar untuk daftar user atau mentor -->

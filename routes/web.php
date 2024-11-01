@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\DashboardAdminController;
 use App\Http\Controllers\Dashboard\DashboardPesertaController;
 use App\Http\Controllers\Dashboard\DashboardMentorController;
+use App\Http\Controllers\DashboardMentor\CourseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,6 +30,7 @@ Route::get('dashboard-admin/data-peserta', [DashboardAdminController::class, 'pe
 Route::get('dashboard-admin/kursus', [DashboardAdminController::class, 'kursus'])->name('kursus-admin');
 Route::get('dashboard-admin/detail-kursus', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus-admin');
 Route::get('dashboard-admin/laporan', [DashboardAdminController::class, 'laporan'])->name('laporan-admin');
+Route::patch('/admin/users/{id}/status', [DashboardAdminController::class, 'updateStatus'])->name('admin.users.updateStatus');
 
 //Dashboard Peserta
 Route::get('dashboard-peserta/welcome', [DashboardPesertaController::class, 'show'])->name('welcome-peserta');
@@ -43,8 +45,14 @@ Route::get('dashboard-peserta/kategori', [DashboardPesertaController::class, 'ka
 Route::get('dashboard-mentor/welcome', [DashboardMentorController::class, 'show'])->name('welcome-mentor');
 Route::get('dashboard-mentor/data-peserta', [DashboardMentorController::class, 'datapeserta'])->name('datapeserta-mentor');
 Route::get('dashboard-mentor/chat', [DashboardMentorController::class, 'chat'])->name('chat-mentor');
+Route::get('dashboard-mentor/tambah-kursus', [DashboardMentorController::class, 'tambahkursus'])->name('tambahkursus-mentor');
 Route::get('dashboard-mentor/kursus', [DashboardMentorController::class, 'kursus'])->name('kursus-mentor');
+Route::get('dashboard-mentor/tambah-materi', [DashboardMentorController::class, 'tambahmateri'])->name('tambahmateri-mentor');
+Route::get('dashboard-mentor/tambah-quiz', [DashboardMentorController::class, 'tambahquiz'])->name('tambahquiz-mentor');
 Route::get('dashboard-mentor/laporan', [DashboardMentorController::class, 'laporan'])->name('laporan-mentor');
+
+Route::post('dashboard-mentor/tambah-kursus', [CourseController::class, 'store'])->name('courses-store');
+
 
 require __DIR__.'/auth.php';
 

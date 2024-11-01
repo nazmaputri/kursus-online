@@ -35,6 +35,21 @@ class DashboardAdminController extends Controller
         return view('dashboard-admin.detail-kursus');
     }
 
+    public function updateStatus($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Periksa apakah status saat ini 'pending'
+        if ($user->status === 'pending') {
+            // Ubah status menjadi 'active'
+            $user->status = 'active';
+            $user->save();
+
+            return redirect()->back()->with('success', 'User status updated to active.');
+        }
+
+        return redirect()->back()->with('info', 'User is already active.');
+    }
 
     public function laporan()
     {
