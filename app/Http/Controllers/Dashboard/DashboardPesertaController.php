@@ -16,7 +16,8 @@ class DashboardPesertaController extends Controller
     }
 
     public function show() {
-        return view('dashboard-peserta.welcome');
+        $categories = Category::all(); 
+        return view('dashboard-peserta.welcome', compact('categories'));
     }
 
     public function chat() {
@@ -24,7 +25,7 @@ class DashboardPesertaController extends Controller
     }
 
     public function kursus() {
-        $categories = Category::all(); // Mengambil semua data kategori dari database
+        $categories = Category::all(); 
         return view('dashboard-peserta.kursus', compact('categories'));
     }
 
@@ -41,6 +42,7 @@ class DashboardPesertaController extends Controller
     }
 
     public function kategori() {
-        return view('dashboard-peserta.categories');
+        $categories = Category::all(); 
+        return view('dashboard-peserta.categories', compact('categories'));
     }
 }

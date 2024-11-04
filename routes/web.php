@@ -5,11 +5,11 @@ use App\Http\Controllers\Dashboard\DashboardPesertaController;
 use App\Http\Controllers\Dashboard\DashboardMentorController;
 use App\Http\Controllers\DashboardMentor\CourseController;
 use App\Http\Controllers\DashboardAdmin\CategoryController;
+use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingPageController::class, 'lp']);
+
 
 // Route berdasarkan role
 Route::middleware(['auth', 'role:student'])->group(function () {
@@ -29,9 +29,11 @@ Route::get('dashboard-admin/welcome', [DashboardAdminController::class, 'show'])
 Route::get('dashboard-admin/data-mentor', [DashboardAdminController::class, 'mentor'])->name('datamentor-admin');
 Route::get('dashboard-admin/data-peserta', [DashboardAdminController::class, 'peserta'])->name('datapeserta-admin');
 Route::get('dashboard-admin/kursus', [DashboardAdminController::class, 'kursus'])->name('kursus-admin');
-Route::get('dashboard-admin/detail-kursus', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus-admin');
+Route::get('/kursus/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus-admin');
 Route::get('dashboard-admin/laporan', [DashboardAdminController::class, 'laporan'])->name('laporan-admin');
 Route::patch('/admin/users/{id}/status', [DashboardAdminController::class, 'updateStatus'])->name('admin.users.updateStatus');
+Route::get('/mentor/user/{id}', [DashboardAdminController::class, 'detailmentor'])->name('detaildata-mentor');
+Route::get('/peserta/user/{id}', [DashboardAdminController::class, 'detailpeserta'])->name('detaildata-peserta');
 
 //Dashboard Peserta
 Route::get('dashboard-peserta/welcome', [DashboardPesertaController::class, 'show'])->name('welcome-peserta');
@@ -69,7 +71,7 @@ Route::post('/kategori', [CategoryController::class, 'store'])->name('kategori-s
 Route::get('/kategori/edit/{id}', [CategoryController::class, 'edit'])->name('kategori-edit');
 
 // Route untuk mengupdate kategori
-Route::put('/kategori/{id}', [CategoryController::class, 'update'])->name('kategori-update');
+Route::put('/kategori/{id}', [CategoryController::class, 'update'])->name('kategori.update');
 
 // Route untuk menghapus kategori
 Route::delete('/kategori/{id}', [CategoryController::class, 'destroy'])->name('kategori-delete');

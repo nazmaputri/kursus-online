@@ -25,7 +25,7 @@
         <!-- Sidebar -->
         <aside id="logo-sidebar" class="fixed top-4 left-4 z-40 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform" aria-label="Sidebar">
             <!-- Tombol Hamburger -->
-            <button id="hamburger-button" class="absolute top-4 right-4 z-50 p-2 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md">
+            <button id="hamburger-button" class="absolute top-4 right-3 z-50 p-2 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -36,7 +36,7 @@
             </div>
             <div class="h-full px-3 pb-4 overflow-y-auto dark:bg-gray-800">
                 <ul class="space-y-2 font-medium">
-                    <li class="border-l-4 {{ Request::routeIs('welcome-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                    <li class="border-l-2 {{ Request::routeIs('welcome-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('welcome-admin') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                                 <path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li class="relative">
-                        <div class="border-l-4 border-sky-500 border-transparent hover:border-sky-500 ">
+                        <div class="border-l-2 border-sky-500 border-transparent hover:border-sky-500 ">
                             <button onclick="toggleDropdown()" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 w-full">
 
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -61,7 +61,7 @@
                     
                         <!-- Submenu -->
                         <ul id="dropdown-menu" class="{{ Request::routeIs('datamentor-admin', 'datapeserta-admin') ? '' : 'hidden' }} ml-4 space-y-1 mt-2 dark:bg-gray-700 rounded-sm p-2">
-                            <li class="border-l-4 {{ Request::routeIs('datamentor-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                            <li class="border-l-2 {{ Request::routeIs('datamentor-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                                 <a href="{{ route('datamentor-admin') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
                                     <!-- Ikon SVG -->
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -70,7 +70,7 @@
                                     Data Mentor
                                 </a>
                             </li>
-                            <li class="border-l-4 {{ Request::routeIs('datapeserta-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                            <li class="border-l-2 {{ Request::routeIs('datapeserta-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                                 <a href="{{ route('datapeserta-admin') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
                                     <!-- Ikon SVG -->
                                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -97,16 +97,16 @@
                         }
                     </script>
 
-                    <li class="border-l-4 {{ Request::routeIs('kategori-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                    <li class="border-l-2 {{ Request::routeIs('kategori-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('kategori-admin') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
                             <!-- Ikon SVG -->
-                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                                <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                <path d="M264.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 149.8C37.4 145.8 32 137.3 32 128s5.4-17.9 13.9-21.8L264.5 5.2zM476.9 209.6l53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 277.8C37.4 273.8 32 265.3 32 256s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0l152-70.2zm-152 198.2l152-70.2 53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 405.8C37.4 401.8 32 393.3 32 384s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0z"/>
                             </svg>
                             Kategori
                         </a>
                     </li>                
-                    <li class="border-l-4 {{ Request::routeIs('kursus-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                    <li class="border-l-2 {{ Request::routeIs('kursus-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('kursus-admin') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM192 368c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0z"/>
@@ -114,7 +114,7 @@
                             <span class="ms-3">Kursus</span>
                         </a>
                     </li>
-                    <li class="border-l-4 {{ Request::routeIs('laporan-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                    <li class="border-l-2 {{ Request::routeIs('laporan-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('laporan-admin') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path d="M32 32c17.7 0 32 14.3 32 32l0 336c0 8.8 7.2 16 16 16l400 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L80 480c-44.2 0-80-35.8-80-80L0 64C0 46.3 14.3 32 32 32zM160 224c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32zm128-64l0 160c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-160c0-17.7 14.3-32 32-32s32 14.3 32 32zm64 32c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32zM480 96l0 224c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-224c0-17.7 14.3-32 32-32s32 14.3 32 32z"/>
@@ -162,11 +162,11 @@
            <!-- Header -->
            <div class="flex items-center justify-between ml-3">
             <!-- Search Bar di Kiri -->
-            <form class="max-w-sm flex-1 ">   
+            <form class="max-w-sm flex-1 mr-4 ">   
                 <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
@@ -176,8 +176,16 @@
             </form>
         
             <!-- User Profile di Kanan -->
-            <div class="flex items-center mt-4 mr-4 relative">
-                <img src="https://via.placeholder.com/40" alt="User Profile" class="rounded-full">
+            <div class="flex items-center mr-4 relative">
+                 <!-- Pengecekan gambar profil -->
+                 @if(Auth::user()->profile_photo_url)
+                 <img src="#" alt="User Profile" class="rounded-full" width="40" height="40">
+                 @else
+                 <!-- SVG sebagai ikon default -->
+                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="40" height="40" class="rounded-full bg-gray-300 pt-2 shadow-xl">
+                     <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                 </svg>
+                 @endif
                 <div class="ml-2 flex items-center">
                     <div>
                         <!-- Memeriksa apakah pengguna sudah login -->

@@ -1,9 +1,8 @@
-@extends('layouts.dashboard-peserta') <!-- Pastikan layout ini sesuai dengan layout proyek Anda -->
+@extends('layouts.dashboard-peserta')
 
 @section('content')
 <div class="container mx-auto p-6">
     <h1 class="text-4xl font-bold mb-8 text-center text-blue-600">Detail Kursus</h1>
-
     <!-- Card Informasi Kursus -->
     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
         <img src="https://via.placeholder.com/800x400" alt="Gambar Kursus" class="w-full h-64 object-cover">

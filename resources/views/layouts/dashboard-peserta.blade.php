@@ -23,9 +23,9 @@
     <div class="flex flex-col min-h-screen">
 
          <!-- Sidebar -->
-         <aside id="logo-sidebar" class="fixed top-4 left-4 z-40 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl" aria-label="Sidebar">
+        <aside id="logo-sidebar" class="fixed top-4 left-4 z-40 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl" aria-label="Sidebar">
             <!-- Tombol Hamburger -->
-            <button id="hamburger-button" class="absolute top-4 right-4 z-50 p-2 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md">
+            <button id="hamburger-button" class="absolute top-4 right-3 z-50 p-2 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -36,7 +36,7 @@
             </div>
             <div class="h-full px-3 pb-4 overflow-y-auto dark:bg-gray-800">
                 <ul class="space-y-3 font-medium">
-                    <li class="border-l-4 {{ Request::routeIs('welcome-peserta') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                    <li class="border-l-2 {{ Request::routeIs('welcome-peserta') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('welcome-peserta') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                                 <path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
@@ -44,15 +44,15 @@
                             <span class="ms-3">Dashboard</span>
                         </a>
                     </li>
-                    <li class="border-l-4 {{ Request::routeIs('kursus-peserta') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
-                        <a href="{{ route('kursus-peserta') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <li class="border-l-2 {{ Request::routeIs('kategori-peserta') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                        <a href="{{ route('kategori-peserta') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0z"/>
                             </svg>
                             <span class="ms-3">Daftar Kursus</span>
                         </a>
                     </li>
-                    <li class="border-l-4 {{ Request::routeIs('study-peserta') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                    <li class="border-l-2 {{ Request::routeIs('study-peserta') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('study-peserta') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path d="M160 96a96 96 0 1 1 192 0A96 96 0 1 1 160 96zm80 152l0 264-48.4-24.2c-20.9-10.4-43.5-17-66.8-19.3l-96-9.6C12.5 457.2 0 443.5 0 427L0 224c0-17.7 14.3-32 32-32l30.3 0c63.6 0 125.6 19.6 177.7 56zm32 264l0-264c52.1-36.4 114.1-56 177.7-56l30.3 0c17.7 0 32 14.3 32 32l0 203c0 16.4-12.5 30.2-28.8 31.8l-96 9.6c-23.2 2.3-45.9 8.9-66.8 19.3L272 512z"/>
@@ -104,11 +104,11 @@
         </script>
         
         <!-- Main Content -->
-        <div id="content" class="flex-1 ml-64 transition-all duration-300 p-6 pt-3">
+        <div id="content" class="flex-1 ml-64 transition-all duration-300 p-4">
            <!-- Header -->
-           <div class="flex items-center justify-between ml-3">
+           <div class="flex items-center justify-between">
             <!-- Search Bar di Kiri -->
-            <form class="max-w-sm flex-1 ">   
+            <form class="max-w-sm flex-1 ml-4 mr-4">   
                 <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -122,8 +122,16 @@
             </form>
         
             <!-- User Profile di Kanan -->
-            <div class="flex items-center mt-4 mr-4 relative">
-                <img src="https://via.placeholder.com/40" alt="User Profile" class="rounded-full">
+            <div class="flex items-center mr-4 relative">
+                <!-- Pengecekan gambar profil -->
+                @if(Auth::user()->profile_photo_url)
+                <img src="#" alt="User Profile" class="rounded-full" width="40" height="40">
+                @else
+                <!-- SVG sebagai ikon default -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="40" height="40" class="rounded-full bg-neutral-200 pt-2 shadow-md">
+                    <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                </svg>
+                @endif
                 <div class="ml-2 flex items-center">
                     <div>
                         <!-- Memeriksa apakah pengguna sudah login -->

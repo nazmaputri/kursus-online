@@ -15,7 +15,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
         <!-- Card Jumlah Mentor -->
-        <div class="bg-red-100 rounded-lg shadow-md p-6 flex items-center">
+        <div class="bg-red-100 rounded-lg shadow-md p-5 flex items-center">
             <div class="p-4 bg-red-500 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7a4 4 0 118 0v4a4 4 0 11-8 0V7zm4 13a8 8 0 01-8-8h16a8 8 0 01-8 8z" />
@@ -23,12 +23,12 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-2xl font-bold text-red-800">Jumlah Mentor</h2>
-                <p class="text-xl font-semibold text-red-600">mentor</p>
+                <p class="text-xl font-semibold text-red-600">{{ $jumlahMentor }} Mentor</p>
             </div>
         </div>
 
-        <!-- Card Jumlah Kategori -->
-        <div class="bg-yellow-100 rounded-lg shadow-md p-6 flex items-center">
+        <!-- Card Jumlah Peserta -->
+        <div class="bg-yellow-100 rounded-lg shadow-md p-5 flex items-center">
             <div class="p-4 bg-yellow-500 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
@@ -36,12 +36,12 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-2xl font-bold text-yellow-800">Jumlah Peserta</h2>
-                <p class="text-xl font-semibold text-yellow-600">peserta</p>
+                <p class="text-xl font-semibold text-yellow-600">{{ $jumlahPeserta }} Peserta</p>
             </div>
         </div>
 
         <!-- Card Jumlah Kursus -->
-        <div class="bg-blue-100 rounded-lg shadow-md p-6 flex items-center">
+        <div class="bg-blue-100 rounded-lg shadow-md p-5 flex items-center">
             <div class="p-4 bg-blue-500 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM3 16a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" />
@@ -49,7 +49,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-2xl font-bold text-blue-800">Jumlah Kursus</h2>
-                <p class="text-xl font-semibold text-blue-600">kursus</p>
+                <p class="text-xl font-semibold text-blue-600">{{ $jumlahKursus }} Kursus</p>
             </div>
         </div>
     </div>

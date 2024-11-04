@@ -13,9 +13,9 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
         <!-- Card Jumlah Mentor -->
-        <div class="bg-red-100 rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center">
+        <div class="bg-red-100 rounded-lg shadow-md p-5 flex flex-col md:flex-row items-center">
             <div class="p-4 bg-red-500 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7a4 4 0 118 0v4a4 4 0 11-8 0V7zm4 13a8 8 0 01-8-8h16a8 8 0 01-8 8z" />
@@ -28,7 +28,7 @@
         </div>
 
         <!-- Card Jumlah Kategori -->
-        <div class="bg-yellow-100 rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center">
+        <div class="bg-yellow-100 rounded-lg shadow-md p-5 flex flex-col md:flex-row items-center">
             <div class="p-4 bg-yellow-500 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
@@ -41,7 +41,7 @@
         </div>
 
         <!-- Card Jumlah Kursus -->
-        <div class="bg-blue-100 rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center">
+        <div class="bg-blue-100 rounded-lg shadow-md p-5 flex flex-col md:flex-row items-center">
             <div class="p-4 bg-blue-500 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM3 16a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" />

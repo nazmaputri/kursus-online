@@ -4,6 +4,7 @@ namespace App\Http\Controllers\DashboardAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -24,9 +25,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'description' => 'nullable|string',
+            'name'         => 'required|string|max:255',
+            'image'        => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'description'  => 'nullable|string',
         ]);
     
         // Inisialisasi data kategori
@@ -55,7 +56,7 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'image_path' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
             'description' => 'nullable|string',
         ]);
     
@@ -80,12 +81,20 @@ class CategoryController extends Controller
         return redirect()->route('kategori-admin')->with('success', 'Kategori berhasil diperbarui!');
     }
     
-    // // Menghapus kategori
-    // public function destroy($id)
-    // {
-    //     $category = Category::findOrFail($id);
-    //     $category->delete();
+    // Menghapus kategori
+    public function destroy($id)
+    {
+        $category = Category::findOrFail($id);
+        
+        // Hapus file gambar dari storage jika ada
+        if ($category->image_path) {
+            // Hapus file gambar berdasarkan path yang disimpan
+            Storage::disk('public')->delete($category->image_path);
+        }
 
-    //     return redirect()->route('kategori-index')->with('success', 'Kategori berhasil dihapus!');
-    // }
+        // Hapus kategori dari database
+        $category->delete();
+
+        return redirect()->route('kategori-admin')->with('success', 'Kategori berhasil dihapus!');
+    }
 }
