@@ -49,11 +49,6 @@ class DashboardAdminController extends Controller
         ]);
     }
 
-    public function kursus() {
-        $courses = Course::all();
-        return view('dashboard-admin.daftar-kursus', compact('courses'));
-    }
-
     public function detailkursus($id) {
         $course = Course::findOrFail($id);
         return view('dashboard-admin.detail-kursus', compact('course'));

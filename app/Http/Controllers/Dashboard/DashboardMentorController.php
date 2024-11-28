@@ -20,35 +20,13 @@ class DashboardMentorController extends Controller
         return view('dashboard-mentor.welcome');
     }
 
-    public function chat() {
-        return view('dashboard-mentor.chat');
-    }
-
-    public function kursus()
-    {
-        $courses = Course::all(); 
-        return view('dashboard-mentor.kursus', compact('courses')); 
-    }
-
     public function materi() {
         return view('dashboard-mentor.materi');
     }
 
-    public function quiz() {
-        return view('dashboard-mentor.quiz');
-    }
-
-    public function tambahkursus() {
-        $categories = Category::all(); // Mengambil semua kategori dari tabel categories
-        return view('dashboard-mentor.tambah-kursus', compact('categories'));
-    }
 
     public function tambahmateri() {
-        return view('dashboard-mentor.tambah-materi');
-    }
-
-    public function tambahquiz() {
-        return view('dashboard-mentor.tambah-quiz');
+        return view('dashboard-mentor.materi-create');
     }
 
     public function datapeserta() {

@@ -6,7 +6,7 @@
         <h2 class="text-3xl font-bold mb-6 border-b-2 border-gray-300 pb-2">Edit Kategori</h2>
         
         <!-- Form untuk edit kategori -->
-        <form action="{{ route('kategori.update', $category->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('categories.update', $category->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             

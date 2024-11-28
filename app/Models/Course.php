@@ -16,9 +16,6 @@ class Course extends Model
         'price',
         'capacity',
         'image_path',
-        'video_url',
-        'pdf_path',
-        'quiz',
         'mentor_id',
     ];
 
@@ -29,7 +26,12 @@ class Course extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class); // Menghubungkan dengan model Category
+        return $this->belongsTo(Category::class); 
+    }
+
+    public function materi()
+    {
+        return $this->hasMany(Materi::class, 'courses_id', 'id');
     }
 }
 

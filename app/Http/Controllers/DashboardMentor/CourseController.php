@@ -4,51 +4,121 @@ namespace App\Http\Controllers\DashboardMentor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
-use App\Models\Category; 
+use App\Models\Category;
+use App\Models\Materi;
+use App\Models\MateriVideo;
+use App\Models\MateriPdf;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    // // Menampilkan form untuk membuat kursus baru
-    // public function create()
-    // {
-    //     $categories = Category::all(); // Mengambil semua kategori dari tabel categories
-    //     return view('dashboard-mentor.kursus', compact('categories')); // Mengirimkan kategori ke view
-    // }
+    public function index()
+    {
+        $courses = Course::paginate(5);
+        return view('dashboard-mentor.kursus', compact('courses'));
+    }
+
+    public function create()
+    {
+        $categories = Category::all();
+        return view('dashboard-mentor.kursus-create', compact('categories'));
+    }
 
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'category_id' => 'required|integer',
+            'category' => 'required|integer',
             'price' => 'nullable|numeric',
             'capacity' => 'nullable|integer',
-            'video_url' => 'nullable|url',
-            'quiz' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'pdf_path' => 'nullable|file|mimes:pdf|max:2048',
+        ]);
+
+        $category = Category::find($request->category);
+
+        if (!$category) {
+            return redirect()->back()->withErrors(['category' => 'Selected category does not exist.']);
+        }
+
+        $course = new Course($request->only('title', 'description', 'price', 'capacity'));
+        $course->category = $category->name;
+        $course->mentor_id = auth()->user()->id;
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images/kursus', 'public');
+            $course->image_path = $path;  // Save the path in the database
+        }
+
+        $course->save();
+
+        return redirect()->route('courses.index')->with('success', 'Kursus berhasil ditambahkan!');
+    }
+    
+    public function show($id)
+    {
+        // Ambil data course beserta relasi materi yang terkait
+        $course = Course::with('materi')->findOrFail($id);
+        
+        // Menggunakan pagination untuk menampilkan 5 materi per halaman
+        $materi = $course->materi()->paginate(5);
+        
+        // Kembalikan data ke view
+        return view('dashboard-mentor.kursus-detail', compact('course', 'materi'));
+    }
+
+    public function edit(Course $course)
+    {
+        $categories = Category::all();
+        return view('dashboard-mentor.kursus-edit', compact('course', 'categories'));
+    }
+
+    public function update(Request $request, Course $course)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'category' => 'required|string|exists:categories,name', // Pastikan nama kategori valid
+            'capacity' => 'nullable|integer',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048' // Validasi gambar
         ]);
     
-        // Ambil nama kategori dari tabel categories
-        $category = Category::find($request->category_id);
+        // Update data kursus
+        $course->title = $validated['title'];
+        $course->description = $validated['description'];
+        $course->price = $validated['price'];
+        $course->category = $validated['category']; // Simpan nama kategori langsung
+        $course->capacity = $validated['capacity'] ?? null;
     
-        // Membuat instance Course dan mengisi data
-        $course = new Course($request->only('title', 'description', 'price', 'capacity', 'video_url', 'quiz'));
-        $course->category = $category->name; // Menyimpan nama kategori
-    
-        $course->mentor_id = auth()->user()->id; // ID mentor yang sedang login
-    
+        // Periksa apakah ada gambar yang diunggah
         if ($request->hasFile('image')) {
-            $course->image_path = $request->file('image')->store('images', 'public');
+            // Hapus gambar lama jika ada
+            if ($course->image_path) {
+                \Storage::disk('public')->delete($course->image_path);
+            }
+    
+            // Simpan gambar baru
+            $course->image_path = $request->file('image')->store('images/courses', 'public');
         }
     
-        if ($request->hasFile('pdf_path')) {
-            $course->pdf_path = $request->file('pdf_path')->store('pdfs', 'public');
-        }
-    
+        // Simpan perubahan ke database
         $course->save();
     
-        return redirect()->route('kursus-mentor')->with('success', 'Kursus berhasil ditambahkan!');
+        // Redirect dengan pesan sukses
+        return redirect()->route('courses.index')->with('success', 'Kursus berhasil diupdate.');
+    }
+    
+
+    public function destroy(Course $course)
+    {
+        // Hapus gambar jika ada
+        if ($course->image_path) {
+            \Storage::delete('public/' . $course->image_path);
+        }
+
+        $course->delete();
+        return redirect()->route('courses.index')->with('success', 'Kursus berhasil dihapus.');
     }
 }

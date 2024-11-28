@@ -6,7 +6,7 @@
     <div class="bg-white shadow-md rounded-lg p-6">
         <h2 class="text-3xl font-bold mb-6 border-b-2 border-gray-300 pb-2">Tambah Kategori</h2>
 
-        <form action="{{ route('kategori-store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Gambar Kategori -->
@@ -41,7 +41,7 @@
                 <button type="submit" class="bg-sky-400 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
                     Tambah 
                 </button>
-                <a href="{{ route('kategori-admin') }}" class="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('categories.index') }}" class="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
                     Batal
                 </a>
             </div>

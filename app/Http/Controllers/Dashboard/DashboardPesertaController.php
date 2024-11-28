@@ -24,9 +24,9 @@ class DashboardPesertaController extends Controller
         return view('dashboard-peserta.chat');
     }
 
-    public function kursus() {
-        $categories = Category::all(); 
-        return view('dashboard-peserta.kursus', compact('categories'));
+    public function kursus($id) {
+        $course = Course::findOrFail($id);
+        return view('dashboard-peserta.kursus', compact('course'));
     }
 
     public function study() {
@@ -41,8 +41,24 @@ class DashboardPesertaController extends Controller
         return view('dashboard-peserta.detail');
     }
 
+    public function video() {
+        return view('dashboard-peserta.video');
+    }
+
+    public function quiz() {
+        return view('dashboard-peserta.quiz');
+    }
+
     public function kategori() {
-        $categories = Category::all(); 
+        $categories = Category::paginate(4);
         return view('dashboard-peserta.categories', compact('categories'));
+    }
+
+    public function showCategoryDetail($categoryId)
+    {
+        $category = Category::findOrFail($categoryId);
+        $courses = Course::where('category', $category->name)->get();
+
+        return view('dashboard-peserta.categories-detail', compact('category', 'courses'));
     }
 }

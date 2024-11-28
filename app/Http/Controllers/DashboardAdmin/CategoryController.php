@@ -3,98 +3,93 @@
 namespace App\Http\Controllers\DashboardAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    // Menampilkan daftar kategori
     public function index()
     {
-        $categories = Category::all(); // Mengambil semua kategori
-        return view('dashboard-admin.kategori', compact('categories')); // Ganti dengan path view yang sesuai
+        $categories = Category::paginate(5);
+        return view('dashboard-admin.category', compact('categories'));
     }
 
-    // Menampilkan form tambah kategori
+    public function show($name)
+    {
+        $category = Category::with('courses')->where('name', $name)->firstOrFail();
+        $courses = Course::all();
+  
+        return view('dashboard-admin.category-detail', compact('category', 'courses'));
+    }    
+
     public function create()
     {
-        return view('dashboard-admin.tambah-kategori'); // Ganti dengan path view untuk form tambah kategori
+        return view('dashboard-admin.category-create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name'         => 'required|string|max:255',
-            'image'        => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'description'  => 'nullable|string',
+            'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'description' => 'nullable|string',
         ]);
-    
-        // Inisialisasi data kategori
+
         $data = $request->only(['name', 'description']);
-    
+
         // Cek apakah ada gambar yang di-upload
         if ($request->hasFile('image')) {
-            // Simpan gambar ke storage dan ambil path-nya
-            $data['image_path'] = $request->file('image')->store('images/kategori', 'public'); // Simpan di storage/app/public/images/kategori
+            $data['image_path'] = $request->file('image')->store('images/kategori', 'public');
         }
-    
-        // Buat kategori baru dengan data yang telah diolah
-        Category::create($data);
-    
-        return redirect()->route('kategori-admin')->with('success', 'Kategori berhasil ditambahkan!');
-    }
-    
 
-    public function edit($id)
-    {
-        $category = Category::findOrFail($id);
-        return view('dashboard-admin.edit-kategori', compact('category'));
+        // Simpan kategori
+        Category::create($data);
+
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan!');
     }
-    
-    public function update(Request $request, $id)
+
+    public function edit(Category $category)
+    {
+        return view('dashboard-admin.category-edit', compact('category'));
+    }
+
+    public function update(Request $request, Category $category)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'image_path' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
             'description' => 'nullable|string',
         ]);
-    
-        $category = Category::findOrFail($id);
-    
-        // Update data kategori
+
         $category->name = $request->input('name');
         $category->description = $request->input('description');
-    
-        // Cek apakah ada gambar yang di-upload
+
+        // Cek apakah ada gambar baru
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada
             if ($category->image_path) {
                 Storage::disk('public')->delete($category->image_path);
             }
-            // Simpan gambar baru dan ambil path-nya
+
+            // Simpan gambar baru
             $category->image_path = $request->file('image')->store('images/kategori', 'public');
         }
-    
-        $category->save(); // Simpan perubahan ke database
-    
-        return redirect()->route('kategori-admin')->with('success', 'Kategori berhasil diperbarui!');
+
+        $category->save();
+
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil diperbarui!');
     }
-    
-    // Menghapus kategori
-    public function destroy($id)
+
+    public function destroy(Category $category)
     {
-        $category = Category::findOrFail($id);
-        
-        // Hapus file gambar dari storage jika ada
         if ($category->image_path) {
-            // Hapus file gambar berdasarkan path yang disimpan
             Storage::disk('public')->delete($category->image_path);
         }
 
-        // Hapus kategori dari database
         $category->delete();
 
-        return redirect()->route('kategori-admin')->with('success', 'Kategori berhasil dihapus!');
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus!');
     }
 }
