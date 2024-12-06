@@ -8,7 +8,9 @@ use App\Models\Category;
 use App\Models\Materi;
 use App\Models\MateriVideo;
 use App\Models\MateriPdf;
+use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -30,31 +32,38 @@ class CourseController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'category' => 'required|integer',
-            'price' => 'nullable|numeric',
+            'price' => 'required|numeric',
             'capacity' => 'nullable|integer',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'start_date' => 'nullable|date|before_or_equal:end_date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 
+        // Cari kategori berdasarkan ID
         $category = Category::find($request->category);
 
         if (!$category) {
             return redirect()->back()->withErrors(['category' => 'Selected category does not exist.']);
         }
 
-        $course = new Course($request->only('title', 'description', 'price', 'capacity'));
+        // Buat instance baru untuk kursus
+        $course = new Course($request->only('title', 'description', 'price', 'capacity', 'start_date', 'end_date'));
+
         $course->category = $category->name;
         $course->mentor_id = auth()->user()->id;
 
+        // Simpan gambar jika diunggah
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('images/kursus', 'public');
-            $course->image_path = $path;  // Save the path in the database
+            $course->image_path = $path;  // Simpan path gambar ke database
         }
 
+        // Simpan data ke database
         $course->save();
 
         return redirect()->route('courses.index')->with('success', 'Kursus berhasil ditambahkan!');
     }
-    
+ 
     public function show($id)
     {
         // Ambil data course beserta relasi materi yang terkait
@@ -63,9 +72,16 @@ class CourseController extends Controller
         // Menggunakan pagination untuk menampilkan 5 materi per halaman
         $materi = $course->materi()->paginate(5);
         
+        // Ambil peserta yang pembayaran kursusnya lunas
+        $participants = Payment::where('course_id', $id)
+        ->where('transaction_status', 'success') 
+        ->with('user') 
+        ->paginate(5); 
+    
         // Kembalikan data ke view
-        return view('dashboard-mentor.kursus-detail', compact('course', 'materi'));
+        return view('dashboard-mentor.kursus-detail', compact('course', 'materi', 'participants'));
     }
+    
 
     public function edit(Course $course)
     {
@@ -82,7 +98,9 @@ class CourseController extends Controller
             'price' => 'required|numeric',
             'category' => 'required|string|exists:categories,name', // Pastikan nama kategori valid
             'capacity' => 'nullable|integer',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048' // Validasi gambar
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Validasi gambar
+            'start_date' => 'nullable|date|after_or_equal:today', // Validasi start_date tidak boleh di masa lalu
+            'end_date' => 'nullable|date|after_or_equal:start_date', // Validasi end_date harus setelah start_date
         ]);
     
         // Update data kursus
@@ -91,6 +109,8 @@ class CourseController extends Controller
         $course->price = $validated['price'];
         $course->category = $validated['category']; // Simpan nama kategori langsung
         $course->capacity = $validated['capacity'] ?? null;
+        $course->start_date = $validated['start_date']; // Update start_date
+        $course->end_date = $validated['end_date']; // Update end_date
     
         // Periksa apakah ada gambar yang diunggah
         if ($request->hasFile('image')) {
@@ -100,25 +120,75 @@ class CourseController extends Controller
             }
     
             // Simpan gambar baru
-            $course->image_path = $request->file('image')->store('images/courses', 'public');
+            $course->image_path = $request->file('image')->store('images/kursus', 'public');
         }
     
         // Simpan perubahan ke database
         $course->save();
     
         // Redirect dengan pesan sukses
-        return redirect()->route('courses.index')->with('success', 'Kursus berhasil diupdate.');
+        return redirect()->route('courses.index')->with('success', 'Kursus berhasil diupdate!');
     }
     
-
+    
     public function destroy(Course $course)
     {
-        // Hapus gambar jika ada
-        if ($course->image_path) {
-            \Storage::delete('public/' . $course->image_path);
+        // Menghapus gambar kursus jika ada
+        if ($course->image_path && Storage::disk('public')->exists($course->image_path)) {
+            Storage::disk('public')->delete($course->image_path);
         }
-
+    
+        // Memeriksa apakah ada materi terkait dengan kursus
+        if ($course->materi) {
+            // Menghapus semua materi terkait dengan kursus
+            foreach ($course->materi as $materi) {
+                // Menghapus file video terkait jika ada
+                if ($materi->videos) {
+                    foreach ($materi->videos as $video) {
+                        if (Storage::disk('public')->exists($video->video_url)) {
+                            Storage::disk('public')->delete($video->video_url);
+                        }
+                        $video->delete();
+                    }
+                }
+                
+                // Hapus PDF terkait jika ada
+                if ($materi->pdfs) {
+                    foreach ($materi->pdfs as $pdf) {
+                        if (Storage::disk('public')->exists($pdf->pdf_file)) {
+                            Storage::disk('public')->delete($pdf->pdf_file);
+                        }
+                        $pdf->delete();
+                    }
+                }
+                
+                // Memeriksa apakah ada kuis yang terkait dengan materi
+                if ($materi->quizzes) {
+                    foreach ($materi->quizzes as $quiz) {
+                        // Menghapus soal dan jawaban kuis
+                        $quiz->questions->each(function($question) {
+                            // Hapus jawaban soal jika ada
+                            $question->answers->each(function($answer) {
+                                $answer->delete();
+                            });
+                            $question->delete();
+                        });
+    
+                        $quiz->delete();  // Menghapus kuis itu sendiri
+                    }
+                }
+    
+                // Menghapus materi
+                $materi->delete();
+            }
+        }
+    
+        // Menghapus kursus
         $course->delete();
-        return redirect()->route('courses.index')->with('success', 'Kursus berhasil dihapus.');
+    
+        return redirect()->route('courses.index')->with('success', 'Kursus beserta materi dan kuis berhasil dihapus!');
     }
+    
+    
+    
 }

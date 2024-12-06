@@ -13,12 +13,18 @@ class MateriVideo extends Model
 
     protected $fillable = [
         'judul',
-        'materi_id', 
+        'materi_id',
+        'course_id',
         'video_url'
     ];
 
     public function materi()
     {
         return $this->belongsTo(Materi::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
     }
 }

@@ -6,6 +6,7 @@
     <title>Dashboard Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         /* Transition efek buka-tutup sidebar */
         #logo-sidebar {
@@ -14,16 +15,21 @@
         #logo {
             transition: transform 0.3s;
         }
-        .hidden {
-    display: none;
-}
+                .hidden {
+            display: none;
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Noto', sans-serif;
+        }
     </style>
 </head>
 <body class="bg-sky-300/15">
     <div class="flex flex-col min-h-screen">
 
         <!-- Sidebar -->
-        <aside id="logo-sidebar" class="fixed top-4 left-4 z-40 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform" aria-label="Sidebar">
+        <aside id="logo-sidebar" class="fixed top-4 left-4 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform" aria-label="Sidebar">
             <!-- Tombol Hamburger -->
             <button id="hamburger-button" class="absolute top-4 right-3 z-50 p-2 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -97,7 +103,7 @@
                         }
                     </script>
 
-                    <li class="border-l-2 {{ Request::routeIs('categories.index') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                    <li class="border-l-2 {{ Request::routeIs('categories.index', 'categories.create', 'categories.show', 'categories.edit', 'detail-kursus') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('categories.index') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
                             <!-- Ikon SVG -->
                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -105,7 +111,15 @@
                             </svg>
                             Kategori
                         </a>
-                    </li>                
+                    </li>     
+                    <li class="border-l-2 {{ Request::routeIs('rating-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                        <a href="{{ route('rating-admin') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/>
+                            </svg>
+                            <span class="ms-3">Penilaian</span>
+                        </a>
+                    </li>              
                     <li class="border-l-2 {{ Request::routeIs('laporan-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('laporan-admin') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="w-5 h-5"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -123,36 +137,41 @@
             document.addEventListener("DOMContentLoaded", function() {
                 const sidebar = document.getElementById("logo-sidebar");
                 const content = document.getElementById("content");
+                const header = document.getElementById("header");
                 const hamburgerButton = document.getElementById("hamburger-button");
                 const logo = document.getElementById("logo");
                 const svgImage = document.getElementById("svg-image");
         
+                // Event klik pada tombol hamburger
                 hamburgerButton.addEventListener("click", () => {
+                    // Toggle lebar sidebar
                     sidebar.classList.toggle("w-64");
                     sidebar.classList.toggle("w-16");
+        
+                    // Toggle margin pada konten utama
                     content.classList.toggle("ml-64");
                     content.classList.toggle("ml-16");
         
-                    // Ubah ukuran logo dan tampilkan/hide SVG saat sidebar ditutup
+                    // Toggle margin pada header
+                    header.classList.toggle("ml-64");
+                    header.classList.toggle("ml-16");
+        
+                    // Atur ukuran logo dan SVG
                     if (sidebar.classList.contains("w-16")) {
                         logo.classList.add("transform", "scale-75");
-                        svgImage.classList.remove("hidden"); // Tampilkan gambar SVG
+                        svgImage.classList.remove("hidden"); // Tampilkan SVG
                     } else {
                         logo.classList.remove("transform", "scale-75");
-                        svgImage.classList.add("hidden"); // Sembunyikan gambar SVG
+                        svgImage.classList.add("hidden"); // Sembunyikan SVG
                     }
-        
-                    // Tambahkan log untuk debugging
-                    console.log("Sidebar width:", sidebar.classList.contains("w-16"));
-                    console.log("SVG visibility:", svgImage.classList.contains("hidden"));
                 });
             });
         </script>
 
-        <!-- Main Content -->
-        <div id="content" class="flex-1 ml-64 transition-all duration-300 p-4">
+         <!-- Main Content -->
+         <div id="content" class="flex-1 ml-64 transition-all duration-300 p-4 relative">
             <!-- Header -->
-            <div class="flex items-center justify-between">
+            <div id="header" class="flex items-center justify-between top-4 fixed left-0 ml-64 right-0 px-4 transition-all duration-300">
              <!-- Search Bar di Kiri -->
              <form class="max-w-sm flex-1 ml-4 mr-4">   
                  <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -169,15 +188,16 @@
          
              <!-- User Profile di Kanan -->
              <div class="flex items-center mr-4 relative">
-                 <!-- Pengecekan gambar profil -->
-                 @if(Auth::user()->profile_photo_url)
-                 <img src="#" alt="User Profile" class="rounded-full" width="40" height="40">
-                 @else
-                 <!-- SVG sebagai ikon default -->
-                 <svg class="w-9 h-9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                     <path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z"/>
-                 </svg>
-                 @endif
+                <!-- Pengecekan gambar profil -->
+                @if(Auth::user()->photo)
+                <!-- Tampilkan gambar profil jika ada -->
+                <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User Profile" class="rounded-full" width="40" height="40">
+                @else
+                <!-- SVG sebagai ikon default -->
+                <svg class="w-9 h-9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                    <path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z"/>
+                </svg>
+                @endif
                  <div class="ml-2 flex items-center">
                      <div>
                          <!-- Memeriksa apakah pengguna sudah login -->
@@ -196,7 +216,7 @@
                          <div id="dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
                              <ul class="py-1" aria-labelledby="dropdown-button">
                                  <li>
-                                     <a href="#" class="block flex items-center px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                     <a href="/settings" class="block flex items-center px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 m-2">
                                              <path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
                                          </svg>
@@ -220,6 +240,7 @@
                  </div>
              </div>   
         </div>
+ 
 
         <!-- Script untuk Menangani Dropdown -->
         <script>
@@ -242,9 +263,8 @@
         </script>
 
         <!-- Isi Content -->
-            <div class="p-4 mt-2">
-                @yield('content')
-            </div>
+        <div class="p-4 mt-16">
+            @yield('content')
         </div>
     </div>
 </body>

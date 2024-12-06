@@ -13,12 +13,18 @@ class MateriPdf extends Model
 
     protected $fillable = [
         'judul',
-        'materi_id', 
+        'materi_id',
+        'course_id', 
         'pdf_file'
     ];
 
     public function materi()
     {
         return $this->belongsTo(Materi::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
     }
 }

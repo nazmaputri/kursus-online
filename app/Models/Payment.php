@@ -22,33 +22,13 @@ class Payment extends Model
     // Relasi ke User
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // Relasi ke Course
     public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
-    // Menambahkan accessor untuk mendapatkan status pembayaran secara lebih mudah
-    // public function getPaymentStatusAttribute()
-    // {
-    //     switch ($this->transaction_status) {
-    //         case 'settlement':
-    //             return 'Pembayaran Berhasil';
-    //         case 'pending':
-    //             return 'Pembayaran Sedang Diproses';
-    //         case 'cancel':
-    //             return 'Pembayaran Dibatalkan';
-    //         default:
-    //             return 'Status Tidak Dikenal';
-    //     }
-    // }
-
-    // Menambahkan mutator untuk harga yang diformat secara otomatis
-    // public function getAmountFormattedAttribute()
-    // {
-    //     return number_format($this->amount, 0, ',', '.');
-    // }
 }

@@ -97,7 +97,7 @@
                 <div id="question-list"></div>
         
                 <!-- Tombol Tambah Soal -->
-                <button type="button" onclick="addQuestion()" class="mt-4 bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
+                <button type="button" onclick="addQuestion()" class="mt-4 bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded">
                     Tambah Soal
                 </button>
             </div>
@@ -108,7 +108,7 @@
                 <button type="submit" class="bg-sky-400 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
                     Update
                 </button>
-                <a href="{{ route('courses.index') }}" class="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('materi.show', ['courseId' => $course->id, 'materiId' => $materi->id]) }}" class="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
                     Cancel
                 </a>
             </div>
@@ -117,32 +117,37 @@
 </div>
 
 <script>
-    let questionCounter = {{ count($quiz->questions) }}; // Mulai dari jumlah soal yang sudah ada
+   let questionCounter = {{ count($quiz->questions) }}; // Mulai dari jumlah soal yang sudah ada
 
-    function addQuestion() {
-        const template = document.getElementById('question-template').content.cloneNode(true);
-        const questionList = document.getElementById('question-list');
-        const newIndex = questionCounter++;
+function addQuestion() {
+    const template = document.getElementById('question-template').content.cloneNode(true);
+    const questionList = document.getElementById('question-list');
+    const newIndex = questionCounter++;
 
-        // Mengubah nomor soal
-        template.querySelector('.question-number').textContent = newIndex + 1;
-
-        // Menyesuaikan nama input sesuai indeks soal
-        template.querySelectorAll('.question-input, .answer-input, .answer-radio').forEach(el => {
-            if (el.classList.contains('question-input')) {
-                el.name = `questions[${newIndex}][question]`;
-            } else if (el.classList.contains('answer-radio')) {
-                el.name = `questions[${newIndex}][correct_answer]`;
-            } else {
-                el.name = `questions[${newIndex}][answers][]`;
-            }
-        });
-
-        questionList.appendChild(template);
+    const questionNumber = template.querySelector('.question-number');
+    if (questionNumber) {
+        questionNumber.textContent = newIndex + 1;
     }
 
-    function removeQuestion(element) {
-        element.closest('.question-item').remove();
+    template.querySelectorAll('.question-input, .answer-input, .answer-radio').forEach(el => {
+        if (el.classList.contains('question-input')) {
+            el.name = `questions[${newIndex}][question]`;
+        } else if (el.classList.contains('answer-radio')) {
+            el.name = `questions[${newIndex}][correct_answer]`;
+        } else {
+            el.name = `questions[${newIndex}][answers][]`;
+        }
+    });
+
+    questionList.appendChild(template);
+}
+
+function removeQuestion(element) {
+    const questionItem = element.closest('.question-item');
+    if (questionItem) {
+        questionItem.remove();
     }
+}
+
 </script>
 @endsection

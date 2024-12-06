@@ -5,11 +5,48 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DashboardMentor\CourseController;
 use App\Models\Course;
+use App\Models\Category;
 use App\Models\User;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class DashboardAdminController extends Controller
 {
+    public function approve($id, $name)
+    {
+        $course = Course::findOrFail($id);
+        $course->status = 'approved';
+        $course->save();
+    
+        return redirect()->route('categories.show', $name)->with('success', 'Kursus disetujui!');
+    }    
+
+    public function publish($id, $name)
+    {
+        $course = Course::findOrFail($id);
+        $course->status = 'published';
+        $course->save();
+
+        return redirect()->route('categories.show', $name)->with('success', 'Kursus dipublikasikan!');
+    }
+
+    public function rating()
+    {
+        $ratings = Rating::paginate(6); 
+
+        return view('dashboard-admin.rating', compact('ratings'));
+    }
+
+    public function displayRating($id)
+    {
+        $ratings = Rating::findOrFail($id);  
+        if (!$ratings) {
+            // Jika rating tidak ditemukan, redirect ke halaman sebelumnya dengan pesan error
+            return redirect()->route('rating-admin')->with('error', 'Rating tidak ditemukan');
+        }
+        return view('components.rating', compact('ratings'));  
+    }
+
     public function index() {
         $users = User::all(); 
         return view('layouts.dashboard-admin');
@@ -49,9 +86,11 @@ class DashboardAdminController extends Controller
         ]);
     }
 
-    public function detailkursus($id) {
+    public function detailkursus($id, $name) {
+        $category = Category::with('courses')->where('name', $name)->firstOrFail();
         $course = Course::findOrFail($id);
-        return view('dashboard-admin.detail-kursus', compact('course'));
+
+        return view('dashboard-admin.detail-kursus', compact('course', 'category'));
     }
 
     public function updateStatus($id)

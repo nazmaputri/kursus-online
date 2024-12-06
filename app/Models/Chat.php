@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chat extends Model
 {
-    protected $fillable = ['student_id', 'mentor_id'];
+    protected $fillable = ['student_id', 'mentor_id', 'course_id'];
 
     // Relasi dengan pesan (message)
     public function messages()
@@ -24,6 +24,11 @@ class Chat extends Model
     public function mentor()
     {
         return $this->belongsTo(User::class, 'mentor_id');
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 }
 

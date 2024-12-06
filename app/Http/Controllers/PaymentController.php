@@ -56,30 +56,48 @@ class PaymentController extends Controller
                 return response()->json(['error' => 'Token not found'], 400);
             }
     
-            // Menyimpan pembayaran dan mendapatkan transaction_id dari Snap
-            $transactionId = $transaction_details['order_id']; // Atau gunakan ID lain yang diberikan oleh Midtrans
-    
-            // Menyimpan data pembayaran di database
-            $payment = Payment::create([
+            // Menyimpan pembayaran di database
+            Payment::create([
                 'user_id' => $user->id,
                 'course_id' => $courseId,
                 'amount' => $course->price,
                 'payment_type' => 'qris',
-                'transaction_status' => 'pending',
-                'transaction_id' => $transactionId,
+                'transaction_status' => 'pending', 
+                'transaction_id' => $transaction_details['order_id'],
                 'snap_token' => $snapToken,
             ]);
     
             return response()->json([
                 'snapToken' => $snapToken,
-                'transactionId' => $transactionId,
+                'transactionId' => $transaction_details['order_id'],
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Terjadi kesalahan saat memproses pembayaran: ' . $e->getMessage()], 500);
         }
     }
-    
-    
 
-    // Fungsi lain yang bisa Anda tambahkan sesuai kebutuhan, seperti untuk menangani notifikasi pembayaran, dll.
+    public function updatePaymentStatus(Request $request)
+    {
+        $orderId = $request->input('order_id');
+        $transactionStatus = $request->input('transaction_status');
+
+        // Cari transaksi berdasarkan order_id
+        $payment = Payment::where('transaction_id', $orderId)->first();
+
+        if (!$payment) {
+            return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
+        }
+
+        // Perbarui status pembayaran
+        $payment->transaction_status = $transactionStatus;
+        $payment->save();
+
+        return response()->json([
+            'message' => 'Status pembayaran berhasil diperbarui.',
+            'payment' => $payment,
+        ]);
+    }
+
+
 }
+

@@ -74,9 +74,9 @@
             </tbody>
         </table>
 
-        {{-- @if($materi->isEmpty())
-            <div class="mt-4 text-center">Belum ada materi yang ditambahkan.</div>
-        @endif --}}
+        @if($materi->isEmpty())
+            <div class="mt-4 text-gray-400 text-center">Belum ada materi yang ditambahkan.</div>
+        @endif
     </div>
 </div>
 @endsection

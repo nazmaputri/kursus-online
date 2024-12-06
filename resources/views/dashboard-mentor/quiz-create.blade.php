@@ -85,7 +85,7 @@
                 <button type="submit" class="bg-sky-400 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
                     Simpan Kuis
                 </button>
-                <a href="{{ route('courses.index') }}" class="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                <a href="{{ route('materi.show', ['courseId' => $course->id, 'materiId' => $materi->id]) }}" class="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
                     Batal
                 </a>
             </div>

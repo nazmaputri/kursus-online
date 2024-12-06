@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto">
     <div class="bg-white border border-gray-300 rounded-lg shadow-md p-6 mb-6">
-        <h2 class="text-3xl font-bold mb-6 text-center border-b-2 border-gray-300 pb-2">Daftar Kategori</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center border-b-2 border-gray-300 uppercase pb-2">Daftar Kategori</h2>
 
         <!-- Grid Kategori -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -14,11 +14,7 @@
 
                     <!-- Konten teks di sisi kanan -->
                     <div class="p-4 flex flex-col justify-between flex-grow">
-                        <h2 class="text-lg font-semibold text-gray-800">{{ $category->name }}</h2>
-                        
-                        <!-- Deskripsi dengan maksimal 50 karakter -->
-                        <p class="text-gray-600">{{ Str::limit($category->description, 50) }}</p>
-                        
+                        <h2 class="text-lg font-semibold text-gray-800 capitalize">{{ $category->name }}</h2>
                         <div class="flex justify-end mt-4">
                             <a href="{{ route('categories-detail', ['id' => $category->id]) }}" class="mt-auto bg-sky-300 text-white px-4 py-2 rounded-lg hover:bg-sky-600">
                                 Lihat Kursus

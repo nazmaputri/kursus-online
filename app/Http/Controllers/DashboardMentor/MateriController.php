@@ -32,9 +32,9 @@ class MateriController extends Controller
     {
         $materi = Materi::with(['videos', 'pdfs', 'course'])->findOrFail($materiId);
         $course = Course::findOrFail($courseId);
-        $quizzes = Quiz::where('materi_id', $materiId)->get();
+        $quizzes = Quiz::where('materi_id', $materiId)->paginate(5);
     
-        return view('dashboard-mentor.materi-detail', compact('materi', 'quizzes', 'courseId', 'materiId'));
+        return view('dashboard-mentor.materi-detail', compact('materi', 'quizzes', 'courseId', 'materiId', 'course'));
     }
     
     public function store(Request $request, $courseId)
@@ -43,22 +43,22 @@ class MateriController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'courses_id' => 'required|exists:courses,id', 
             'videos.*' => 'file|mimes:mp4,avi,mkv|max:1024000', 
-            'video_titles.*' => 'required|string|max:255', 
+            'video_titles.*' => 'nullable|string|max:255', 
             'material_files.*' => 'file|mimes:pdf,doc,docx,ppt,pptx|max:10240', 
-            'material_titles.*' => 'required|string|max:255', 
+            'material_titles.*' => 'nullable|string|max:255', 
         ]);
-
+        
+        // Temukan kursus yang sesuai dengan ID yang diteruskan
         $course = Course::findOrFail($courseId);
-
+    
         // Buat data materi dengan course_id yang sesuai
         $materi = Materi::create([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'courses_id' => $courseId, 
+            'courses_id' => $courseId, // Menyimpan course_id
         ]);
-
+    
         // Simpan video dan judul video
         if ($request->hasFile('videos')) {
             foreach ($request->file('videos') as $index => $video) {
@@ -66,11 +66,12 @@ class MateriController extends Controller
                 MateriVideo::create([
                     'materi_id' => $materi->id,
                     'video_url' => $path,
-                    'judul' => $request->video_titles[$index], 
+                    'judul' => $request->video_titles[$index],
+                    'course_id' => $courseId, // Menyimpan course_id pada materi video
                 ]);
             }
         }
-
+    
         // Simpan file materi dan judul materi PDF
         if ($request->hasFile('material_files')) {
             foreach ($request->file('material_files') as $index => $file) {
@@ -78,14 +79,17 @@ class MateriController extends Controller
                 MateriPdf::create([
                     'materi_id' => $materi->id,
                     'pdf_file' => $path,
-                    'judul' => $request->material_titles[$index], 
+                    'judul' => $request->material_titles[$index],
+                    'course_id' => $courseId,  // Menyimpan course_id pada materi pdf
                 ]);
             }
         }
-
-        return redirect()->route('courses.show', ['course' => $courseId])->with('success', 'Materi berhasil ditambahkan');
-    }
-
+    
+        // Kembali ke halaman kursus dengan pesan sukses
+        return redirect()->route('courses.show', ['course' => $courseId])
+                         ->with('success', 'Materi berhasil ditambahkan');
+    }    
+    
     public function edit($courseId, $materiId)
     {
         $course = Course::findOrFail($courseId);
@@ -100,11 +104,14 @@ class MateriController extends Controller
         // Validasi input
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
-            'video.*' => 'nullable|file|mimes:mp4,avi,mkv|max:1024000',  
-            'pdf.*' => 'nullable|file|mimes:pdf|max:10240',  
+            'deskripsi' => 'nullable|string',
+            'videos.*' => 'nullable|file|mimes:mp4,avi,mkv|max:1024000',
+            'video_titles.*' => 'nullable|string|max:255',
+            'material_files.*' => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx|max:10240',
+            'material_titles.*' => 'nullable|string|max:255',
         ]);
     
+        // Temukan kursus dan materi yang sesuai
         $course = Course::findOrFail($courseId);
         $materi = Materi::where('courses_id', $courseId)->findOrFail($materiId);
     
@@ -117,7 +124,7 @@ class MateriController extends Controller
         // Hapus video lama jika ada
         if ($request->has('remove_video')) {
             foreach ($request->remove_video as $videoId) {
-                $video = Video::find($videoId);
+                $video = MateriVideo::find($videoId);
                 if ($video) {
                     // Menghapus file video dari storage
                     if (Storage::exists('public/' . $video->video_url)) {
@@ -128,7 +135,7 @@ class MateriController extends Controller
                 }
             }
         }
-
+    
         // Hapus PDF lama jika ada
         if ($request->has('remove_pdf')) {
             foreach ($request->remove_pdf as $pdfId) {
@@ -143,39 +150,70 @@ class MateriController extends Controller
                 }
             }
         }
-
+    
+        // Update video yang ada jika judulnya diubah
+        if ($request->has('video_titles') && is_array($request->video_titles)) {
+            foreach ($request->video_titles as $index => $newTitle) {
+                $video = MateriVideo::where('materi_id', $materi->id)
+                    ->where('course_id', $courseId)
+                    ->skip($index)
+                    ->first();
+                if ($video) {
+                    $video->update(['judul' => $newTitle]);  // Update judul video
+                }
+            }
+        }
+    
+        // Update PDF yang ada jika judulnya diubah
+        if ($request->has('material_titles') && is_array($request->material_titles)) {
+            foreach ($request->material_titles as $index => $newTitle) {
+                $pdf = MateriPdf::where('materi_id', $materi->id)
+                    ->where('course_id', $courseId)
+                    ->skip($index)
+                    ->first();
+                if ($pdf) {
+                    $pdf->update(['judul' => $newTitle]);  // Update judul PDF
+                }
+            }
+        }
+    
         // Tambahkan video baru jika ada
         if ($request->hasFile('videos')) {
-            foreach ($request->file('videos') as $video) {
-                // Simpan video ke folder 'images/videos'
+            foreach ($request->file('videos') as $index => $video) {
                 $path = $video->store('images/videos', 'public');
                 MateriVideo::create([
                     'materi_id' => $materi->id,
                     'video_url' => $path,
+                    'judul' => $request->video_titles[$index] ?? '',
+                    'course_id' => $courseId,
                 ]);
             }
         }
-
+    
         // Tambahkan PDF baru jika ada
         if ($request->hasFile('material_files')) {
-            foreach ($request->file('material_files') as $file) {
-                // Simpan PDF ke folder 'images/pdfs'
+            foreach ($request->file('material_files') as $index => $file) {
                 $path = $file->store('images/pdfs', 'public');
                 MateriPdf::create([
                     'materi_id' => $materi->id,
                     'pdf_file' => $path,
+                    'judul' => $request->material_titles[$index] ?? '',
+                    'course_id' => $courseId,
                 ]);
             }
         }
-      
-        return redirect()->route('courses.show', ['course' => $courseId])->with('success', 'Materi berhasil diperbarui!');
+    
+        // Redirect dengan pesan sukses
+        return redirect()->route('courses.show', ['course' => $courseId])
+                         ->with('success', 'Materi berhasil diperbarui!');
     }
+    
     
 
     public function destroy($courseId, $materiId)
     {
         $materi = Materi::findOrFail($materiId);
-
+    
         // Hapus video terkait
         foreach ($materi->videos as $video) {
             if (Storage::disk('public')->exists($video->video_url)) {
@@ -183,7 +221,7 @@ class MateriController extends Controller
             }
             $video->delete();
         }
-
+    
         // Hapus PDF terkait
         foreach ($materi->pdfs as $pdf) {
             if (Storage::disk('public')->exists($pdf->pdf_file)) {
@@ -191,11 +229,13 @@ class MateriController extends Controller
             }
             $pdf->delete();
         }
-
+    
+        // Hapus materi
         $materi->delete();
-
+    
         return redirect()->route('courses.show', ['course' => $courseId])
             ->with('success', 'Materi beserta video dan PDF berhasil dihapus!');
-    }   
+    }    
+
 
 }

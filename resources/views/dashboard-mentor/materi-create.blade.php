@@ -22,11 +22,17 @@
                         @enderror
                     </div>
 
-                    <!-- Input untuk Deskripsi Materi -->
-                    <div class="mb-4">
-                        <label for="deskripsi" class="block text-gray-700 font-bold mb-2">Deskripsi</label>
-                        <textarea name="deskripsi" id="deskripsi" rows="7" class="w-full p-2 border rounded" placeholder="Masukkan deskripsi materi">{{ old('deskripsi') }}</textarea>
-                        @error('deskripsi')
+                    <!-- Input untuk Video -->
+                    <div class="mb-4" id="video-upload">
+                        <label class="block text-gray-700 font-bold mb-2">Unggah Video Materi</label>
+                        <input type="text" name="video_titles[]" class="w-full p-2 border rounded mb-2" placeholder="Masukkan judul video">
+                        <input type="file" name="videos[]" class="w-full p-2 border rounded">
+                        <button type="button" onclick="addVideoInput()" class="font-bold mt-2 bg-green-400 text-white p-2 rounded">Tambah Video</button>
+                        <small class="text-gray-600">Format video yang diperbolehkan: mp4, avi, mkv</small>
+                        @error('videos')
+                            <div class="text-red-600">{{ $message }}</div>
+                        @enderror
+                        @error('video_titles')
                             <div class="text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
@@ -43,17 +49,11 @@
                         @enderror
                     </div>
 
-                    <!-- Input untuk Video -->
-                    <div class="mb-4" id="video-upload">
-                        <label class="block text-gray-700 font-bold mb-2">Unggah Video Materi</label>
-                        <input type="text" name="video_titles[]" class="w-full p-2 border rounded mb-2" placeholder="Masukkan judul video">
-                        <input type="file" name="videos[]" class="w-full p-2 border rounded">
-                        <button type="button" onclick="addVideoInput()" class="mt-2 bg-green-500 text-white p-2 rounded">Tambah Video</button>
-                        <small class="text-gray-600">Format video yang diperbolehkan: mp4, avi, mkv</small>
-                        @error('videos')
-                            <div class="text-red-600">{{ $message }}</div>
-                        @enderror
-                        @error('video_titles')
+                     <!-- Input untuk Deskripsi Materi -->
+                     <div class="mb-4">
+                        <label for="deskripsi" class="block text-gray-700 font-bold mb-2">Deskripsi</label>
+                        <textarea name="deskripsi" id="deskripsi" rows="3" class="w-full p-2 border rounded" placeholder="Masukkan deskripsi materi">{{ old('deskripsi') }}</textarea>
+                        @error('deskripsi')
                             <div class="text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
@@ -63,7 +63,7 @@
                         <label class="block text-gray-700 font-bold mb-2">Unggah File Materi</label>
                         <input type="text" name="material_titles[]" class="w-full p-2 border rounded mb-2" placeholder="Masukkan judul PDF">
                         <input type="file" name="material_files[]" class="w-full p-2 border rounded">
-                        <button type="button" onclick="addPdfInput()" class="mt-2 bg-green-500 text-white p-2 rounded">Tambah PDF</button>
+                        <button type="button" onclick="addPdfInput()" class="font-bold mt-2 bg-green-400 text-white p-2 rounded">Tambah PDF</button>
                         <small class="text-gray-600">Format file yang diperbolehkan: PDF, DOC, PPT</small>
                         @error('material_files')
                             <div class="text-red-600">{{ $message }}</div>

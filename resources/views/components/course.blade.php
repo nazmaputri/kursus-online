@@ -21,7 +21,7 @@
                             <h4 class="text-xl font-semibold text-sky-400 text-center">{{ $category->name }}</h4>
                             <p class="text-gray-600 mt-2 flex-grow text-center">{{ $category->description }}</p>
                             <div class="mt-4">
-                                <a href="" class="inline-block w-full bg-sky-400 text-white px-4 py-2 rounded-md hover:bg-sky-500 text-center">
+                                <a href="{{ route('category.detail',  $category->name) }}" class="inline-block w-full bg-sky-400 text-white px-4 py-2 rounded-md hover:bg-sky-500 text-center">
                                     Lihat Kursus
                                 </a>
                             </div>

@@ -26,7 +26,7 @@
                     <!-- Input untuk Judul -->
                     <div class="mb-4">
                         <label for="title" class="block text-gray-700 font-bold mb-2">Judul Kursus</label>
-                        <input type="text" name="title" id="title" class="w-full p-2 border rounded @error('title') border-red-500 @enderror" placeholder="Masukkan judul kursus" value="{{ old('title') }}">
+                        <input type="text" name="title" id="title" class="w-full p-2 border rounded @error('title') border-red-500 @enderror" placeholder="Masukkan judul kursus" value="{{ old('title') }}" required>
                         @error('title')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
@@ -35,17 +35,26 @@
                     <!-- Input untuk Deskripsi -->
                     <div class="mb-4">
                         <label for="description" class="block text-gray-700 font-bold mb-2">Deskripsi</label>
-                        <textarea name="description" id="description" rows="6" class="w-full p-2 border rounded @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description') }}</textarea>
+                        <textarea name="description" id="description" rows="4" class="w-full p-2 border rounded @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description') }}</textarea>
                         @error('description')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <!-- Input untuk Kapasitas -->
+                    <!-- Input untuk Start_date -->
                     <div class="mb-4">
-                        <label for="capacity" class="block text-gray-700 font-bold mb-2">Kapasitas</label>
-                        <input type="number" name="capacity" id="capacity" class="w-full p-2 border rounded @error('capacity') border-red-500 @enderror" placeholder="Masukkan kapasitas kursus" value="{{ old('capacity') }}">
-                        @error('capacity')
+                        <label for="start_date" class="block text-gray-700 font-bold mb-2">Waktu Mulai</label>
+                        <input type="date" name="start_date" id="start_date" class="w-full p-2 border rounded @error('start_date') border-red-500 @enderror" placeholder="Masukkan Waktu Mulai" min="{{ \Carbon\Carbon::today()->toDateString() }}">
+                        @error('start_date')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Input untuk End_date -->
+                    <div class="mb-4">
+                        <label for="end_date" class="block text-gray-700 font-bold mb-2">Waktu Selesai</label>
+                        <input type="date" name="end_date" id="end_date" class="w-full p-2 border rounded @error('end_date') border-red-500 @enderror" placeholder="Masukkan Waktu Selesai" min="{{ \Carbon\Carbon::today()->toDateString() }}">
+                        @error('end_date')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -63,7 +72,7 @@
                     <!-- Input untuk Harga -->
                     <div class="mb-4">
                         <label for="price" class="block text-gray-700 font-bold mb-2">Harga</label>
-                        <input type="text" name="price" id="price" class="w-full p-2 border rounded @error('price') border-red-500 @enderror" placeholder="Masukkan harga kursus" value="{{ old('price') }}">
+                        <input type="text" name="price" id="price" class="w-full p-2 border rounded @error('price') border-red-500 @enderror" placeholder="Masukkan harga kursus" value="{{ old('price') }}" required>
                         @error('price')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
@@ -82,6 +91,15 @@
                         </select>
                         @error('category')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Input untuk Kapasitas -->
+                    <div class="mb-4">
+                        <label for="capacity" class="block text-gray-700 font-bold mb-2">Kapasitas</label>
+                        <input type="number" name="capacity" id="capacity" class="w-full p-2 border rounded @error('capacity') border-red-500 @enderror" placeholder="Masukkan kapasitas kursus" value="{{ old('capacity') }}">
+                        @error('capacity')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
                     

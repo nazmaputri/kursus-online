@@ -6,6 +6,8 @@
     <title>Dashboard Mentor</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+
     <style>
         /* Transition efek buka-tutup sidebar */
         #logo-sidebar {
@@ -14,18 +16,23 @@
         #logo {
             transition: transform 0.3s;
         }
-        .hidden {
-    display: none;
-}
+                .hidden {
+            display: none;
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
     </style>
 </head>
 <body class="bg-sky-300/15">
     <div class="flex flex-col min-h-screen">
 
         <!-- Sidebar -->
-        <aside id="logo-sidebar" class="fixed top-4 left-4 z-40 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform" aria-label="Sidebar">
+        <aside id="logo-sidebar" class="fixed top-4 left-4 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform" aria-label="Sidebar">
             <!-- Tombol Hamburger -->
-            <button id="hamburger-button" class="absolute top-4 right-4 z-50 p-2 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md">
+            <button id="hamburger-button" class="absolute top-4 right-3 z-50 p-2 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -44,7 +51,7 @@
                             <span class="ms-3">Dashboard</span>
                         </a>
                     </li>
-                    <li class="border-l-2 {{ Request::routeIs('courses.index', 'courses.show', 'courses.edit') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                    <li class="border-l-2 {{ Request::routeIs('courses.index', 'courses.show', 'courses.edit', 'courses.create', 'materi.show', 'materi.create', 'materi.edit', 'quiz.show', 'quiz.create', 'quiz.edit') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('courses.index') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
                             <!-- Ikon SVG -->
                             <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/courses.png" alt="courses"/>
@@ -65,39 +72,45 @@
         
         <!-- Script untuk menutup sidebar dan memperlebar konten -->
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
+            document.addEventListener("DOMContentLoaded", function () {
                 const sidebar = document.getElementById("logo-sidebar");
                 const content = document.getElementById("content");
+                const header = document.getElementById("header");
                 const hamburgerButton = document.getElementById("hamburger-button");
                 const logo = document.getElementById("logo");
                 const svgImage = document.getElementById("svg-image");
         
+                // Event klik pada tombol hamburger
                 hamburgerButton.addEventListener("click", () => {
+                    // Toggle lebar sidebar
                     sidebar.classList.toggle("w-64");
                     sidebar.classList.toggle("w-16");
+        
+                    // Toggle margin pada konten utama
                     content.classList.toggle("ml-64");
                     content.classList.toggle("ml-16");
         
-                    // Ubah ukuran logo dan tampilkan/hide SVG saat sidebar ditutup
+                    // Toggle margin pada header
+                    header.classList.toggle("ml-64");
+                    header.classList.toggle("ml-16");
+        
+                    // Atur ukuran logo dan SVG
                     if (sidebar.classList.contains("w-16")) {
                         logo.classList.add("transform", "scale-75");
-                        svgImage.classList.remove("hidden"); // Tampilkan gambar SVG
+                        svgImage.classList.remove("hidden"); // Tampilkan SVG
                     } else {
                         logo.classList.remove("transform", "scale-75");
-                        svgImage.classList.add("hidden"); // Sembunyikan gambar SVG
+                        svgImage.classList.add("hidden"); // Sembunyikan SVG
                     }
-        
-                    // Tambahkan log untuk debugging
-                    console.log("Sidebar width:", sidebar.classList.contains("w-16"));
-                    console.log("SVG visibility:", svgImage.classList.contains("hidden"));
                 });
             });
         </script>
+        
 
         <!-- Main Content -->
-        <div id="content" class="flex-1 ml-64 transition-all duration-300 p-4 ">
+        <div id="content" class="flex-1 ml-64 transition-all duration-300 p-4 relative">
             <!-- Header -->
-            <div class="flex items-center justify-between sticky top-0 z-10">
+            <div id="header" class="flex items-center justify-between top-4 fixed left-0 ml-64 right-0 px-4 transition-all duration-300">
              <!-- Search Bar di Kiri -->
              <form class="max-w-sm flex-1 ml-4 mr-4">   
                  <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -115,8 +128,9 @@
              <!-- User Profile di Kanan -->
              <div class="flex items-center mr-4 relative">
                  <!-- Pengecekan gambar profil -->
-                 @if(Auth::user()->profile_photo_url)
-                 <img src="#" alt="User Profile" class="rounded-full" width="40" height="40">
+                 @if(Auth::user()->photo)
+                 <!-- Tampilkan gambar profil jika ada -->
+                 <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User Profile" class="rounded-full" width="40" height="40">
                  @else
                  <!-- SVG sebagai ikon default -->
                  <svg class="w-9 h-9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -141,7 +155,7 @@
                          <div id="dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
                              <ul class="py-1" aria-labelledby="dropdown-button">
                                  <li>
-                                     <a href="#" class="block flex items-center px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                     <a href="{{ route('settings.mentor') }}" class="block flex items-center px-2 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 m-2">
                                              <path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
                                          </svg>
@@ -188,10 +202,9 @@
         </script>
 
         <!-- Isi Content -->
-            <div class="p-4 mt-2">
+            <div class="p-4 mt-16">
                 @yield('content')
             </div>
-        </div>
     </div>
 </body>
 </html>

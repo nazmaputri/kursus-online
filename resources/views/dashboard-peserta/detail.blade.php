@@ -1,127 +1,162 @@
-@extends('layouts.dashboard-peserta') <!-- Pastikan layout ini sesuai dengan layout proyek Anda -->
+@extends('layouts.dashboard-peserta')
 
 @section('content')
-<div class="container mx-auto">
-    <!-- Card Container -->
-    <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-3xl font-bold mb-8 text-center border-b-2 border-gray-300 pb-4">Detail Kursus : Kursus Pemrograman Web</h2>
-        <div class="flex flex-col md:flex-row mb-6">
-            <!-- Foto Mentor -->
-            <div class="mb-4 md:mb-0 md:w-1/4">
-                <img src="https://via.placeholder.com/150" alt="Foto Mentor" class="rounded-sm w-full h-auto" />
-            </div>
-            <!-- Informasi Kursus -->
-            <div class="md:w-3/4 md:ml-6 space-y-4">
-                <h3 class="text-lg font-bold">Nama Mentor : John Doe</h3>
-                <p><strong>Jam Konsultasi  :</strong> 10:00 - 12:00</p>
-                <p><strong>Tanggal Mulai   :</strong> 1 November 2024</p>
-                <p><strong>Tanggal Berakhir :</strong> 30 November 2024</p>
-            </div>
-        </div>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 
-        <!-- Section Video Pembelajaran -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold">Video Pembelajaran</h2>
-            <a href="#" class="text-sky-500 hover:underline">View All</a>
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl uppercase font-bold mb-6 border-b-2 border-gray-300 pb-2">Detail Kursus</h2>
+    <div class="flex mb-4">
+        <div class="w-1/3">
+            <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-full h-auto">
         </div>
+        <div class="ml-4 w-2/3 space-y-1">
+            @if(!empty($course->title))
+                <h2 class="text-2xl font-bold mb-2">{{ $course->title }}</h2>
+            @endif
+        
+            @if(!empty($course->description))
+                <p class="text-gray-700 mb-2">{{ $course->description }}</p>
+            @endif
+        
+            @if(!empty($course->mentor->name))
+                <p class="text-gray-600"><strong>Mentor :</strong> {{ $course->mentor->name }}</p>
+            @endif
+        
+            @if(!empty($course->start_date))
+                <p class="text-gray-600"><strong>Tanggal Mulai :</strong> {{ $course->start_date }}</p>
+            @endif
+        
+            @if(!empty($course->duration))
+                <p class="text-gray-600"><strong>Durasi :</strong> {{ $course->duration }}</p>
+            @endif
+        
+            @if(!empty($course->price))
+                <p class="text-xl rounded-md bg-green-200 inline-block p-2 font-bold text-green-600">
+                    Rp. {{ number_format($course->price, 0, ',', '.') }}
+                </p>
+                @if(!$hasPurchased) <!-- Cek apakah kursus sudah dibeli -->
+                <button class="bg-sky-300 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-600" id="pay-now-{{ $course->id }}" data-course-id="{{ $course->id }}" data-course-price="{{ $course->price }}">
+                    Beli Sekarang
+                </button>
+                @else
+                <p class="text-red-500 mt-2">Anda sudah membeli kursus ini.</p>
+                @endif
+            @endif
+        </div>        
+    </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            <!-- Card Video Dummy -->
-            @foreach([1, 2, 3] as $index)
-            <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                <video controls class="w-full h-40">
-                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"> <!-- URL video dummy -->
-                    Your browser does not support the video tag.
-                </video>
-                <div class="p-4">
-                    <h3 class="text-md font-semibold text-gray-800">Judul Video {{ $index }}</h3>
+    <div class="mt-10">
+        <h3 class="text-2xl uppercase font-bold mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
+        <div class="space-y-6">
+            @foreach($course->materi as $materi)
+            <div class="bg-neutral-50 p-4 rounded-lg shadow-md">
+                <div x-data="{ open: false }">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-700 font-semibold mr-2">{{ sprintf('%02d', $loop->iteration) }}.</span>
+                        <h4 class="text-lg font-semibold text-gray-800 flex-1">{{ $materi->judul }}</h4>
+                        <button @click="open = ! open" class="text-gray-600 hover:text-gray-800">
+                            <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                    </div>
+    
+                    <p class="text-gray-600 mb-2 mt-2" x-show="open" x-transition>{{ $materi->deskripsi }}</p>
+                    
+                    <div x-show="open" x-transition>
+                        @if($materi->videos->count())
+                        <div class="mt-4">
+                            <h5 class="text-md font-semibold text-gray-800">🎥 Video</h5>
+                            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                @foreach($materi->videos as $video)
+                                <li class="text-gray-700">
+                                    <p>{{ $video->judul }}</p>
+                                    @if($paymentStatus === 'success') <!-- Cek status transaksi -->
+                                        <!-- Video dapat diakses -->
+                                        <video controls class="w-full h-full object-cover mt-2">
+                                            <source src="{{ asset('storage/' . $video->video_url) }}" type="video/mp4">
+                                        </video>
+                                    @else
+                                        <!-- Video terkunci -->
+                                        <div class="w-full h-40 bg-gray-300 flex items-center justify-center mt-2">
+                                            <p class="text-gray-700 font-semibold">🔒 Video Terkunci</p>
+                                        </div>
+                                    @endif
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @else
+                        <p class="text-gray-600 mt-4">Belum ada video untuk materi ini.</p>
+                        @endif
+                    </div>
                 </div>
             </div>
             @endforeach
         </div>
-
-        <!-- Section Materi PDF -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold">Materi PDF</h2>
-            <a href="#" class="text-sky-500 hover:underline">View All</a>
-        </div>
-        <div class="overflow-x-auto mb-8">
-            <table class="min-w-full bg-white shadow-md rounded-lg">
-                <thead>
-                    <tr class="bg-sky-300 text-white">
-                        <th class="px-4 py-2">No</th>
-                        <th class="px-4 py-2">Judul Materi</th>
-                        <th class="px-4 py-2">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach([['title' => 'Materi Dasar HTML', 'content' => 'Konten Materi HTML ...'], 
-                              ['title' => 'Materi Dasar CSS', 'content' => 'Konten Materi CSS ...'], 
-                              ['title' => 'Materi Dasar JavaScript', 'content' => 'Konten Materi JavaScript ...']] as $index => $pdf)
-                    <tr class="border-b">
-                        <td class="px-4 py-2 text-center">{{ $index + 1 }}</td>
-                        <td class="px-4 py-2">{{ $pdf['title'] }}</td>
-                        <td class="px-4 py-2 text-center">
-                            <!-- Button untuk membuka modal -->
-                            <button onclick="showModal({{ $index }})" class="bg-sky-300 text-white px-4 py-1 rounded hover:bg-sky-500">Buka Materi</button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Section Quiz -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold">Quiz</h2>
-            <a href="#" class="text-sky-500 hover:underline">View All</a>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-8">
-            <!-- Card Quiz Dummy -->
-            @foreach([1, 2 ] as $index)
-            <div class="bg-white shadow-md rounded-lg p-4">
-                <h3 class="text-lg font-semibold text-gray-800">Quiz {{ $index }}</h3>
-                <p class="text-gray-600 mb-4">Uji pemahaman Anda dalam materi ini.</p>
-                <a href="#" class="block text-center bg-green-400 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Mulai Quiz</a>
-            </div>
-            @endforeach
-        </div>
-
-        <!-- Button Kembali -->
-        <div class="flex justify-end">
-            <a href="{{ route('study-peserta') }}" class="bg-sky-300 text-white text-semibold px-4 py-2 rounded hover:bg-sky-600">Kembali</a>
-        </div>
-
-        <!-- Modal -->
-        <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-            <div class="bg-white w-11/12 md:w-1/2 lg:w-1/3 rounded-lg shadow-lg p-6 relative">
-                <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800">✕</button>
-                <h3 id="modalTitle" class="text-lg font-bold mb-4"></h3>
-                <p id="modalContent" class="text-gray-700"></p>
-            </div>
-        </div>
     </div>
+    
+
+    {{-- <div class="mt-6 flex justify-end">
+        <a href="{{ route('categories-detail', $category->id) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+            Kembali
+        </a>
+    </div>         --}}
 </div>
 
 <script>
-    // Data konten materi dalam JavaScript untuk ditampilkan di modal
-    const materiData = [
-        { title: 'Materi Dasar HTML', content: 'Konten Materi HTML ...' },
-        { title: 'Materi Dasar CSS', content: 'Konten Materi CSS ...' },
-        { title: 'Materi Dasar JavaScript', content: 'Konten Materi JavaScript ...' },
-    ];
-
-    // Fungsi untuk menampilkan modal dan mengisi kontennya
-    function showModal(index) {
-        document.getElementById('modalTitle').innerText = materiData[index].title;
-        document.getElementById('modalContent').innerText = materiData[index].content;
-        document.getElementById('modal').classList.remove('hidden');
-    }
-
-    // Fungsi untuk menutup modal
-    function closeModal() {
-        document.getElementById('modal').classList.add('hidden');
-    }
+    document.querySelectorAll('[id^="pay-now"]').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const courseId = this.getAttribute('data-course-id');
+            const amount = this.getAttribute('data-course-price');
+            fetch(`/create-payment/${courseId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({ amount })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.snapToken) {
+                    snap.pay(data.snapToken, {
+                        onSuccess: function(result) {
+                            // Alert dan kirim permintaan ke server untuk memperbarui status
+                            alert('Pembayaran berhasil');
+                            fetch(`/payment-success`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                },
+                                body: JSON.stringify({
+                                    order_id: result.order_id,
+                                    transaction_status: 'success',
+                                }),
+                            })
+                            .then(res => res.json())
+                            .then(response => {
+                                alert(response.message);
+                                location.reload(); // Reload halaman jika diperlukan
+                            })
+                            .catch(error => {
+                                console.error('Error updating payment status:', error);
+                            });
+                        },
+                        onPending: function(result) {
+                            alert('Pembayaran sedang diproses');
+                        },
+                        onError: function(result) {
+                            alert('Pembayaran gagal');
+                        }
+                    });
+                }
+            })
+            .catch(error => alert('Terjadi kesalahan saat memproses pembayaran.'));
+        });
+    });
 </script>
 @endsection

@@ -47,8 +47,8 @@ class RegisterController extends Controller
             'role' => $validatedData['role'],
             'status' => $status,
             'email_verified_at' => now(), 
-            'course' => $validatedData['course'],
-            'experience' => $validatedData['experience'],
+            // 'course' => $validatedData['course'],
+            // 'experience' => $validatedData['experience'],
         ]);
 
          // Redirect dan tampilkan notifikasi khusus mentor

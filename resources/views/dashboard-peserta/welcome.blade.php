@@ -14,28 +14,23 @@
 </div>
 
 <div class="bg-white rounded-lg shadow-md p-6 mt-7">
-    <h2 class="text-2xl font-bold mb-5 text-gray-800">My Course</h2>
+    <h2 class="text-2xl font-bold mb-5 text-gray-800 uppercase border-b-2 pb-2">Kursus Saya</h2>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Dummy Data with rating -->
-        @foreach([
-            ['title' => 'Kursus Laravel Dasar', 'progress' => '60%', 'rating' => 4],
-            ['title' => 'Kursus JavaScript', 'progress' => '80%', 'rating' => 5],
-            ['title' => 'Kursus Dasar ReactJS', 'progress' => '45%', 'rating' => 4],
-        ] as $kursus)
+        @forelse($courses as $course)
             <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <!-- Image -->
-                <img src="https://via.placeholder.com/300x200" alt="Progres {{ $kursus['title'] }}" class="w-full h-40 object-cover rounded-t-lg">
+                <img src="{{ asset('storage/' . $course->image_path) }}" alt="Kursus {{ $course->title }}" class="w-full h-40 object-cover rounded-t-lg">
 
                 <!-- Course Content -->
                 <div class="p-4">
                     <div class="flex justify-between items-center mb-2">
                         <!-- Course Title and Rating -->
                         <div>
-                            <h3 class="text-lg font-semibold">{{ $kursus['title'] }}</h3>
+                            <h3 class="text-lg font-semibold">{{ $course->title }}</h3>
                             <div class="flex text-yellow-500">
                                 @for ($i = 0; $i < 5; $i++)
-                                    @if ($i < $kursus['rating'])
+                                    @if ($i < ($course->rating ?? 0)) <!-- Rating dari database atau default 0 -->
                                         <span>&#9733;</span>
                                     @else
                                         <span class="text-gray-300">&#9733;</span>
@@ -46,19 +41,24 @@
 
                         <!-- Progress Circle -->
                         <div class="w-12 h-12 rounded-full border-4 border-sky-600 flex items-center justify-center">
-                            <span class="text-sm font-bold text-sky-600">{{ $kursus['progress'] }}</span>
+                            <span class="text-sm font-bold text-sky-600">
+                                {{ $course->progress ?? '0%' }}
+                            </span>
                         </div>
                     </div>
 
                     <!-- Button -->
-                    <button class="bg-sky-300 text-white w-full py-2 m-2 rounded-lg font-semibold hover:bg-sky-500 transition-colors">
+                    <button class="bg-sky-300 text-white w-full py-2 rounded-lg font-semibold hover:bg-sky-500 transition-colors">
                         Lanjut Belajar
                     </button>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="col-span-full">
+                <p class="text-gray-600 text-center">Belum ada kursus yang diikuti.</p>
+            </div>
+        @endforelse
     </div>
 </div>
-
 
 @endsection

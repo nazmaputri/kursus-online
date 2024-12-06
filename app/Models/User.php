@@ -18,6 +18,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'photo',
         'email',
         'password',
         'phone_number',
@@ -59,4 +60,21 @@ class User extends Authenticatable
             $this->attributes['password'] = bcrypt($value);
         }
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function managedCourses()
+    {
+        return $this->hasMany(Course::class, 'mentor_id');
+    }
+
+    public function enrolledCourses()
+    {
+        return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id');
+    }
+    
+        
 }

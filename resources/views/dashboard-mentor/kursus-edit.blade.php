@@ -40,14 +40,24 @@
                         @enderror
                     </div>
 
-                    <!-- Input untuk Kapasitas -->
-                    <div class="mb-3">
-                        <label for="capacity" class="block text-gray-700 font-bold mb-2">Kapasitas (Kouta Peserta)</label>
-                        <input type="number" name="capacity" id="capacity" class="w-full p-2 border rounded @error('capacity') border-red-500 @enderror" placeholder="Masukkan kapasitas peserta" value="{{ old('capacity', $course->capacity) }}">
-                        @error('capacity')
+                     <!-- Input untuk Start_date -->
+                     <div class="mb-4">
+                        <label for="start_date" class="block text-gray-700 font-bold mb-2">Waktu Mulai</label>
+                        <input type="date" name="start_date" id="start_date" class="w-full p-2 border rounded @error('start_date') border-red-500 @enderror" placeholder="Masukkan Waktu Mulai" min="{{ \Carbon\Carbon::today()->toDateString() }}" value="{{ old('start_date', $course->start_date) }}">
+                        @error('start_date')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    <!-- Input untuk End_date -->
+                    <div class="mb-4">
+                        <label for="end_date" class="block text-gray-700 font-bold mb-2">Waktu Selesai</label>
+                        <input type="date" name="end_date" id="end_date" class="w-full p-2 border rounded @error('end_date') border-red-500 @enderror" placeholder="Masukkan Waktu Selesai" min="{{ \Carbon\Carbon::today()->toDateString() }}" value="{{ old('end_date', $course->end_date) }}">
+                        @error('end_date')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                 </div>
 
                 <!-- Kolom Kanan: Foto -->
@@ -84,9 +94,19 @@
                             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->name }}" class="w-42 h-40 object-cover rounded">
                         </div>
                     @endif
+
+                    <!-- Input untuk Kapasitas -->
+                    <div class="mt-3">
+                        <label for="capacity" class="block text-gray-700 font-bold mb-2">Kapasitas (Kouta Peserta)</label>
+                        <input type="number" name="capacity" id="capacity" class="w-full p-2 border rounded @error('capacity') border-red-500 @enderror" placeholder="Masukkan kapasitas peserta" value="{{ old('capacity', $course->capacity) }}">
+                        @error('capacity')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
             </div>
 
+            
             <!-- Tombol Submit -->
             <div class="mt-6 flex justify-end space-x-2">
                 <button type="submit" class="bg-sky-400 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">

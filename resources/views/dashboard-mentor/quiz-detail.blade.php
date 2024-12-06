@@ -5,7 +5,6 @@
 
     <!-- Card Wrapper untuk Kuis -->
     <div class="bg-white p-6 rounded-lg shadow-lg">
-        @foreach ($quizzes as $quiz)
         <!-- Judul Kuis -->
         <h1 class="text-3xl font-bold mb-4 border-b-2 pb-2 uppercase">{{ $quiz->title }}</h1>
 
@@ -33,14 +32,17 @@
                     <p class="text-lg font-medium text-gray-700 flex-1 capitalize">{{ $question->question }}</p>
                 </div>
 
-                <!-- Jawaban -->
-                <ul class="list-none mt-4 space-y-2">
-                    @foreach($question->answers as $answer)
-                    <li class="p-2 border rounded-md {{ $answer->is_correct ? 'bg-green-100 text-green-700 font-semibold' : 'bg-gray-100 text-gray-600' }}">
-                        {{ $answer->answer }}
-                    </li>
-                    @endforeach
-                </ul>
+                <!-- Jawaban Tersembunyi dengan Dropdown -->
+                <details class="mt-4">
+                    <summary class="cursor-pointer text-sky-400">Lihat Jawaban</summary>
+                    <ul class="list-none mt-2 space-y-2">
+                        @foreach($question->answers as $answer)
+                        <li class="p-2 border rounded-md {{ $answer->is_correct ? 'bg-green-100 text-green-700 font-semibold' : 'bg-gray-100 text-gray-600' }}">
+                            {{ $answer->answer }}
+                        </li>
+                        @endforeach
+                    </ul>
+                </details>
             </div>
             @endforeach
         </div>
@@ -50,12 +52,12 @@
 
         <!-- Tombol Kembali -->
         <div class="mt-6 justify-end flex">
-            <a href="{{ route('courses.show', $quiz->course_id) }}" 
-               class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
+            <a href="{{ route('materi.show', ['courseId' => $course->id, 'materiId' => $materi->id]) }}"
+               class="bg-sky-400 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
                 Kembali
             </a>
         </div>
     </div>
-    @endforeach
+
 </div>
 @endsection
