@@ -15,6 +15,7 @@ class Course extends Model
         'category',
         'price',
         'capacity',
+        'chat',
         'start_date',
         'end_date',
         'image_path',

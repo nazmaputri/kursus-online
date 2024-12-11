@@ -6,22 +6,10 @@
     <title>Dashboard Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        /* Transition efek buka-tutup sidebar */
-        #logo-sidebar {
-            transition: width 0.3s;
-        }
-        #logo {
-            transition: transform 0.3s;
-        }
-                .hidden {
-            display: none;
-        }
-    </style>
-    <style>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+     <style>
         body {
-            font-family: 'Noto', sans-serif;
+            font-family: 'IBM Plex Sans', sans-serif;
         }
     </style>
 </head>
@@ -29,9 +17,9 @@
     <div class="flex flex-col min-h-screen">
 
         <!-- Sidebar -->
-        <aside id="logo-sidebar" class="fixed top-4 left-4 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform" aria-label="Sidebar">
+        <aside id="logo-sidebar" class="fixed top-4 left-4 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform lg:w-64 md:w-16" aria-label="Sidebar">
             <!-- Tombol Hamburger -->
-            <button id="hamburger-button" class="absolute top-4 right-3 z-50 p-2 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md">
+            <button id="hamburger-button" class="absolute top-4 z-50 p-1 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md md:hidden">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -43,13 +31,17 @@
             <div class="h-full px-3 pb-4 overflow-y-auto dark:bg-gray-800">
                 <ul class="space-y-2 font-medium">
                     <li class="border-l-2 {{ Request::routeIs('welcome-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                        <!-- Link yang berisi logo dan teks -->
                         <a href="{{ route('welcome-admin') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                            <!-- Logo yang selalu muncul (mobile dan desktop) -->
+                            <svg id="svg-image" class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                                 <path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
                             </svg>
-                            <span class="ms-3">Dashboard</span>
+                            
+                            <!-- Teks yang hanya muncul saat sidebar dibuka (di desktop) -->
+                            <span id="dashboard-text" class="ml-3">Dashboard</span>
                         </a>
-                    </li>
+                    </li>                                 
                     <li class="relative">
                         <div class="border-l-2 border-sky-500 border-transparent hover:border-sky-500 ">
                             <button onclick="toggleDropdown()" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 w-full">
@@ -104,14 +96,14 @@
                     </script>
 
                     <li class="border-l-2 {{ Request::routeIs('categories.index', 'categories.create', 'categories.show', 'categories.edit', 'detail-kursus') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
-                        <a href="{{ route('categories.index') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <a href="{{ route('categories.index') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <!-- Ikon SVG -->
                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                                 <path d="M264.5 5.2c14.9-6.9 32.1-6.9 47 0l218.6 101c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 149.8C37.4 145.8 32 137.3 32 128s5.4-17.9 13.9-21.8L264.5 5.2zM476.9 209.6l53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 277.8C37.4 273.8 32 265.3 32 256s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0l152-70.2zm-152 198.2l152-70.2 53.2 24.6c8.5 3.9 13.9 12.4 13.9 21.8s-5.4 17.9-13.9 21.8l-218.6 101c-14.9 6.9-32.1 6.9-47 0L45.9 405.8C37.4 401.8 32 393.3 32 384s5.4-17.9 13.9-21.8l53.2-24.6 152 70.2c23.4 10.8 50.4 10.8 73.8 0z"/>
                             </svg>
-                            Kategori
+                            <span class="ms-3">Kategori</span>
                         </a>
-                    </li>     
+                    </li>   
                     <li class="border-l-2 {{ Request::routeIs('rating-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('rating-admin') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -141,10 +133,11 @@
                 const hamburgerButton = document.getElementById("hamburger-button");
                 const logo = document.getElementById("logo");
                 const svgImage = document.getElementById("svg-image");
+                const dashboardText = document.getElementById("dashboard-text"); // Teks Dashboard
         
                 // Event klik pada tombol hamburger
                 hamburgerButton.addEventListener("click", () => {
-                    // Toggle lebar sidebar
+                    // Toggle lebar sidebar antara w-64 dan w-16
                     sidebar.classList.toggle("w-64");
                     sidebar.classList.toggle("w-16");
         
@@ -160,14 +153,40 @@
                     if (sidebar.classList.contains("w-16")) {
                         logo.classList.add("transform", "scale-75");
                         svgImage.classList.remove("hidden"); // Tampilkan SVG
+                        dashboardText.classList.add("hidden"); // Sembunyikan teks di mobile
                     } else {
                         logo.classList.remove("transform", "scale-75");
                         svgImage.classList.add("hidden"); // Sembunyikan SVG
+                        dashboardText.classList.remove("hidden"); // Tampilkan teks di desktop
+                    }
+                });
+                
+                // Untuk menangani perubahan ukuran jendela dan memastikan tampilan yang sesuai
+                window.addEventListener("resize", () => {
+                    if (window.innerWidth >= 1024) {
+                        // Pada layar besar (desktop), tampilkan sidebar penuh
+                        sidebar.classList.add("w-64");
+                        sidebar.classList.remove("w-16");
+                        content.classList.add("ml-64");
+                        content.classList.remove("ml-16");
+                        header.classList.add("ml-64");
+                        header.classList.remove("ml-16");
+                        logo.classList.remove("transform", "scale-75");
+                        svgImage.classList.add("hidden");
+                        dashboardText.classList.remove("hidden");
+                    } else {
+                        // Pada layar kecil (mobile), sembunyikan sidebar atau ubah ukuran
+                        sidebar.classList.remove("w-64");
+                        sidebar.classList.add("w-16");
+                        content.classList.remove("ml-64");
+                        content.classList.add("ml-16");
+                        header.classList.remove("ml-64");
+                        header.classList.add("ml-16");
                     }
                 });
             });
         </script>
-
+             
          <!-- Main Content -->
          <div id="content" class="flex-1 ml-64 transition-all duration-300 p-4 relative">
             <!-- Header -->

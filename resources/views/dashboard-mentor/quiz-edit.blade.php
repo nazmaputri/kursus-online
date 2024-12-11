@@ -4,7 +4,7 @@
 <div class="container mx-auto">
     <!-- Card Wrapper -->
     <div class="bg-white p-6 rounded-lg shadow-lg">
-        <h1 class="text-3xl uppercase font-bold mb-6 text-center border-b-2 border-gray-300 pb-4">Edit Kuis</h1>
+        <h1 class="text-2xl uppercase font-bold mb-6 text-center border-b-2 border-gray-300 pb-2">Edit Kuis</h1>
 
         <!-- Form Edit Quiz -->
         <form action="{{ route('quiz.update', ['courseId' => $courseId, 'materiId' => $materiId, $quiz->id]) }}" method="POST">

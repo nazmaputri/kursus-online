@@ -14,6 +14,8 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RatingController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\CertificateController;
 use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
@@ -58,37 +60,42 @@ Route::get('/categories/{name}', [CategoryController::class, 'show'])->name('cat
 Route::get('dashboard-peserta/welcome', [DashboardPesertaController::class, 'show'])->name('welcome-peserta');
 Route::get('dashboard-peserta/daftar', [DashboardPesertaController::class, 'daftar'])->name('daftar-peserta');
 Route::get('dashboard-peserta/kursus', [DashboardPesertaController::class, 'kursusTerdaftar'])->name('daftar-kursus');
-Route::get('dashboard-peserta/kursus/{id}', [DashboardPesertaController::class, 'kursus'])->name('kursus-peserta');
+Route::get('kursus/{id}', [DashboardPesertaController::class, 'kursus'])->name('kursus-peserta');
 Route::get('dashboard-peserta/kursus/{id}', [DashboardPesertaController::class, 'detail'])->name('detail-kursus');
-Route::get('dashboard-peserta/study', [DashboardPesertaController::class, 'study'])->name('study-peserta');
+Route::get('dashboard-peserta/study/{id}', [DashboardPesertaController::class, 'study'])->name('study-peserta');
 Route::get('dashboard-peserta/video', [DashboardPesertaController::class, 'video'])->name('video-peserta');
 Route::get('dashboard-peserta/quiz', [DashboardPesertaController::class, 'quiz'])->name('quiz-peserta');
 Route::get('dashboard-peserta/kategori', [DashboardPesertaController::class, 'kategori'])->name('kategori-peserta');
 Route::get('/categories/{id}/detail', [DashboardPesertaController::class, 'showCategoryDetail'])->name('categories-detail');
+Route::get('/settings-student', [SettingController::class, 'student'])->name('settings-student');
+
+//Quiz Peserta
+Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('quiz.show');
+Route::post('/quiz/{quiz}/submit', [QuizController::class, 'submit'])->name('quiz.submit');
+Route::get('/quiz/{quiz}/result', [QuizController::class, 'result'])->name('quiz.result');
 
 //Dashboard Mentor
 Route::get('dashboard-mentor/welcome', [DashboardMentorController::class, 'show'])->name('welcome-mentor');
 Route::get('dashboard-mentor/data-peserta', [DashboardMentorController::class, 'datapeserta'])->name('datapeserta-mentor');
 Route::get('dashboard-mentor/laporan', [DashboardMentorController::class, 'laporan'])->name('laporan-mentor');
 Route::get('/settings', [SettingController::class, 'mentor'])->name('settings.mentor');
+
 //Kursus
 Route::resource('courses', CourseController::class);
 
 // Materi
-
 Route::get('/materi/{courseId}/{materiId}', [MateriController::class, 'show'])->name('materi.show');
 Route::get('/materi/{courseId}', [MateriController::class, 'create'])->name('materi.create');
 Route::post('/materi/{courseId}', [MateriController::class, 'store'])->name('materi.store');
 Route::get('/materi/edit/{courseId}/{materiId}', [MateriController::class, 'edit'])->name('materi.edit');
 Route::put('/materi/edit/{courseId}/{materiId}', [MateriController::class, 'update'])->name('materi.update');
 Route::delete('/materi/{courseId}/destroy/{materiId}', [MateriController::class, 'destroy'])->name('materi.destroy');
-
 Route::delete('video/{video}', [VideoController::class, 'destroy'])->name('video.destroy');
 Route::delete('pdf/{pdf}', [PdfController::class, 'destroy'])->name('pdf.destroy');
 
 // Quiz
-Route::get('/course/{courseId}/materi/{materiId}/quiz/{quizId}', [QuizController::class, 'show'])->name('quiz.show');
-Route::get('/quiz/{courseId}/{materiId}/create', [QuizController::class, 'create'])->name('quiz.create');
+Route::get('/quiz/{courseId}/{materiId}/{quiz}', [QuizController::class, 'detail'])->name('quiz.detail');
+Route::get('/quiz/{courseId}/{materiId}', [QuizController::class, 'create'])->name('quiz.create');
 Route::post('/quiz/{courseId}/{materiId}', [QuizController::class, 'store'])->name('quiz.store');
 Route::get('/quiz/{courseId}/{materiId}/{quiz}/edit', [QuizController::class, 'edit'])->name('quiz.edit');
 Route::put('/quiz/{courseId}/{materiId}/{quiz}', [QuizController::class, 'update'])->name('quiz.update');
@@ -97,6 +104,9 @@ Route::delete('/quiz/{courseId}/{materiId}/{quiz}', [QuizController::class, 'des
 //Umum
 Route::post('/create-payment/{course_id}', [PaymentController::class, 'createPayment'])->name('create.payment');
 Route::post('/payment-success', [PaymentController::class, 'updatePaymentStatus']);
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+Route::get('/certificate/{courseId}', [CertificateController::class, 'showCertificate'])->name('certificate.show');
+Route::get('/certificate/download/{courseId}', [CertificateController::class, 'downloadCertificate'])->name('certificate.download');
 
 Route::middleware('auth')->group(function () {
     Route::get('chat/mentor/{courseId}/{chatId?}', [ChatController::class, 'chatMentor'])->name('chat.mentor');

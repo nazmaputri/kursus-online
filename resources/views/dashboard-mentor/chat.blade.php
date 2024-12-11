@@ -58,19 +58,19 @@
         <div class="flex-1 overflow-y-auto p-4">
             @if (count($messages))
                 @foreach ($messages as $message)
-                <div class="flex items-start mb-4 {{ $message->sender_id == auth()->id() ? 'justify-end' : 'justify-start' }}">
-                    <div class="{{ $message->sender_id == auth()->id() ? 'bg-blue-500 text-white' : 'border-gray-200 border text-gray-800' }} p-3 rounded-lg shadow-md">
-                        <p>{{ $message->message }}</p>
-                        <p class="text-xs text-gray-300 mt-1">{{ $message->created_at->diffForHumans() }}</p>
+                    <div class="flex items-start mb-4 {{ $message->sender_id == auth()->id() ? 'justify-end' : 'justify-start' }}">
+                        <div class="{{ $message->sender_id == auth()->id() ? 'bg-blue-500 text-white' : 'border-gray-200 border text-gray-800' }} p-3 rounded-lg shadow-md">
+                            <p>{{ $message->message }}</p>
+                            <p class="text-xs text-gray-300 mt-1">{{ $message->created_at->diffForHumans() }}</p>
+                        </div>
                     </div>
-                </div>
                 @endforeach
             @else
                 <div class="flex items-center justify-center p-4">
                     <p class="text-gray-500">No messages yet. Start the conversation!</p>
                 </div>
             @endif
-        </div>
+        </div>        
 
         <!-- Chat Input -->
         <div class="p-4 bg-white border-t border-gray-300">

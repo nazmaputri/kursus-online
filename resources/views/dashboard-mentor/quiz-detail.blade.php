@@ -6,7 +6,7 @@
     <!-- Card Wrapper untuk Kuis -->
     <div class="bg-white p-6 rounded-lg shadow-lg">
         <!-- Judul Kuis -->
-        <h1 class="text-3xl font-bold mb-4 border-b-2 pb-2 uppercase">{{ $quiz->title }}</h1>
+        <h1 class="text-2xl font-bold mb-4 border-b-2 pb-2 uppercase">{{ $quiz->title }}</h1>
 
         <!-- Deskripsi Kuis -->
         <p class="text-gray-700 mb-4">
@@ -20,16 +20,16 @@
 
         <!-- Daftar Soal -->
         @if($quiz->questions->isNotEmpty())
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
             @foreach($quiz->questions as $index => $question)
             <!-- Card untuk Setiap Soal -->
-            <div class="bg-gray-50 border rounded-lg p-4 shadow-md">
+            <div class="bg-gray-50 border rounded-lg p-4 shadow-md text-sm">
                 <div class="flex items-start">
                     <!-- Nomor Soal -->
                     <span class="text-2xl font-bold mr-4">{{ $index + 1 }}.</span>
                     
                     <!-- Pertanyaan -->
-                    <p class="text-lg font-medium text-gray-700 flex-1 capitalize">{{ $question->question }}</p>
+                    <p class="text-sm font-medium text-gray-700 flex-1 capitalize">{{ $question->question }}</p>
                 </div>
 
                 <!-- Jawaban Tersembunyi dengan Dropdown -->

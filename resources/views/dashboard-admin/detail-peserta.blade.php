@@ -67,8 +67,8 @@
         </div>
 
         <!-- Tombol Kembali -->
-        <div class="m-4 text-right">
-            <a href="{{ route('datapeserta-admin') }}" class="bg-sky-400 hover:bg-sky-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md">
+        <div class="text-right">
+            <a href="{{ route('datapeserta-admin') }}" class="bg-sky-400 hover:bg-sky-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md shadow-blue-100 hover:shadow-none">
                 Kembali
             </a>
         </div>

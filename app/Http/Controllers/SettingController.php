@@ -23,6 +23,13 @@ class SettingController extends Controller
         
         return view('dashboard-mentor.setting', compact('user'));
     }
+
+    public function student()
+    {
+        $user = Auth::user();
+        
+        return view('dashboard-peserta.setting', compact('user'));
+    }
     
     public function update(Request $request)
     {

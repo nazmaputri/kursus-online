@@ -6,12 +6,23 @@
     <title>{{ $course->judul ?? 'Kursus' }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+
+    <!-- AOS CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Style -->
+    <style>
+        body {
+            font-family: "Quicksand", sans-serif !important;
+        }
+    </style>
 </head>
 <body class="font-sans antialiased dark:bg-black dark:text-white/50">
     @include('components.navbar') <!-- Menambahkan Navbar -->
@@ -19,17 +30,17 @@
     <!-- Bagian Materi Kursus -->
     <section id="course" class="py-12 bg-white mt-16 p-6">
         <div class="mb-4">
-            <h3 class="text-3xl font-bold text-center text-sky-400">
+            <h3 class="text-3xl font-bold text-center text-sky-400" data-aos="fade-up">
                 Daftar Kursus Yang Tersedia
             </h3>
         </div>
 
         <!-- Description -->
-        <p class="text-lg text-gray-700 text-center mb-6">
+        <p class="text-lg text-gray-700 text-center mb-6" data-aos="fade-up">
             Kategori : {{ $category->name }}
         </p>
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="zoom-in-down">
                 @forelse ($category->courses as $course)
                     <!-- Card Kursus -->
                     <a href="{{ route('kursus.detail', $course->id) }}" class="block bg-white rounded-lg shadow-md hover:shadow-lg  transition-transform transform hover:scale-105">
@@ -103,5 +114,15 @@
     </section>
 
     @include('components.footer') <!-- Menambahkan Footer -->
+
+    <!-- AOS JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animation
+        AOS.init({
+            duration: 1000, 
+            once: true,    
+        });
+    </script>
 </body>
 </html>

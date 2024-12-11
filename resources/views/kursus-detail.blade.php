@@ -6,116 +6,167 @@
     <title>{{ $course->judul ?? 'Kursus' }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+
+     <!-- AOS CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+     <!-- Custom Style -->
+     <style>
+        body {
+            font-family: "Quicksand", sans-serif !important;
+        }
+    </style>
 </head>
-<body class="font-sans antialiased dark:bg-black dark:text-white/50">
-    @include('components.navbar') <!-- Menambahkan Navbar -->
+<body>
+    @include('components.navbar') 
 
     <!-- Bagian Materi Kursus -->
-    <section id="course" class="py-12 bg-white mt-16">
-        <div class="container mx-auto p-10">
-            <div class="mb-6 flex items-center space-x-2">
-                <!-- Nama Kategori -->
-                <a href="/" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-full">
-                    Kembali
-                </a>
-                <a href="/login" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-full">
-                    Beli Sekarang
-                </a>
-            </div>                  
-            <div class="flex flex-col lg:flex-row items-start gap-8">
-                <!-- Div Gambar -->
-                <div class="relative lg:w-1/3 w-full z-10">
-                    <div class="bg-white shadow-lg border rounded-xl p-6 transform transition-transform hover:scale-105">
-                        <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-full h-auto mb-4">
-                        <p class="text-2xl font-semibold text-gray-800 mb-2">Rp {{ number_format($course->price, 0, ',', '.') }}</p>
-                        <p class="text-gray-600 mb-2">Kursus ini mencakup :</p>
-                        <ul class="list-disc list-inside text-gray-600 space-y-2">
-                            <li>Total Materi: {{ $course->materi->count() }}</li>
-                            <li>Total Materi Video: {{ $course->videos_count }}</li>
-                            <li>Total Materi PDF: {{ $course->pdfs_count }}</li>
-                            <li>Chat dengan Mentor</li>
-                            <li>Akses penuh seumur hidup</li>
-                            <li>Sertifikat penyelesaian</li>
-                        </ul>
-                    </div>
+    <section id="course" class="py-12 bg-sky-50">
+        <div class="container mx-auto px-6 lg:px-8 mt-16">
+            <!-- Kontainer Kursus -->
+            <div class="flex flex-col lg:flex-row bg-white shadow-lg overflow-hidden border rounded-xl">
+                <!-- Bagian Langganan -->
+                <div class="lg:w-2/3 w-full flex flex-col justify-center bg-white shadow-lg rounded-xl p-8 text-center">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2" data-aos="zoom-in">
+                        Yuk Berlangganan Untuk Akses Materinya!
+                    </h2>
+                    <!-- Deskripsi -->
+                    <p class="text-sm text-gray-700 mb-6 px-6 lg:px-20" data-aos="zoom-in">
+                        Berlangganan sekarang di Eduflix dan mulai tingkatkan skillmu! Pilih kursus yang kamu butuhkan, 
+                        pelajari kapan saja, di mana saja. Nikmati video pembelajaran terstruktur dan modul praktik interaktif yang dirancang oleh para ahli di bidangnya.
+                    </p>
+                    <!-- Button Langganan -->
+                    <a href="/login">
+                        <button class="bg-yellow-300 hover:bg-yellow-500 text-white font-semibold py-3 px-6 rounded-full text-md shadow-lg shadow-yellow-100 hover:shadow-none" data-aos="zoom-in">
+                            Langganan Sekarang
+                        </button>
+                    </a>                    
                 </div>
-            
-                <!-- Div Informasi -->
-                <div class="lg:w-2/3 w-full flex flex-col gap-8">
-                    <!-- Informasi Kursus -->
-                    <div class="bg-white p-8 rounded-xl shadow-lg border">
-                        <h2 class="text-3xl font-bold text-gray-900">{{ $course->title }}</h2>
-                        <p class="text-gray-700 mt-4">{{ $course->description }}</p>
-                        <p class="text-gray-600 mt-2"><strong>Mentor :</strong> {{ $course->mentor->name }}</p>
-            
-                        <!-- Rating -->
-                        <div class="flex items-center mt-4">
-                            @for ($i = 0; $i < 5; $i++)
-                                @if ($i < floor($course->rating))
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10 15l-5.45 3.18 1.04-6.06L.45 7.64l6.09-.88L10 1l2.46 5.72 6.09.88-4.64 4.48 1.04 6.06L10 15z" />
-                                    </svg>
-                                @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10 15l-5.45 3.18 1.04-6.06L.45 7.64l6.09-.88L10 1l2.46 5.72 6.09.88-4.64 4.48 1.04 6.06L10 15z" />
-                                    </svg>
-                                @endif
-                            @endfor
-                            <span class="ml-2 text-gray-600">({{ $course->rating }} / 5)</span>
+                <!-- Informasi Kursus -->
+                <div class="lg:w-1/3 w-full p-8" data-aos="zoom-in">
+                    <div class="flex flex-col">
+                        <!-- Materi Kursus -->
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Materi</h3>
+                            <ul class="divide-y divide-gray-200">
+                                @foreach ($course->materi as $index => $materi)
+                                    <li class="flex items-center space-x-4 py-4">
+                                        <!-- Icon -->
+                                        <svg class="h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c7.6-4.2 16.8-4.1 24.3 .5l144 88c7.1 4.4 11.5 12.1 11.5 20.5s-4.4 16.1-11.5 20.5l-144 88c-7.4 4.5-16.7 4.7-24.3 .5s-12.3-12.2-12.3-20.9l0-176c0-8.7 4.7-16.7 12.3-20.9z"/>
+                                        </svg>
+                                        <!-- Nomor dan Judul Materi -->
+                                        <span class="text-md font-semibold text-gray-700">
+                                            {{ $index + 1 }}. {{ $materi->judul }}
+                                        </span>
+                                    </li>
+                                @endforeach
+                            </ul>                            
                         </div>
                     </div>
-                    <!-- Yang Akan di Pelajari -->
-                    <div class="bg-white shadow-lg p-8 rounded-xl border">
-                        <h2 class="text-3xl font-bold text-gray-900">Yang Akan di Pelajari :</h2>
-                        <ul class="grid grid-cols-1 sm:grid-cols-2 text-gray-700 mt-4 gap-y-2">
-                            @foreach ($course->materi as $materi)
-                                <li class="flex items-center space-x-2">
-                                    <!-- Icon ceklis -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L7 13.586 4.707 11.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l9-9a1 1 0 000-1.414z" clip-rule="evenodd" />
-                                    </svg>
-                                    <!-- Teks materi -->
-                                    <span>{{ $materi->judul }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>                    
                 </div>
-            </div>            
-        </div>
+            </div>
+        </div>        
     </section>
-    <!-- Silabus -->
-    <div class="bg-sky-50 w-full p-12 rounded-t-[70px]">
-        <h3 class="text-3xl uppercase font-bold mb-6 pb-2 inline-block text-gray-600 border-b-4 ">Materi Kursus</h3>
-        <div class="space-y-4">
-            @foreach($course->materi as $materi)
-                <div class="bg-white shadow-md rounded-lg p-6 transform transition-transform hover:scale-105 hover:bg-neutral-50">
-                    <div x-data="{ open: false }">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600 font-semibold mr-2">
-                                {{ sprintf('%02d', $loop->iteration) }}.
-                            </span>
-                            <h4 class="text-lg font-semibold text-gray-800 flex-1">
-                                {{ $materi->judul }}
-                            </h4>
-                            <button @click="open = !open" class="text-gray-600 hover:text-gray-800">
-                                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <p class="text-gray-600 mt-2" x-show="open" x-transition>{{ $materi->deskripsi }}</p>
-                    </div>
-                </div>
-            @endforeach
+
+    <!-- Informasi Kursus -->
+    <section class="bg-white p-10">
+        <a href="/">
+            <button class="bg-sky-200 text-gray-600 py-2 px-4 rounded-full font-bold mb-6">
+                Kembali
+            </button>
+        </a>        
+
+        <div class="flex flex-col lg:flex-row mb-4">
+            <div class="w-full lg:w-1/3 mb-4 lg:mb-0">
+                <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-full h-auto">
+            </div>
+            <div class="ml-6 w-2/3">
+                <h2 class="text-2xl font-bold capitalize mb-1">{{ $course->title }}</h2>
+                <p class="text-gray-600 mb-3"><strong>Mentor :</strong> {{ $course->mentor->name }}</p>
+                <p class="text-gray-700 mb-4">{{ $course->description }}</p>
+                <p class="text-green-600 bg-green-300 inline-block text-xl p-3 rounded-2xl font-bold">Rp. {{ number_format($course->price, 0, ',', '.') }}</p>
+            </div>
         </div>
-    </div>
+        
+        <div class="border-t mt-8 pt-6">
+            <!-- Judul -->
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Yang Akan Didapatkan</h3>
+            
+            <!-- Daftar Button -->
+            <div class="flex space-x-4">
+                <button class="bg-blue-400 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/fluency-systems-regular/50/certificate--v1.png" alt="certificate--v1"/>
+                    <span>Sertifikat</span>
+                </button>
+                <button class="bg-blue-400 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/ios-glyphs/30/last-24-hours.png" alt="last-24-hours"/>
+                    <span>Akses Materi 24 Jam</span>
+                </button>
+                <button class="bg-blue-400 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/material-outlined/24/book.png" alt="book"/>
+                    <span>Bahan Bacaan</span>
+                </button>
+                <button class="bg-blue-400 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/sf-black/64/cinema-.png" alt="cinema-"/>
+                    <span>Video Pembelajaran</span>
+                </button>
+            </div>                     
+        </div>       
+        
+        <div class="border-t mt-8 pt-6">
+            <!-- Judul -->
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Rating Kursus</h3>
+            
+            <!-- Daftar Button -->
+            <div class="flex items-center space-x-2 mt-4">
+                <!-- Rating Bintang -->
+                <div class=" border border-gray-200 rounded-xl w-full md:w-1/2 lg:w-1/4 p-6 mt-6 mx-2 hover:shadow-lg transition-shadow duration-300 ease-in-out" data-aos="zoom-in-up">
+                    
+                    <!-- Nama User -->
+                    <h4 class="text-xl font-semibold text-gray-800">Nazma</h4>
+                    
+                    <!-- Rating Bintang -->
+                    <div class="flex items-center mb-2">
+                        @for ($i = 0; $i < 5; $i++)
+                            <span class="text-yellow-400 text-xl">&starf;</span>
+                        @endfor
+                    </div>
+            
+                    <!-- Tanggal -->
+                    <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 48L0 160l0-48C0 85.5 21.5 64 48 64l48 0 0-32c0-17.7 14.3-32 32-32zM0 192l448 0 0 272c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 192zm64 80l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm128 0l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM64 400l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zm112 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16z"/>
+                        </svg>
+                        <span>12 Desember 2024</span>
+                    </div>
+            
+                    <!-- Ulasan -->
+                    <p class="text-gray-700 text-sm mt-2">"Bagus"</p>
+                </div>
+            </div>
+            
+        </div>       
+    </section>
+
     @include('components.footer') <!-- Menambahkan Footer -->
+
+     <!-- AOS JS -->
+     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+     <script>
+         // Initialize AOS animation
+         AOS.init({
+             duration: 1000, 
+             once: true,    
+         });
+     </script>
 </body>
 </html>

@@ -13,7 +13,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::paginate(5);
-        return view('dashboard-admin.category', compact('categories'));
+        $courses = Course::paginate(10);
+        return view('dashboard-admin.category', compact('categories', 'courses'));
     }
 
     public function show($name)

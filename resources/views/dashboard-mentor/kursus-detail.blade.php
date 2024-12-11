@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-3xl font-bold mb-8 border-b-2 border-gray-300 pb-2 uppercase">Detail Kursus</h2>
+        <h2 class="text-2xl font-bold mb-8 border-b-2 border-gray-300 pb-2 uppercase">Detail Kursus</h2>
             <!-- Card Informasi Kursus -->
             <div class="flex flex-col lg:flex-row mb-4">
                 <div class="w-full lg:w-1/3 mb-4 lg:mb-0">
@@ -21,8 +21,51 @@
                     @endif
                     @if($course->capacity)
                         <p class="text-gray-600"><strong>Kapasitas :</strong> {{ $course->capacity }}</p>
-                    @endif
+                    @endif                  
                     <p class="text-gray-600 capitalize"><strong>Status :</strong> {{ $course->status }}</p>
+                    <p class="{{ $course->chat ? 'text-green-500' : 'text-red-500' }}">
+                        {{ $course->chat ? 'Fitur Chat Aktif' : 'Fitur Chat Tidak Aktif' }}
+                    </p> 
+                    <!-- Tombol untuk melihat sertifikat -->
+                    <p id="view-certificate-btn" class="cursor-pointer text-blue-500 hover:underline">Lihat Sertifikat</p>
+                   <!-- Pop-up Modal untuk Sertifikat -->
+                    <div id="certificate-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-gray-500 bg-opacity-75">
+                        <div class="bg-white p-6 rounded-lg shadow-xl w-11/12 sm:w-2/3 lg:w-3/4 max-h-[80vh] overflow-y-auto">
+                            <!-- Sertifikat yang dimuat dari controller -->
+                            <div id="certificate-content" class="overflow-auto">
+                                <!-- Sertifikat akan dimuat di sini -->
+                                <h1 class="text-center text-2xl font-bold">Sertifikat</h1>
+                                <p class="text-center text-gray-600">Konten sertifikat akan muncul di sini.</p>
+                            </div>
+
+                            <!-- Tombol untuk menutup modal -->
+                            <div class="flex justify-center mt-4">
+                                <button id="close-modal" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-400">
+                                    Tutup
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Skrip untuk membuka dan menutup modal -->
+                    <script>
+                        document.getElementById('view-certificate-btn').addEventListener('click', function() {
+                            // Membuka modal
+                            document.getElementById('certificate-modal').classList.remove('hidden');
+
+                            // Memuat sertifikat menggunakan Fetch API
+                            fetch('/certificate/{{ $course->id }}')  // Ganti dengan route yang sesuai
+                                .then(response => response.text())
+                                .then(html => {
+                                    document.getElementById('certificate-content').innerHTML = html;
+                                })
+                                .catch(error => console.error('Error:', error));
+                        });
+
+                        document.getElementById('close-modal').addEventListener('click', function() {
+                            // Menutup modal
+                            document.getElementById('certificate-modal').classList.add('hidden');
+                        });
+                    </script>
                 </div>
             </div>          
                 <div class="mb-4 flex items-center justify-between p-1 border-t-2">
@@ -30,13 +73,16 @@
                         Materi Kursus
                     </h2>
                     <!-- Tombol untuk menambahkan materi -->
-                    <a href="{{ route('materi.create', ['courseId' => $course->id]) }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold mt-3 py-2 px-4 rounded">
-                        Tambah Materi
+                    <a href="{{ route('materi.create', ['courseId' => $course->id]) }}" class="mt-4 inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-600 font-bold py-2 px-4 rounded-md">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                        </svg>
+                        <span>Tambah Materi</span>
                     </a>
                 </div>
         
                 @if (session('success'))
-                    <div class="alert alert-success text-green-400">
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
                         {{ session('success') }}
                     </div>
                 @endif
@@ -145,16 +191,16 @@
                         <th class="border border-gray-300 py-2 px-2 rounded-md">No</th>
                         <th class="border border-gray-300 py-2 px-4 rounded-md">Nama Peserta</th>
                         <th class="border border-gray-300 py-2 px-4 rounded-md">Email</th>
-                        <th class="border border-gray-300 py-2 px-4 rounded-md">Status</th>
+                        <th class="border border-gray-300 py-2 rounded-md">Status Pembayaran</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($participants as $index => $participant)
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-2 px-4 border-b">{{ $index + 1 }}</td>
-                        <td class="py-2 px-4 border-b">{{ $participant->user->name }}</td>
-                        <td class="py-2 px-4 border-b">{{ $participant->user->email }}</td>
-                        <td class="py-2 px-4 border-b">{{ $participant->transaction_status }}</td>
+                    <tr class="bg-white hover:bg-sky-50 user-row">
+                        <td class="py-2 px-4 text-center border border-gray-300 rounded-md">{{ $index + 1 }}</td>
+                        <td class="py-2 px-4 border border-gray-300 rounded-md">{{ $participant->user->name }}</td>
+                        <td class="py-2 px-4 border border-gray-300 rounded-md">{{ $participant->user->email }}</td>
+                        <td class="py-2 border border-gray-300 rounded-md text-center text-green-500">{{ $participant->transaction_status }}</td>
                     </tr>
                     @empty
                     <tr>

@@ -19,7 +19,7 @@
         @if($materi->videos->isNotEmpty())
         <div class="mt-6">
             <details class="mb-4">
-                <summary class="cursor-pointer text-sky-400">Lihat Video Materi</summary>
+                <summary class="cursor-pointer text-sky-400 mb-4">Lihat Video Materi</summary>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> <!-- Layout untuk dua video per baris -->
                     @foreach($materi->videos as $video)
                         <div class="border p-4 rounded-md shadow-md">
@@ -41,7 +41,7 @@
         @if($materi->pdfs->isNotEmpty())
         <div class="mt-6">
             <details class="mb-4">
-                <summary class="cursor-pointer text-sky-400">Lihat File Materi</summary>
+                <summary class="cursor-pointer text-sky-400 mb-4">Lihat File Materi</summary>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> <!-- Layout untuk dua file PDF per baris -->
                     @foreach($materi->pdfs as $file)
                         <div class="border p-4 rounded-md shadow-md">
@@ -64,16 +64,28 @@
 
 
     <div class="bg-white rounded-lg shadow-md p-6 mt-8">
-        <h2 class="text-3xl font-bold mb-6 border-b-2 pb-2 uppercase">Kuis</h2>
+        <h2 class="text-2xl font-bold mb-6 border-b-2 pb-2 uppercase">Kuis</h2>
 
-        <div class="mb-4 text-right p-1 ">
-            <a href="{{ route('quiz.create', ['courseId' => $courseId, 'materiId' => $materiId]) }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
-                Tambah quiz
-            </a>
+        <div class="text-right p-1 ">
+            @php
+                // Ambil jumlah kuis yang sudah ditambahkan untuk materi ini
+                $quizCount = App\Models\Quiz::where('materi_id', $materiId)->count();
+            @endphp
+            
+            <a href="{{ $quizCount < 1 ? route('quiz.create', ['courseId' => $courseId, 'materiId' => $materiId]) : '#' }}" 
+            class="inline-flex items-center space-x-2 text-white 
+            {{ $quizCount >= 1 ? 'bg-gray-300 cursor-not-allowed shadow-none' : 'bg-sky-300 shadow-md shadow-sky-100 hover:shadow-none hover:bg-sky-600' }} 
+            font-bold py-2 px-4 rounded-md"
+            @if($quizCount >= 1) onclick="return false;" @endif>
+                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                </svg>
+                <span>Tambah Kuis</span>
+            </a>          
         </div>
 
         @if (session('success'))
-            <div class="alert alert-success text-green-400">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
                 {{ session('success') }}
             </div>
         @endif
@@ -93,13 +105,13 @@
                         $startNumber = ($quizzes->currentPage() - 1) * $quizzes->perPage() + 1;
                     @endphp
                     @foreach($quizzes as $index => $quiz)
-                        <tr>
+                        <tr class="bg-white hover:bg-sky-50 user-row text-sm">
                             <td class="border border-gray-300 px-2 py-2 rounded-md text-center">{{ $startNumber + $index }}</td>
                             <td class="border border-gray-300 px-4 py-2 rounded-m">{{ $quiz->title }}</td>
                             <td class="border border-gray-300 px-4 py-2 rounded-m">{{ $quiz->duration }} menit</td>
                             <td class="border border-gray-300 px-4 py-2 rounded-m">
                                 <div class="flex items-center justify-center space-x-6">
-                                    <a href="{{ route('quiz.show',  ['courseId' => $courseId, 'materiId' => $materiId, $quiz->id]) }}" class="text-white bg-gray-500 p-1 rounded-md hover:bg-gray-800">
+                                    <a href="{{ route('quiz.detail',  ['courseId' => $courseId, 'materiId' => $materiId, $quiz->id]) }}" class="text-white bg-gray-500 p-1 rounded-md hover:bg-gray-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />

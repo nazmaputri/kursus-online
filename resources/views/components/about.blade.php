@@ -1,5 +1,5 @@
 <!-- About Section -->
-<section id="about" class="bg-white py-16">
+<section id="about" class="bg-white py-12">
     <div class="container mx-auto px-6">
         <div class="flex flex-col lg:flex-row lg:space-x-12 items-center">
 

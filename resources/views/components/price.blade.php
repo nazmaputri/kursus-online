@@ -2,14 +2,14 @@
 <section id="price" class="bg-white py-16">
     <div class="container mx-auto px-6">
         <div class="mb-6 text-center">
-            <h3 class="text-3xl font-bold text-sky-400">Paket Harga untuk Kursus</h3>
-            <p class="text-lg text-gray-700 mt-2">Pilih kursus yang sesuai dengan kebutuhan Anda.</p>
+            <h3 class="text-3xl font-bold text-sky-400" data-aos="fade-down">Rekomendasi Kursus EduFlix</h3>
+            <p class="text-lg text-gray-700 mt-2" data-aos="fade-down">Pilih kursus yang sesuai dengan kebutuhan Anda.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($courses as $course)
-                <a href="{{ route('kursus.detail', $course->id) }}" class="block bg-white rounded-lg shadow-md hover:shadow-lg  transition-transform transform hover:scale-105">
+                <a href="{{ route('kursus.detail', $course->id) }}" class="block bg-white rounded-lg shadow-md hover:shadow-lg  transition-transform transform hover:scale-105 duration-300">
                     <!-- Card Kursus -->
-                    <div class="bg-white border border-gray-300 rounded-lg shadow-md flex flex-col overflow-hidden">
+                    <div class="bg-white border border-gray-300 rounded-lg shadow-md flex flex-col overflow-hidden" data-aos="zoom-in">
                         <!-- Gambar Kursus -->
                         <div class="w-full">
                             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="w-full h-48 object-cover">

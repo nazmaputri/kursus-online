@@ -17,8 +17,8 @@ class ChatController extends Controller
     
         // Ambil semua chat berdasarkan mentor dan courseId
         $chats = Chat::where('mentor_id', $user->id)
-                     ->where('course_id', $courseId)
-                     ->get();
+            ->where('course_id', $courseId)
+            ->get();
     
         // Ambil daftar student yang telah membeli kursus dengan status pembayaran success
         $students = Payment::where('transaction_status', 'success')

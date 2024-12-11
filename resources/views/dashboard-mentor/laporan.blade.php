@@ -2,24 +2,12 @@
 
 @section('content')
 <div class="container mx-auto">
-    <h1 class="text-2xl font-bold mb-4 text-gray-800">Laporan Pendapatan Eduflix</h1>
-
     <!-- Grafik Pendapatan -->
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h2 class="text-xl font-semibold text-gray-700 mb-4">Pendapatan Bulanan</h2>
+        <h2 class="text-xl font-semibold text-gray-700 mb-4 text-center border-b-2 pb-2">Laporan Pendapatan Bulanan</h2>
         <div style="position: relative; height: 300px; width: 100%;">
             <canvas id="revenueChart"></canvas>
         </div>
-    </div>
-
-    <!-- Catatan dan Rekomendasi -->
-    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h2 class="text-xl font-semibold text-gray-700">Catatan dan Rekomendasi</h2>
-        <p class="text-gray-500">
-            - Tingkatkan promosi untuk memaksimalkan pendapatan.<br>
-            - Evaluasi harga kursus untuk meningkatkan keuntungan.<br>
-            - Perluas metode pembayaran untuk mempermudah pengguna.
-        </p>
     </div>
 </div>
 

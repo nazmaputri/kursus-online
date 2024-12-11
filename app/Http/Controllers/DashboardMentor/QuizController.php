@@ -12,23 +12,128 @@ use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
-    public function show($courseId, $materiId, $quizId)
+    public function submitQuiz(Request $request, $quizId)
     {
-        // Cari course berdasarkan ID, atau gagal jika tidak ditemukan
+        $score = $request->input('score'); // Ambil skor dari request
+
+        // Simpan hasil kuis di session
+        session()->put("quiz_results.{$quizId}", [
+            'score' => $score,
+            'completed' => $score >= 70, // Selesai jika skor >= 70
+        ]);
+
+        return redirect()->route('course.show', $request->course_id)
+                        ->with('success', 'Kuis telah diselesaikan!');
+    }
+
+    public function show($quizId)
+    {
+        $quiz = Quiz::with('questions.answers')->findOrFail($quizId);
+        return view('dashboard-peserta.quiz', compact('quiz'));
+    }
+
+    public function detail($courseId, $materiId, $id)
+    {
+        // Ambil quiz berdasarkan ID
+        $quiz = Quiz::findOrFail($id);
+
+        // Ambil data course dan materi
         $course = Course::findOrFail($courseId);
-    
-        // Cari materi berdasarkan ID, atau gagal jika tidak ditemukan
         $materi = Materi::findOrFail($materiId);
+
+        return view('dashboard-mentor.quiz-detail', compact('quiz', 'course', 'courseId', 'materiId', 'materi'));
+    }
+
+    public function result($quizId)
+    {
+        $quiz = Quiz::findOrFail($quizId);
+        
+        // Ambil skor, hasil, dan waktu mulai ujian dari session
+        $score = session('score', null);
+        $results = session('results', []);
+        $startTime = session('start_time', null);
+        
+        // Ambil course terkait dengan quiz
+        $course = $quiz->course; 
     
-        // Cari quiz berdasarkan ID, atau gagal jika tidak ditemukan
-        $quiz = Quiz::where('materi_id', $materiId)
-                    ->where('id', $quizId)
-                    ->firstOrFail();
-    
-        // Tampilkan view dengan data yang relevan
-        return view('dashboard-mentor.quiz-detail', compact('quiz', 'course', 'materi'));
+        if ($score === null || empty($results) || $startTime === null) {
+            return redirect()->route('quiz.show', $quizId)->withErrors('Hasil kuis tidak ditemukan.');
+        }
+        
+        return view('dashboard-peserta.quiz-result', compact('quiz', 'score', 'results', 'startTime', 'course'));
     }    
 
+    public function submit(Request $request, $quizId)
+    {
+        \Log::info("Submit method called for Quiz ID: {$quizId}");
+        \Log::info("Request data: ", $request->all());
+    
+        $quiz = Quiz::with('questions.answers', 'materi')->findOrFail($quizId);
+        \Log::info("Quiz loaded: {$quiz->title}");
+    
+        $totalQuestions = $quiz->questions->count();
+        $correctAnswers = 0;
+    
+        // Validasi bahwa semua pertanyaan telah dijawab
+        $validatedData = $request->validate([
+            'question_*' => 'required|integer|exists:answers,id',
+        ]);
+    
+        $questionResults = []; // Untuk menyimpan hasil tiap soal
+        foreach ($quiz->questions as $question) {
+            $submittedAnswerId = $request->input("question_{$question->id}");
+            $correctAnswer = $question->answers()->where('is_correct', true)->first();
+    
+            // Hitung jawaban benar
+            $isCorrect = $submittedAnswerId == $correctAnswer->id;
+            if ($isCorrect) {
+                $correctAnswers++;
+            }
+    
+            // Simpan hasil per soal
+            $questionResults[] = [
+                'question' => $question->question,
+                'submitted_answer' => $question->answers->where('id', $submittedAnswerId)->first()->answer ?? null,
+                'correct_answer' => $correctAnswer->answer,
+                'is_correct' => $isCorrect,
+            ];
+        }
+    
+        $score = round(($correctAnswers / $totalQuestions) * 100, 2);
+    
+        // Ambil waktu mulai dari session
+        $startTime = session("quiz_start_time.$quizId", now());
+    
+        // Mendapatkan ID materi yang terkait dengan kuis ini
+        $materiId = $quiz->materi->id; // Misalkan ada relasi antara quiz dan materi
+        $userId = auth()->id();
+    
+        // Simpan status penyelesaian ke tabel materi_user
+        \DB::table('materi_user')->updateOrInsert(
+            [
+                'user_id' => $userId,
+                'materi_id' => $materiId,
+            ],
+            [
+                'completed_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+    
+        // Simpan ID materi yang sudah dikerjakan di session
+        $completedMateriIds = session()->get('completed_materi_ids', []);
+        if (!in_array($materiId, $completedMateriIds)) {
+            $completedMateriIds[] = $materiId;
+        }
+        session(['completed_materi_ids' => $completedMateriIds]);
+    
+        return redirect()->route('quiz.result', ['quiz' => $quizId])->with([
+            'score' => $score,
+            'results' => $questionResults,
+            'start_time' => $startTime, // Simpan waktu mulai ujian
+        ]);
+    }    
+    
     public function create($courseId, $materiId)
     {
         $course = Course::findOrFail($courseId);

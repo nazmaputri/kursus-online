@@ -7,13 +7,17 @@
     <main class="flex-1 flex flex-col">
         @if ($activeChat)
             <!-- Header Chat -->
-            <div class="bg-white border-b border-gray-300 p-4 flex items-center">
+            <div class="bg-white border-b border-gray-300 p-4 flex items-center relative">
                 <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" alt="Mentor Avatar">
                 <div class="ml-4">
                     <h3 class="text-gray-700 font-medium">{{ $activeChat->mentor->name }}</h3>
                     <p class="text-gray-500 text-sm">Online</p>
                 </div>
-            </div>
+                <!-- Tombol Kembali di samping kanan header -->
+                <a href="{{ route('daftar-kursus') }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded absolute right-4 top-1/2 transform -translate-y-1/2">
+                    Kembali
+                </a>        
+            </div>            
 
             <!-- Pesan Chat -->
             <div class="flex-1 overflow-y-auto p-4 bg-neutral-50">

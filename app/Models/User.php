@@ -61,6 +61,11 @@ class User extends Authenticatable
         }
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
     public function payments()
     {
         return $this->hasMany(Payment::class);
@@ -75,6 +80,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id');
     }
-    
-        
+
+    public function materiUsers()
+    {
+        return $this->belongsToMany(Materi::class, 'materi_user', 'user_id', 'materi_id')
+                    ->withTimestamps(); // Memastikan timestamp juga disimpan jika ada
+    }
+  
 }

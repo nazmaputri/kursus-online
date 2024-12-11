@@ -14,8 +14,8 @@
             <!-- Kolom Kiri: Foto Profil, Email, dan Role -->
             <div class="flex flex-col items-center mb-6 space-y-4">
                 <!-- Foto Profil -->
-                <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-gray-300 flex justify-center">
-                    <img src="{{ $user->profile_photo_url ?? 'path/to/default-photo.jpg' }}" alt="Foto Profil" class="object-cover w-full h-full">
+                <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-gray-300 flex justify-center items-center bg-gray-100">
+                    <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('path/to/default-photo.jpg') }}" alt="Foto Profil" class="object-cover w-full h-full">
                 </div>
             
                 <!-- Email -->
@@ -76,7 +76,7 @@
         
         <!-- Tombol Kembali -->
         <div class="mt-6 text-right">
-            <a href="{{ route('datamentor-admin') }}" class="bg-sky-400 hover:bg-sky-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md">
+            <a href="{{ route('datamentor-admin') }}" class="bg-sky-400 hover:bg-sky-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md shadow-blue-100 hover:shadow-none">
                 Kembali
             </a>
         </div>

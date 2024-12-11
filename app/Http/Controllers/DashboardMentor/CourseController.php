@@ -28,42 +28,50 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi data yang dikirimkan
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'category' => 'required|integer',
             'price' => 'required|numeric',
             'capacity' => 'nullable|integer',
+            'chat' => 'nullable|boolean', // Validasi chat
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
             'start_date' => 'nullable|date|before_or_equal:end_date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
-
+    
         // Cari kategori berdasarkan ID
         $category = Category::find($request->category);
-
+    
         if (!$category) {
             return redirect()->back()->withErrors(['category' => 'Selected category does not exist.']);
         }
-
+    
         // Buat instance baru untuk kursus
         $course = new Course($request->only('title', 'description', 'price', 'capacity', 'start_date', 'end_date'));
-
+    
+        // Menyimpan kategori dan mentor
         $course->category = $category->name;
         $course->mentor_id = auth()->user()->id;
-
+    
+        // Simpan status chat (gunakan boolean untuk memastikan nilainya benar)
+        $course->chat = $request->boolean('chat');
+    
         // Simpan gambar jika diunggah
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('images/kursus', 'public');
-            $course->image_path = $path;  // Simpan path gambar ke database
+            $course->image_path = $path; // Simpan path gambar ke database
         }
-
+    
         // Simpan data ke database
         $course->save();
-
+    
+        // Redirect ke halaman kursus dengan pesan sukses
         return redirect()->route('courses.index')->with('success', 'Kursus berhasil ditambahkan!');
     }
- 
+    
+    
     public function show($id)
     {
         // Ambil data course beserta relasi materi yang terkait
@@ -101,6 +109,7 @@ class CourseController extends Controller
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Validasi gambar
             'start_date' => 'nullable|date|after_or_equal:today', // Validasi start_date tidak boleh di masa lalu
             'end_date' => 'nullable|date|after_or_equal:start_date', // Validasi end_date harus setelah start_date
+            'chat' => 'nullable|boolean', // Validasi status chat, bisa null atau boolean
         ]);
     
         // Update data kursus
@@ -111,6 +120,9 @@ class CourseController extends Controller
         $course->capacity = $validated['capacity'] ?? null;
         $course->start_date = $validated['start_date']; // Update start_date
         $course->end_date = $validated['end_date']; // Update end_date
+    
+        // Perbarui status fitur chat jika ada di request
+        $course->chat = $validated['chat'] ?? false; // Default ke false jika tidak ada input chat
     
         // Periksa apakah ada gambar yang diunggah
         if ($request->hasFile('image')) {

@@ -25,7 +25,7 @@
                     <!-- Input untuk Deskripsi -->
                     <div class="mb-3">
                         <label for="description" class="block text-gray-700 font-bold mb-2">Deskripsi</label>
-                        <textarea name="description" id="description" rows="4" class="w-full p-2 border rounded @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description', $course->description) }}</textarea>
+                        <textarea name="description" id="description" rows="6" class="w-full p-2 border rounded @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description', $course->description) }}</textarea>
                         @error('description')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
@@ -103,6 +103,56 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
+
+                    <div class="mt-6">
+                        <label for="chat-toggle" class="flex items-center cursor-pointer">
+                            <span class="mr-3">Aktifkan Fitur Chat</span>
+                            <!-- Toggle Switch -->
+                            <div class="relative">
+                                <input type="checkbox" name="chat" id="chat-toggle" class="hidden peer" {{ old('chat', $course->chat ?? false) ? 'checked' : '' }} value="1"/>
+                                <div class="block bg-gray-300 w-14 h-8 rounded-full peer-checked:bg-green-500 peer-checked:justify-end"></div>
+                                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform peer-checked:translate-x-6"></div>
+                            </div>
+                        </label>
+                    
+                        <!-- Pesan saat fitur chat diaktifkan -->
+                        <div id="chat-status" class="mt-4 hidden">
+                            <p class="text-green-500 font-bold">Fitur Chat Aktif!</p>
+                        </div>
+                    
+                        <!-- Pesan saat fitur chat dinonaktifkan -->
+                        <div id="chat-status-inactive" class="mt-4 hidden">
+                            <p class="text-red-500 font-bold">Fitur Chat Dinonaktifkan!</p>
+                        </div>
+                    </div>
+                    <!-- Skrip untuk menangani pengaturan status -->
+                    <script>
+                        // Ambil elemen toggle dan pesan status
+                        const chatToggle = document.getElementById('chat-toggle');
+                        const chatStatus = document.getElementById('chat-status');
+                        const chatStatusInactive = document.getElementById('chat-status-inactive');
+
+                        // Fungsi untuk menampilkan atau menyembunyikan pesan berdasarkan status toggle
+                        function updateChatStatus() {
+                            if (chatToggle.checked) {
+                                chatStatus.classList.remove('hidden');
+                                chatStatusInactive.classList.add('hidden');
+                            } else {
+                                chatStatus.classList.add('hidden');
+                                chatStatusInactive.classList.remove('hidden');
+                            }
+                        }
+
+                        // Menampilkan status berdasarkan keadaan toggle saat pertama kali dimuat
+                        window.addEventListener('DOMContentLoaded', () => {
+                            updateChatStatus();  // Panggil fungsi untuk set status saat halaman pertama kali dimuat
+                        });
+
+                        // Menambahkan event listener untuk toggle
+                        chatToggle.addEventListener('change', function() {
+                            updateChatStatus();  // Panggil fungsi untuk set status saat toggle berubah
+                        });
+                    </script>
                 </div>
             </div>
 

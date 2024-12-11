@@ -27,8 +27,20 @@ class Materi extends Model
         return $this->hasMany(MateriPdf::class);
     }
 
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class, 'courses_id', 'id');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'materi_user', 'materi_id', 'user_id')
+                    ->withPivot('completed_at');
+    }
+
 }

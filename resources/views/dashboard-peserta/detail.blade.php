@@ -4,9 +4,9 @@
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 
-<div class="bg-white p-6 rounded-lg shadow-md">
+<div class="bg-white p-8 rounded-lg shadow-md">
     <h2 class="text-2xl uppercase font-bold mb-6 border-b-2 border-gray-300 pb-2">Detail Kursus</h2>
-    <div class="flex mb-4">
+    <div class="flex mb-4 space-y-4">
         <div class="w-1/3">
             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-full h-auto">
         </div>
@@ -16,7 +16,7 @@
             @endif
         
             @if(!empty($course->description))
-                <p class="text-gray-700 mb-2">{{ $course->description }}</p>
+                <p class="text-gray-700 mb-2 text-sm">{{ $course->description }}</p>
             @endif
         
             @if(!empty($course->mentor->name))
@@ -40,7 +40,7 @@
                     Beli Sekarang
                 </button>
                 @else
-                <p class="text-red-500 mt-2">Anda sudah membeli kursus ini.</p>
+                <p class="text-red-500 mt-4">Anda sudah membeli kursus ini.</p>
                 @endif
             @endif
         </div>        
@@ -67,23 +67,37 @@
                     <div x-show="open" x-transition>
                         @if($materi->videos->count())
                         <div class="mt-4">
-                            <h5 class="text-md font-semibold text-gray-800">🎥 Video</h5>
-                            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <h5 class="text-md font-semibold text-gray-800 flex items-center space-x-2 mb-2">
+                                <!-- Icon -->
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zM188.3 147.1c7.6-4.2 16.8-4.1 24.3 .5l144 88c7.1 4.4 11.5 12.1 11.5 20.5s-4.4 16.1-11.5 20.5l-144 88c-7.4 4.5-16.7 4.7-24.3 .5s-12.3-12.2-12.3-20.9l0-176c0-8.7 4.7-16.7 12.3-20.9z" />
+                                </svg>
+                                <span>Video</span>
+                            </h5>                            
+                            <ul class="grid grid-cols-1 gap-4">
                                 @foreach($materi->videos as $video)
-                                <li class="text-gray-700">
-                                    <p>{{ $video->judul }}</p>
-                                    @if($paymentStatus === 'success') <!-- Cek status transaksi -->
-                                        <!-- Video dapat diakses -->
-                                        <video controls class="w-full h-full object-cover mt-2">
-                                            <source src="{{ asset('storage/' . $video->video_url) }}" type="video/mp4">
-                                        </video>
-                                    @else
-                                        <!-- Video terkunci -->
-                                        <div class="w-full h-40 bg-gray-300 flex items-center justify-center mt-2">
-                                            <p class="text-gray-700 font-semibold">🔒 Video Terkunci</p>
-                                        </div>
-                                    @endif
-                                </li>
+                                    <li class="text-gray-700">
+                                        <p>- {{ $video->judul }}</p>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @else
+                        <p class="text-gray-600 mt-4">Belum ada video untuk materi ini.</p>
+                        @endif
+
+                        @if($materi->pdfs->count())
+                        <div class="mt-4">
+                            <h5 class="text-md font-semibold text-gray-800 flex items-center space-x-2 mb-2">
+                                <!-- Icon -->
+                                <img width="30" height="30" src="https://img.icons8.com/pastel-glyph/128/file.png" alt="file" class="w-6 h-6"/>
+                                <span>PDF</span>
+                            </h5>                            
+                            <ul class="grid grid-cols-1 gap-4">
+                                @foreach($materi->pdfs as $pdf)
+                                    <li class="text-gray-700">
+                                        <p>- {{ $pdf->judul }}</p>
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -98,11 +112,11 @@
     </div>
     
 
-    {{-- <div class="mt-6 flex justify-end">
-        <a href="{{ route('categories-detail', $category->id) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+    <div class="mt-6 flex justify-end">
+        <a href="" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
             Kembali
         </a>
-    </div>         --}}
+    </div>        
 </div>
 
 <script>

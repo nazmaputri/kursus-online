@@ -3,7 +3,7 @@
 @section('content')
     <div class="container mx-auto">
         <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-            <h1 class="text-3xl font-bold mb-8 inline-block border-b-2 border-gray-300 pb-2 uppercase">Daftar Penilaian</h1>
+            <h1 class="text-2xl font-bold mb-8 inline-block border-b-2 border-gray-300 pb-2 uppercase">Daftar Penilaian</h1>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($ratings as $rating)
                     <div class="bg-white p-5 rounded-lg shadow-lg border">

@@ -3,13 +3,13 @@
 @section('content')
 <div class="container mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h2 class="text-3xl font-bold mb-8 inline-block border-b-2 border-gray-300 pb-2">Data Mentor</h2>
+        <h2 class="text-2xl uppercase font-bold mb-8 inline-block border-b-2 border-gray-300 pb-2">Data Mentor</h2>
 
         <!-- Tabel data user -->
         <div class="overflow-x-auto">
             <table class="min-w-full border-separate border-spacing-1" id="userTable">
                 <thead>
-                    <tr class="bg-sky-200">
+                    <tr class="bg-sky-200 text-gray-600 text-sm leading-normal">
                         <th class="border border-gray-300 px-4 py-2 rounded-md">No</th>
                         <th class="border border-gray-300 px-4 py-2 rounded-md">Nama</th>
                         <th class="border border-gray-300 px-4 py-2 rounded-md">Status</th>

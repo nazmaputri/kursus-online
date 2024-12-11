@@ -7,19 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
-
-    <style>
-        /* Transition efek buka-tutup sidebar */
-        #logo-sidebar {
-            transition: width 0.3s;
-        }
-        #logo {
-            transition: transform 0.3s;
-        }
-                .hidden {
-            display: none;
-        }
-    </style>
     <style>
         body {
             font-family: 'IBM Plex Sans', sans-serif;
@@ -30,32 +17,31 @@
     <div class="flex flex-col min-h-screen">
 
         <!-- Sidebar -->
-        <aside id="logo-sidebar" class="fixed top-4 left-4 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform" aria-label="Sidebar">
+        <aside id="logo-sidebar" class="fixed top-4 left-4 w-64 h-[calc(100vh-2rem)] bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform lg:w-64 md:w-16" aria-label="Sidebar">
             <!-- Tombol Hamburger -->
-            <button id="hamburger-button" class="absolute top-4 right-3 z-50 p-2 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md">
+            <button id="hamburger-button" class="absolute top-4 z-50 p-1 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md md:hidden">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
             <div class="flex flex-col items-center justify-center h-32 bg-white dark:bg-gray-800">
                 <!-- Logo di tengah -->
-                <img src="{{ asset('storage/eduflix-1.png') }}" class="h-32" alt="Eduflix Logo" />
+                <img id="logo" src="{{ asset('storage/eduflix-1.png') }}" class="h-32 transform transition-transform duration-300" alt="Eduflix Logo" />
             </div>
             <div class="h-full px-3 pb-4 overflow-y-auto dark:bg-gray-800">
                 <ul class="space-y-2 font-medium">
                     <li class="border-l-2 {{ Request::routeIs('welcome-mentor') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('welcome-mentor') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <svg class="w-5 h-5 icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                            <svg class="w-5 h-5 md:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                                 <path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
                             </svg>
-                            <span class="ms-3">Dashboard</span>
+                            <span id="dashboard-text" class="ms-3">Dashboard</span>
                         </a>
                     </li>
                     <li class="border-l-2 {{ Request::routeIs('courses.index', 'courses.show', 'courses.edit', 'courses.create', 'materi.show', 'materi.create', 'materi.edit', 'quiz.show', 'quiz.create', 'quiz.edit') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
-                        <a href="{{ route('courses.index') }}" class="flex items-center gap-2 p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600">
-                            <!-- Ikon SVG -->
+                        <a href="{{ route('courses.index') }}" class="flex items-center p-2 text-gray-700 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 group">
                             <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/courses.png" alt="courses"/>
-                            Kursus
+                            <span id="courses-text" class="ms-3">Kursus</span>
                         </a>
                     </li>
                     <li class="border-l-2 {{ Request::routeIs('laporan-mentor') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
@@ -63,49 +49,93 @@
                             <svg class="w-5 h-5"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                 <path d="M32 32c17.7 0 32 14.3 32 32l0 336c0 8.8 7.2 16 16 16l400 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L80 480c-44.2 0-80-35.8-80-80L0 64C0 46.3 14.3 32 32 32zM160 224c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32zm128-64l0 160c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-160c0-17.7 14.3-32 32-32s32 14.3 32 32zm64 32c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32zM480 96l0 224c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-224c0-17.7 14.3-32 32-32s32 14.3 32 32z"/>
                             </svg>
-                            <span class="ms-3">Laporan</span>
+                            <span id="laporan-text" class="ms-3">Laporan</span>
                         </a>
                     </li>                                 
                 </ul>
             </div>
         </aside>
-        
+
         <!-- Script untuk menutup sidebar dan memperlebar konten -->
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener("DOMContentLoaded", function() {
                 const sidebar = document.getElementById("logo-sidebar");
                 const content = document.getElementById("content");
                 const header = document.getElementById("header");
                 const hamburgerButton = document.getElementById("hamburger-button");
                 const logo = document.getElementById("logo");
-                const svgImage = document.getElementById("svg-image");
-        
+                const dashboardText = document.getElementById("dashboard-text");
+                const coursesText = document.getElementById("courses-text");
+                const laporanText = document.getElementById("laporan-text");
+
+                // Set default state when page loads
+                if (window.innerWidth < 1024) {
+                    // Tampilkan hanya ikon SVG saat sidebar ditutup di mobile
+                    sidebar.classList.add("w-16");
+                    sidebar.classList.remove("w-64");
+                    content.classList.add("ml-16");
+                    content.classList.remove("ml-64");
+                    header.classList.add("ml-16");
+                    header.classList.remove("ml-64");
+                    dashboardText.classList.add("hidden");
+                    coursesText.classList.add("hidden");
+                    laporanText.classList.add("hidden");
+                }
+
                 // Event klik pada tombol hamburger
                 hamburgerButton.addEventListener("click", () => {
-                    // Toggle lebar sidebar
+                    // Toggle lebar sidebar antara w-64 dan w-16
                     sidebar.classList.toggle("w-64");
                     sidebar.classList.toggle("w-16");
-        
+
                     // Toggle margin pada konten utama
                     content.classList.toggle("ml-64");
                     content.classList.toggle("ml-16");
-        
+
                     // Toggle margin pada header
                     header.classList.toggle("ml-64");
                     header.classList.toggle("ml-16");
-        
-                    // Atur ukuran logo dan SVG
+
+                    // Atur ikon SVG dan teks
                     if (sidebar.classList.contains("w-16")) {
-                        logo.classList.add("transform", "scale-75");
-                        svgImage.classList.remove("hidden"); // Tampilkan SVG
+                        dashboardText.classList.add("hidden");  // Sembunyikan teks
+                        coursesText.classList.add("hidden");
+                        laporanText.classList.add("hidden");
                     } else {
-                        logo.classList.remove("transform", "scale-75");
-                        svgImage.classList.add("hidden"); // Sembunyikan SVG
+                        dashboardText.classList.remove("hidden");  // Tampilkan teks
+                        coursesText.classList.remove("hidden");
+                        laporanText.classList.remove("hidden");
+                    }
+                });
+
+                // Untuk menangani perubahan ukuran jendela dan memastikan tampilan yang sesuai
+                window.addEventListener("resize", () => {
+                    if (window.innerWidth >= 1024) {
+                        // Pada layar besar (desktop), tampilkan sidebar penuh
+                        sidebar.classList.add("w-64");
+                        sidebar.classList.remove("w-16");
+                        content.classList.add("ml-64");
+                        content.classList.remove("ml-16");
+                        header.classList.add("ml-64");
+                        header.classList.remove("ml-16");
+                        dashboardText.classList.remove("hidden");
+                        coursesText.classList.remove("hidden");
+                        laporanText.classList.remove("hidden");
+                    } else {
+                        // Pada layar kecil (mobile), sembunyikan sidebar atau ubah ukuran
+                        sidebar.classList.remove("w-64");
+                        sidebar.classList.add("w-16");
+                        content.classList.remove("ml-64");
+                        content.classList.add("ml-16");
+                        header.classList.remove("ml-64");
+                        header.classList.add("ml-16");
+                        dashboardText.classList.add("hidden");
+                        coursesText.classList.add("hidden");
+                        laporanText.classList.add("hidden");
                     }
                 });
             });
         </script>
-        
 
         <!-- Main Content -->
         <div id="content" class="flex-1 ml-64 transition-all duration-300 p-4 relative">

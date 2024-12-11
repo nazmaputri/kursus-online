@@ -7,18 +7,20 @@
             {{ session('success') }}
         </div>
     @endif
-    <div class="bg-white rounded-lg shadow-md p-8 w-full flex flex-col md:flex-row h-60 items-center">
-        <div class="md:w-2/3 text-center md:text-left">
+    <div class="bg-white rounded-lg shadow-md p-8 w-full flex flex-col md:flex-row items-center">
+        <!-- Text Content -->
+        <div class="md:w-2/3 text-center md:text-left mb-6 md:mb-0">
             <h1 class="text-3xl font-bold mb-4 text-gray-800">Selamat datang, {{ Auth::user()->name }}!</h1>
             <p class="mb-6 text-gray-600">
                 Semoga hari ini membawa kemudahan dan kelancaran dalam tugas-tugas Anda. 
                 <br>Mari kita capai hal-hal hebat bersama.
             </p>
         </div>
-        <div class="md:w-1/3 flex justify-center md:justify-end">
-            <img src="{{ asset('storage/admin.png') }}" alt="Welcome Image" class="w-54"/>
+        <!-- Image Content -->
+        <div class="md:w-1/3 flex justify-center">
+            <img src="{{ asset('storage/admin.png') }}" alt="Welcome Image" class="w-54 rounded-lg"/>
         </div>
-    </div>
+    </div>      
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
         <!-- Card Jumlah Mentor -->

@@ -2,10 +2,10 @@
 <section id="rating" class="bg-white py-16">
     <div class="container mx-auto px-6">
         <div class="mb-6 text-center">
-            <h3 class="text-3xl font-bold text-sky-400">
+            <h3 class="text-3xl font-bold text-sky-400" data-aos="fade-down">
                 Testimoni Pengguna
             </h3>
-            <p class="text-lg text-gray-700 mt-2">
+            <p class="text-lg text-gray-700 mt-2" data-aos="fade-down">
                 Apa kata pengguna kami setelah mengikuti kursus di Eduflix?
             </p>
         </div>
@@ -13,7 +13,7 @@
             <div class="flex space-x-6 m-7">
                 @foreach ($ratings as $rating)
                     @if ($rating->display) 
-                        <div class="bg-white border border-gray-200 rounded-lg shadow-md w-full md:w-1/2 lg:w-1/3 p-6 mt-6 mx-2 hover:shadow-lg transition-shadow duration-300 ease-in-out">
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-md w-full md:w-1/2 lg:w-1/3 p-6 mt-6 mx-2 hover:shadow-lg transition-shadow duration-300 ease-in-out" data-aos="zoom-in-up">
                             <div class="flex items-center mb-4">
                                 <!-- Gambar avatar (ikon user) -->
                                 <div class="w-14 h-14 bg-neutral-100 border rounded-full flex items-center justify-center">

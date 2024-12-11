@@ -20,7 +20,7 @@
                         <div class="p-4">
                             <h3 class="text-lg font-semibold text-gray-800">{{ $course->title }}</h3>
                             <p class="text-sm mt-2 text-gray-600 mb-2">Mentor : {{ $course->mentor->name }}</p>
-                            <p class="text-xl font-bold text-gray-800" id="course-price-{{ $course->id }}">Rp. {{ number_format($course->price, 0, ',', '.') }}</p>
+                            <p class="text-xl font-bold text-green-800 bg-green-300 rounded-md inline-block p-2" id="course-price-{{ $course->id }}">Rp. {{ number_format($course->price, 0, ',', '.') }}</p>
                             <div class="flex justify-between items-center mt-4">
                                 <div class="flex items-center mt-4">
                                     @for ($i = 0; $i < 5; $i++)
