@@ -107,9 +107,9 @@
                     @foreach($quizzes as $index => $quiz)
                         <tr class="bg-white hover:bg-sky-50 user-row text-sm">
                             <td class="border border-gray-300 px-2 py-2 rounded-md text-center">{{ $startNumber + $index }}</td>
-                            <td class="border border-gray-300 px-4 py-2 rounded-m">{{ $quiz->title }}</td>
-                            <td class="border border-gray-300 px-4 py-2 rounded-m">{{ $quiz->duration }} menit</td>
-                            <td class="border border-gray-300 px-4 py-2 rounded-m">
+                            <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $quiz->title }}</td>
+                            <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $quiz->duration }} menit</td>
+                            <td class="border border-gray-300 px-4 py-2 rounded-md">
                                 <div class="flex items-center justify-center space-x-6">
                                     <a href="{{ route('quiz.detail',  ['courseId' => $courseId, 'materiId' => $materiId, $quiz->id]) }}" class="text-white bg-gray-500 p-1 rounded-md hover:bg-gray-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

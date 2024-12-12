@@ -54,7 +54,7 @@
                         <td class="border border-gray-300 px-4 py-2 rounded-md">Rp {{ number_format($course->price, 0, ',', '.') }}</td>
                         <td class="border border-gray-300 py-4 px-4 rounded-md flex justify-center items-center space-x-4">
                             <!-- Tombol Lihat Detail -->
-                            <a href="{{ route('detail-kursus', [$course->id, $category->name]) }}" 
+                            <a href="{{ route('detail-kursusadmin', [$course->id, $category->name]) }}" 
                                class="text-white bg-gray-500 p-2 rounded-md hover:bg-gray-800 flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
                                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

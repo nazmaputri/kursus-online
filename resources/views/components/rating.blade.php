@@ -71,7 +71,7 @@
                 </div>
 
                 <!-- Rating Form -->
-                <form class="space-y-4" method="POST" action="{{ route('ratings.store') }}">
+                <form class="space-y-4" method="POST" action="{{ route('rating.store') }}">
                     @csrf
                     <div>
                         <label for="nama" class="block text-lg text-gray-700">Nama :</label>

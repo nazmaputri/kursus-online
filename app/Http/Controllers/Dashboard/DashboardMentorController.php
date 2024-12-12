@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Materi;
 use App\Models\User;
+use App\Models\RatingKursus;
 use App\Models\Payment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,6 +22,19 @@ class DashboardMentorController extends Controller
         return view('layouts.dashboard-mentor');
     }
 
+    public function rating()
+    {
+        $courses = Course::all(); 
+        return view('dashboard-mentor.rating', compact('courses'));
+    }
+
+    public function ratingDetail($id)
+    {
+        $course = Course::findOrFail($id); 
+        $ratings = RatingKursus::where('course_id', $id)->with('user')->get(); 
+        return view('dashboard-mentor.rating-detail', compact('course', 'ratings'));
+    }
+
     public function show()
     {
         $jumlahPeserta = User::count(); 
@@ -30,12 +44,6 @@ class DashboardMentorController extends Controller
         // Mengirimkan data ke view
         return view('dashboard-mentor.welcome', compact('jumlahPeserta', 'jumlahKursus', 'jumlahMateri'));
     }
-    
-
-    public function materi() {
-        return view('dashboard-mentor.materi');
-    }
-
 
     public function tambahmateri() {
         return view('dashboard-mentor.materi-create');
@@ -51,7 +59,7 @@ class DashboardMentorController extends Controller
         // Ambil data pendapatan bulanan dari tabel `payments`
         $payments = DB::table('payments')
             ->selectRaw('MONTH(created_at) as month, SUM(amount) as total')
-            ->where('transaction_status', 'pending') // Hanya transaksi sukses
+            ->where('transaction_status', 'success') // Hanya transaksi sukses
             ->groupBy('month')
             ->orderBy('month')
             ->get();

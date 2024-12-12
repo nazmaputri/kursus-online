@@ -85,7 +85,7 @@
         }
 
         .certificate-logo img {
-            width: 80px;
+            width: 120px;
             margin-right: 20px;
         }
 
@@ -219,7 +219,7 @@
                 <!-- Header with Logo and EDUFLIX Text -->
                 <div class="certificate-header">
                     <div class="certificate-logo">
-                        <img src="{{ asset('storage/public/eduflix-1.png') }}" alt="Logo">
+                        <img src="{{ asset('storage/eduflix-1.png') }}" alt="Logo">
                     </div>
                 </div>
 

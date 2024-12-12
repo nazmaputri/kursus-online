@@ -53,7 +53,7 @@
                 <p class="text-gray-500 text-sm">Online</p>
             </div>
         </div>
-
+    
         <!-- Chat Messages -->
         <div class="flex-1 overflow-y-auto p-4">
             @if (count($messages))
@@ -71,11 +71,13 @@
                 </div>
             @endif
         </div>        
-
+    
         <!-- Chat Input -->
         <div class="p-4 bg-white border-t border-gray-300">
             <form action="{{ route('chat.send', $activeChat->id) }}" method="POST" class="flex items-center">
                 @csrf
+                <!-- Menambahkan hidden input untuk course_id -->
+                <input type="hidden" name="course_id" value="{{ $activeChat->course_id }}"> <!-- Menambahkan course_id -->
                 <input type="text" name="message" placeholder="Type a message..." 
                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
                 <button type="submit" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
@@ -89,5 +91,6 @@
         </div>
         @endif
     </main>
+    
 </div>
 @endsection

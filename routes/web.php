@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardMentor\VideoController;
 use App\Http\Controllers\DashboardMentor\PdfController;
 use App\Http\Controllers\DashboardMentor\QuizController;
 use App\Http\Controllers\DashboardAdmin\CategoryController;
+use App\Http\Controllers\DashboardMentor\RatingKursusController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ChatController;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LandingPageController::class, 'lp']);
 Route::get('/course/{id}', [LandingPageController::class, 'detail'])->name('kursus.detail');
 Route::get('/category/{name}', [LandingPageController::class, 'category'])->name('category.detail');
-Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');
+Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store');
 
 // Route berdasarkan role
 Route::middleware(['auth', 'role:student'])->group(function () {
@@ -41,7 +42,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::get('dashboard-admin/welcome', [DashboardAdminController::class, 'show'])->name('welcome-admin');
 Route::get('dashboard-admin/data-mentor', [DashboardAdminController::class, 'mentor'])->name('datamentor-admin');
 Route::get('dashboard-admin/data-peserta', [DashboardAdminController::class, 'peserta'])->name('datapeserta-admin');
-Route::get('/kursus/{id}/{name}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursus');
+Route::get('/kursus/{id}/{name}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
 Route::get('dashboard-admin/laporan', [DashboardAdminController::class, 'laporan'])->name('laporan-admin');
 Route::get('dashboard-admin/rating', [DashboardAdminController::class, 'rating'])->name('rating-admin');
 Route::get('/ratings/toggle-display/{id}', [RatingController::class, 'toggleDisplay'])->name('toggle.display');
@@ -68,6 +69,7 @@ Route::get('dashboard-peserta/quiz', [DashboardPesertaController::class, 'quiz']
 Route::get('dashboard-peserta/kategori', [DashboardPesertaController::class, 'kategori'])->name('kategori-peserta');
 Route::get('/categories/{id}/detail', [DashboardPesertaController::class, 'showCategoryDetail'])->name('categories-detail');
 Route::get('/settings-student', [SettingController::class, 'student'])->name('settings-student');
+Route::post('/kursus/{course_id}/rating', [RatingKursusController::class, 'store'])->name('ratings.store');
 
 //Quiz Peserta
 Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('quiz.show');
@@ -78,6 +80,9 @@ Route::get('/quiz/{quiz}/result', [QuizController::class, 'result'])->name('quiz
 Route::get('dashboard-mentor/welcome', [DashboardMentorController::class, 'show'])->name('welcome-mentor');
 Route::get('dashboard-mentor/data-peserta', [DashboardMentorController::class, 'datapeserta'])->name('datapeserta-mentor');
 Route::get('dashboard-mentor/laporan', [DashboardMentorController::class, 'laporan'])->name('laporan-mentor');
+Route::get('dashboard-mentor/rating', [DashboardMentorController::class, 'rating'])->name('rating-kursus');
+Route::get('dashboard-mentor/rating/{id}', [DashboardMentorController::class, 'ratingDetail'])->name('rating-detail');
+Route::post('/rating/{id}/toggle-display', [RatingKursusController::class, 'toggleDisplay'])->name('toggle.displaymentor');
 Route::get('/settings', [SettingController::class, 'mentor'])->name('settings.mentor');
 
 //Kursus

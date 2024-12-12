@@ -16,7 +16,7 @@
                     <div class="flex justify-between items-center mt-auto gap-x-4 flex-nowrap overflow-x-auto">
                         <!-- Button Detail -->
                         <a href="{{ route('detail-kursus', $course->id) }}" 
-                            class="bg-yellow-200/50 border border-yellow-500 text-yellow-500 px-4 py-2 rounded-lg hover:bg-yellow-400 hover:text-white hover:border-yellow-600 flex flex-col items-center space-y-1 group w-auto">
+                            class="bg-yellow-200/50 border border-yellow-500 text-yellow-500 px-3 py-2 rounded-lg hover:bg-yellow-400 hover:text-white hover:border-yellow-600 flex flex-col items-center space-y-1 group w-auto">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 text-yellow-500 group-hover:text-white">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -26,7 +26,7 @@
                     
                         <!-- Button Belajar -->
                         <a href="{{ route('study-peserta', ['id' => $course->id]) }}" 
-                            class="bg-green-200/50 border border-green-500 text-green-500 px-4 py-2 rounded-lg hover:bg-green-400 hover:text-white flex flex-col items-center space-y-1 group w-auto">
+                            class="bg-green-200/50 border border-green-500 text-green-500 px-3 py-2 rounded-lg hover:bg-green-400 hover:text-white flex flex-col items-center space-y-1 group w-auto">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 sm:w-6 sm:h-6 fill-current text-green-500 group-hover:text-white">
                                 <path d="M160 96a96 96 0 1 1 192 0A96 96 0 1 1 160 96zm80 152l0 264-48.4-24.2c-20.9-10.4-43.5-17-66.8-19.3l-96-9.6C12.5 457.2 0 443.5 0 427L0 224c0-17.7 14.3-32 32-32l30.3 0c63.6 0 125.6 19.6 177.7 56zm32 264l0-264c52.1-36.4 114.1-56 177.7-56l30.3 0c17.7 0 32 14.3 32 32l0 203c0 16.4-12.5 30.2-28.8 31.8l-96 9.6c-23.2 2.3-45.9 8.9-66.8 19.3L272 512z"/>
                             </svg>
@@ -35,7 +35,7 @@
                     
                         <!-- Button Chat -->
                         <a href="{{ $course->isChatActive ? route('chat.student', $course->id) : '#' }}" 
-                            class="px-4 py-2 rounded-lg flex flex-col items-center space-y-1 group w-auto
+                            class="px-3 py-2 rounded-lg flex flex-col items-center space-y-1 group w-auto
                             {{ $course->isChatActive ? 'bg-blue-200/50 border border-blue-500 hover:bg-blue-400 text-blue-500 hover:text-white cursor-pointer' : 'bg-gray-200 border border-gray-300 text-gray-500 cursor-not-allowed' }}" 
                             {{ $course->isChatActive ? '' : 'aria-disabled="true"' }} 
                             title="{{ $course->isChatActive ? '' : 'Chat tidak tersedia untuk kursus ini' }}">

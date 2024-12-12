@@ -129,29 +129,32 @@
             <!-- Daftar Button -->
             <div class="flex items-center space-x-2 mt-4">
                 <!-- Rating Bintang -->
-                <div class=" border border-gray-200 rounded-xl w-full md:w-1/2 lg:w-1/4 p-6 mt-6 mx-2 hover:shadow-lg transition-shadow duration-300 ease-in-out" data-aos="zoom-in-up">
-                    
-                    <!-- Nama User -->
-                    <h4 class="text-xl font-semibold text-gray-800">Nazma</h4>
-                    
-                    <!-- Rating Bintang -->
-                    <div class="flex items-center mb-2">
-                        @for ($i = 0; $i < 5; $i++)
-                            <span class="text-yellow-400 text-xl">&starf;</span>
-                        @endfor
-                    </div>
-            
-                    <!-- Tanggal -->
-                    <div class="flex items-center text-sm text-gray-500 mb-4">
-                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                            <path d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 48L0 160l0-48C0 85.5 21.5 64 48 64l48 0 0-32c0-17.7 14.3-32 32-32zM0 192l448 0 0 272c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 192zm64 80l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm128 0l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zM64 400l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0zm112 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16z"/>
-                        </svg>
-                        <span>12 Desember 2024</span>
-                    </div>
-            
-                    <!-- Ulasan -->
-                    <p class="text-gray-700 text-sm mt-2">"Bagus"</p>
-                </div>
+                @foreach ($ratings as $rating)
+                    @if ($rating->display == 1) <!-- Memastikan hanya rating dengan status 1 yang ditampilkan -->
+                        <div class="border border-gray-200 rounded-xl w-full md:w-1/2 lg:w-1/4 p-6 mt-6 mx-2 hover:shadow-lg transition-shadow duration-300 ease-in-out" data-aos="zoom-in-up">
+                            <!-- Nama User -->
+                            <h4 class="text-xl font-semibold text-gray-800">{{ $rating->user->name }}</h4>
+                        
+                            <!-- Rating Bintang -->
+                            <div class="flex items-center space-x-1 mb-4">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <span class="{{ $i < $rating->stars ? 'text-yellow-500' : 'text-gray-300' }}">&starf;</span>
+                                @endfor
+                            </div>
+                        
+                            <!-- Tanggal -->
+                            <div class="flex items-center text-sm text-gray-500 space-x-2 mb-4">
+                                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                    <path d="M128 0c17.7 0 32 14.3 32 32l0 32 128 0 0-32c0-17.7 14.3-32 32-32s32 14.3 32 32l0 32 48 0c26.5 0 48 21.5 48 48l0 48L0 160l0-48C0 85.5 21.5 64 48 64l48 0 0-32c0-17.7 14.3-32 32-32zM0 192l448 0 0 272c0 26.5-21.5 48-48 48L48 512c-26.5 0-48-21.5-48-48L0 192zm64 80l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm128 0l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zM64 400l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16zm144-16c-8.8 0-16 7.2-16 16l0 32c0 8.8 7.2 16 16 16l32 0c8.8 0 16-7.2 16-16l0-32c0-8.8-7.2-16-16-16l-32 0c-8.8 0-16 7.2-16 16z" />
+                                </svg>
+                                <span>{{ \Carbon\Carbon::parse($rating->created_at)->format('d F Y') }}</span>
+                            </div>
+                        
+                            <!-- Ulasan -->
+                            <p class="text-gray-700 text-sm">"{{ $rating->comment }}"</p>
+                        </div>
+                    @endif
+                @endforeach
             </div>
             
         </div>       

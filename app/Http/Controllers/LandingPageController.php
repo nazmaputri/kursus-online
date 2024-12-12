@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\MateriVideo;
 use App\Models\MateriPdf;
 use App\Models\Rating;
+use App\Models\RatingKursus;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,10 @@ class LandingPageController extends Controller
 {
     public function detail($id)
     {
+        $ratings = RatingKursus::where('course_id', $id)->with('user')->get();
         $course = Course::with(['mentor', 'category'])->findOrFail($id);
     
-        return view('kursus-detail', compact('course'));
+        return view('kursus-detail', compact('course', 'ratings'));
     }    
 
     public function category($name)
