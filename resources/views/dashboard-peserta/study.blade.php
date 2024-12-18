@@ -162,6 +162,12 @@
                     </div>
                 </div>
             @endforeach
+            <div class="flex justify-end">
+                <a href="{{ route('daftar-kursus') }}" 
+                   class="bg-yellow-200/50 font-semibold text-gray-500 py-2 px-3 rounded border border-yellow-200 hover:bg-yellow-200">
+                    Kembali
+                </a>
+            </div>
         </div>
     </div>
 </div>

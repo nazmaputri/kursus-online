@@ -106,13 +106,13 @@ class DashboardPesertaController extends Controller
         return view('dashboard-peserta.chat');
     }
 
-    public function kursus($id)
+    public function kursus($id, $categoryId = null)
     {
         // Ambil data kursus
         $course = Course::findOrFail($id);
     
-        // Pastikan relasi kategori diakses dengan benar
-        $category = $course->category; // Menyimpan objek kategori yang terkait dengan kursus
+        // Ambil kategori jika $categoryId diberikan
+        $category = $categoryId ? Category::findOrFail($categoryId) : null;
     
         // Cek apakah user sudah membeli kursus ini
         $hasPurchased = Payment::where('course_id', $course->id)
@@ -123,22 +123,20 @@ class DashboardPesertaController extends Controller
         // Ambil status pembayaran berdasarkan user yang login dan kursus yang dibeli
         $paymentStatus = null;
         if ($hasPurchased) {
-            // Pengguna sudah membeli kursus ini, jadi sembunyikan tombol beli
             $course->is_purchased = true;
         } else {
-            // Cek status pembayaran jika belum membeli
             $payment = Payment::where('course_id', $course->id)
                                 ->where('user_id', auth()->id())
                                 ->first();
-    
             if ($payment) {
-                $paymentStatus = $payment->transaction_status; // Status transaksi, misal 'success'
+                $paymentStatus = $payment->transaction_status;
             }
         }
     
         // Kirim data kursus dan kategori ke view
         return view('dashboard-peserta.detail', compact('course', 'paymentStatus', 'hasPurchased', 'category'));
-    }    
+    }
+    
     
     public function study($id)
     {
@@ -154,10 +152,6 @@ class DashboardPesertaController extends Controller
     
         return view('dashboard-peserta.study', compact('course', 'completedMateriIds'));
     }    
-
-    public function daftar() {
-        return view('dashboard-peserta.daftar');
-    }
 
     public function kursusTerdaftar()
     {
@@ -195,9 +189,36 @@ class DashboardPesertaController extends Controller
 
     public function showCategoryDetail($categoryId)
     {
+        // Ambil kategori berdasarkan ID
         $category = Category::findOrFail($categoryId);
+    
+        // Ambil semua kursus berdasarkan kategori
         $courses = Course::where('category', $category->name)->get();
-
+    
+        // Iterasi setiap kursus untuk menghitung rating
+        foreach ($courses as $course) {
+            // Menghitung rata-rata rating untuk kursus ini
+            $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
+    
+            // Membatasi rating maksimal 5
+            $averageRating = min($averageRating, 5);
+    
+            // Menyimpan rata-rata rating ke properti kursus
+            $course->average_rating = $averageRating;
+    
+            // Menghitung jumlah bintang penuh, setengah, dan kosong
+            $fullStars = floor($averageRating); // Bintang penuh
+            $halfStar = $averageRating - $fullStars >= 0.5; // Bintang setengah
+            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
+    
+            // Menyimpan jumlah bintang untuk ditampilkan di view
+            $course->rating_full_stars = $fullStars;
+            $course->rating_half_star = $halfStar;
+            $course->rating_empty_stars = $emptyStars;
+        }
+    
+        // Return data ke view
         return view('dashboard-peserta.categories-detail', compact('category', 'courses'));
     }
+    
 }

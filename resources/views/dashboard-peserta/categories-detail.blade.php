@@ -22,19 +22,30 @@
                             <p class="text-sm mt-2 text-gray-600 mb-2">Mentor : {{ $course->mentor->name }}</p>
                             <p class="text-xl font-bold text-green-800 bg-green-300 rounded-md inline-block p-2" id="course-price-{{ $course->id }}">Rp. {{ number_format($course->price, 0, ',', '.') }}</p>
                             <div class="flex justify-between items-center mt-4">
-                                <div class="flex items-center mt-4">
+                                <div class="flex">
                                     @for ($i = 0; $i < 5; $i++)
-                                        @if ($i < floor($course->rating))
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M10 15l-5.45 3.18 1.04-6.06L.45 7.64l6.09-.88L10 1l2.46 5.72 6.09.88-4.64 4.48 1.04 6.06L10 15z" />
+                                        @if ($i < floor($course->average_rating)) <!-- Rating Penuh -->
+                                            <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
                                             </svg>
-                                        @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M10 15l-5.45 3.18 1.04-6.06L.45 7.64l6.09-.88L10 1l2.46 5.72 6.09.88-4.64 4.48 1.04 6.06L10 15z" />
+                                        @elseif ($i < ceil($course->average_rating)) <!-- Rating Setengah -->
+                                            <svg class="w-4 h-4" viewBox="0 0 20 20">
+                                                <defs>
+                                                    <linearGradient id="half-star-{{ $i }}">
+                                                        <stop offset="50%" stop-color="rgb(234,179,8)" /> <!-- Kuning -->
+                                                        <stop offset="50%" stop-color="rgb(209,213,219)" /> <!-- Abu-abu -->
+                                                    </linearGradient>
+                                                </defs>
+                                                <path fill="url(#half-star-{{ $i }})" d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
+                                            </svg>
+                                        @else <!-- Rating Kosong -->
+                                            <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
                                             </svg>
                                         @endif
                                     @endfor
-                                    <span class="ml-2 text-gray-600">({{ $course->rating }} / 5)</span>
+                                      <!-- Jumlah Rating -->
+                                      <span class="ml-2 text-gray-600 text-sm">({{ number_format($course->average_rating, 1) }} / 5)</span>
                                 </div>
                                 <!-- Tombol Lihat Detail -->
                                 <a href="{{ route('kursus-peserta', $course->id) }}" class="bg-sky-300 text-white px-4 py-2 rounded-lg hover:bg-sky-600">

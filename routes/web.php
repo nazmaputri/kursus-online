@@ -36,8 +36,7 @@ Route::middleware(['auth', 'role:student'])->group(function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard-admin', function () {
-        return view('dashboard-admin.welcome');
-    })->name('dashboard-admin');
+        return view('dashboard-admin.welcome');})->name('dashboard-admin');
 });
 
 //Dashboard Admin
