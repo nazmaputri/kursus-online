@@ -18,6 +18,8 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\CertificateController;
 use App\Models\Course;
+use App\Mail\HelloMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingPageController::class, 'lp']);
@@ -47,6 +49,7 @@ Route::get('dashboard-admin/laporan', [DashboardAdminController::class, 'laporan
 Route::get('dashboard-admin/rating', [DashboardAdminController::class, 'rating'])->name('rating-admin');
 Route::get('/ratings/toggle-display/{id}', [RatingController::class, 'toggleDisplay'])->name('toggle.display');
 Route::patch('/admin/users/{id}/status', [DashboardAdminController::class, 'updateStatus'])->name('admin.users.updateStatus');
+Route::delete('/admin/users/{id}', [DashboardAdminController::class, 'deleteUser'])->name('admin.delete');
 Route::get('/mentor/user/{id}', [DashboardAdminController::class, 'detailmentor'])->name('detaildata-mentor');
 Route::get('/peserta/user/{id}', [DashboardAdminController::class, 'detailpeserta'])->name('detaildata-peserta');
 Route::get('/settings', [SettingController::class, 'admin'])->name('settings.admin');

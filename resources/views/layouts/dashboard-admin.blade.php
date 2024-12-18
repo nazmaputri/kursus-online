@@ -26,7 +26,7 @@
             </button>
             <div class="flex flex-col items-center justify-center h-32 bg-white dark:bg-gray-800">
                 <!-- Logo di tengah -->
-                <img src="{{ asset('storage/eduflix-1.png') }}" class="h-32" alt="Eduflix Logo" />
+                <img src="{{ asset('storage/eduflix-1.png') }}" class="m-4 h-32" alt="Eduflix Logo" />
             </div>
             <div class="h-full px-3 pb-4 overflow-y-auto dark:bg-gray-800">
                 <ul class="space-y-2 font-medium">

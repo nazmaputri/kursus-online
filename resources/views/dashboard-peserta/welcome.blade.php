@@ -28,22 +28,38 @@
                         <!-- Course Title and Rating -->
                         <div>
                             <h3 class="text-lg font-semibold capitalize">{{ $course->title }}</h3>
-                            <div class="flex text-yellow-500">
+                            <div class="flex">
                                 @for ($i = 0; $i < 5; $i++)
-                                    @if ($i < ($course->rating ?? 0)) <!-- Rating dari database atau default 0 -->
-                                        <span>&#9733;</span>
-                                    @else
-                                        <span class="text-gray-300">&#9733;</span>
+                                    @if ($i < floor($course->average_rating)) <!-- Rating Penuh -->
+                                        <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
+                                        </svg>
+                                    @elseif ($i < ceil($course->average_rating)) <!-- Rating Setengah -->
+                                        <svg class="w-4 h-4" viewBox="0 0 20 20">
+                                            <defs>
+                                                <linearGradient id="half-star-{{ $i }}">
+                                                    <stop offset="50%" stop-color="rgb(234,179,8)" /> <!-- Kuning -->
+                                                    <stop offset="50%" stop-color="rgb(209,213,219)" /> <!-- Abu-abu -->
+                                                </linearGradient>
+                                            </defs>
+                                            <path fill="url(#half-star-{{ $i }})" d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
+                                        </svg>
+                                    @else <!-- Rating Kosong -->
+                                        <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
+                                        </svg>
                                     @endif
                                 @endfor
-                            </div>
+                                  <!-- Jumlah Rating -->
+                                  <span class="ml-2 text-gray-600 text-sm">({{ number_format($course->average_rating, 1) }} / 5)</span>
+                            </div>                                                      
                         </div>
                     </div>
                     <!-- Progress Bar -->
                     <div>
                         <div class="w-full bg-gray-200 rounded-full h-4">
-                            <!-- Progress dengan warna selang-seling sky blue -->
-                            <div class="h-4 rounded-full" style="width: {{ $course->progress }}%; background: repeating-linear-gradient(45deg, #87CEEB, #87CEEB 10px, #B0E0E6 10px, #B0E0E6 20px);"></div>
+                            <!-- Progress dengan warna gradasi biru -->
+                            <div class="h-4 rounded-full" style="width: {{ $course->progress }}%; background: linear-gradient(to right, #87CEEB, #4682B4);"></div>
                         </div>
                         <p class="text-sm text-gray-500 mt-2 text-right">{{ $course->progress }}% completed</p>
                     </div>

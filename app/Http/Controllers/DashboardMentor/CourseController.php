@@ -10,18 +10,26 @@ use App\Models\MateriVideo;
 use App\Models\MateriPdf;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::paginate(5);
+        // Ambil ID mentor yang sedang login
+        $mentorId = Auth::id();
+    
+        // Ambil kursus yang hanya dimiliki oleh mentor yang login
+        $courses = Course::where('mentor_id', $mentorId)->paginate(5);
+    
+        // Kirim data ke view
         return view('dashboard-mentor.kursus', compact('courses'));
     }
 
     public function create()
     {
+        $mentorId = Auth::id();
         $categories = Category::all();
         return view('dashboard-mentor.kursus-create', compact('categories'));
     }

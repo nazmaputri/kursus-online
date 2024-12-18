@@ -30,14 +30,17 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed', // Memastikan password dan konfirmasi sama
             'phone_number' => 'nullable|string|max:15',
-            'course' => 'nullable|string|max:255',
+            'profesi' => 'nullable|string|max:255', // Ganti 'course' menjadi 'profesi'
             'experience' => 'nullable|string|max:255',
+            'linkedin' => 'nullable|string|max:255',
+            'company' => 'nullable|string|max:255',
+            'years_of_experience' => 'nullable|integer',
             'role' => 'required|in:student,mentor', // Validasi role yang diinput
         ]);
-
+    
         // Atur status berdasarkan role
         $status = $validatedData['role'] === 'mentor' ? 'pending' : 'active';
-
+    
         // Buat pengguna baru
         $user = User::create([
             'name' => $validatedData['name'],
@@ -47,16 +50,20 @@ class RegisterController extends Controller
             'role' => $validatedData['role'],
             'status' => $status,
             'email_verified_at' => now(), 
-            // 'course' => $validatedData['course'],
-            // 'experience' => $validatedData['experience'],
+            'profesi' => $validatedData['profesi'], // Ganti 'course' menjadi 'profesi'
+            'experience' => $validatedData['experience'],
+            'linkedin' => $validatedData['linkedin'], // Menambahkan kolom linkedin
+            'company' => $validatedData['company'], // Menambahkan kolom company
+            'years_of_experience' => $validatedData['years_of_experience'], // Menambahkan kolom years_of_experience
         ]);
-
-         // Redirect dan tampilkan notifikasi khusus mentor
-         $message = $validatedData['role'] === 'mentor' 
-         ? 'Permintaan Anda akan disetujui oleh admin dalam 1x24 jam, tunggu notifikasi selanjutnya agar bisa menjadi mentor.' 
-         : 'Pendaftaran berhasil. Silakan login.';
-
+    
+        // Redirect dan tampilkan notifikasi khusus mentor
+        $message = $validatedData['role'] === 'mentor' 
+        ? 'Permintaan Anda akan disetujui oleh admin dalam 1x24 jam, tunggu notifikasi selanjutnya agar bisa menjadi mentor.' 
+        : 'Pendaftaran berhasil. Silakan login.';
+    
         // Redirect ke halaman login dengan pesan sukses
-        return redirect()->route('login')->with('success', 'Pendaftaran berhasil. Silakan login.');
+        return redirect()->route('login')->with('success', $message);
     }
+    
 }

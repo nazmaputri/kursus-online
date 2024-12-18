@@ -7,7 +7,7 @@
             <table class="min-w-full border-separate border-spacing-1 text-sm mt-4">
                 <thead>
                     <tr class="bg-sky-200 text-gray-600 leading-normal uppercase">
-                        <th class="border border-gray-300 px-4 py-2 rounded-md">No</th>
+                        <th class="border border-gray-300 px-2 py-2 rounded-md">No</th>
                         <th class="border border-gray-300 px-4 py-2 rounded-md">Nama</th>
                         <th class="border border-gray-300 px-4 py-2 rounded-md">Rating</th>
                         <th class="border border-gray-300 px-4 py-2 rounded-md">Komentar</th>
@@ -15,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($ratings as $rating)
+                    @forelse ($ratings as $index => $rating)
                     <tr class="bg-white hover:bg-sky-50 user-row text-sm">
                         <td class="border text-center border-gray-300 px-4 py-2 rounded-md">1</td>
                         <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $rating->user->name }}</td>
@@ -59,7 +59,11 @@
                             });
                         </script>                                        
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center text-gray-500 py-4">Belum ada rating</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
     </div>

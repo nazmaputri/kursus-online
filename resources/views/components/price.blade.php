@@ -27,39 +27,49 @@
                             
                             <!-- Rating -->
                             <div class="flex items-center mb-2">
-                                @php
-                                    $fullStars = floor($course->rating); // Bintang penuh
-                                    $halfStar = $course->rating - $fullStars >= 0.5; // Bintang setengah
-                                    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
-                                @endphp
-                                <!-- Bintang Penuh -->
-                                @for ($i = 0; $i < $fullStars; $i++)
-                                    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
-                                    </svg>
-                                @endfor
+                                @foreach ($courses as $course)
+                                    @php
+                                        // Mengambil nilai rata-rata rating dari controller
+                                        $stars = $course->average_rating;
+                                        
+                                        // Membatasi nilai rating maksimal 5
+                                        $stars = min($stars, 5);
+                                        
+                                        // Menghitung jumlah bintang penuh, setengah, dan kosong
+                                        $fullStars = floor($stars); // Bintang penuh
+                                        $halfStar = $stars - $fullStars >= 0.5; // Bintang setengah
+                                        $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
+                                    @endphp
+                                @endforeach
 
-                                <!-- Bintang Setengah -->
-                                @if ($halfStar)
-                                    <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <defs>
-                                            <linearGradient id="half-star">
-                                                <stop offset="50%" stop-color="currentColor" />
-                                                <stop offset="50%" stop-color="white" />
-                                            </linearGradient>
-                                        </defs>
-                                        <path fill="url(#half-star)" d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
-                                    </svg>
-                                @endif
+                                    <!-- Bintang Penuh -->
+                                    @for ($i = 0; $i < $fullStars; $i++)
+                                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
+                                        </svg>
+                                    @endfor
 
-                                <!-- Bintang Kosong -->
-                                @for ($i = 0; $i < $emptyStars; $i++)
-                                    <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
-                                    </svg>
-                                @endfor
-                            </div>
-                            
+                                    <!-- Bintang Setengah -->
+                                    @if ($halfStar)
+                                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <defs>
+                                                <linearGradient id="half-star">
+                                                    <stop offset="50%" stop-color="currentColor" />
+                                                    <stop offset="50%" stop-color="white" />
+                                                </linearGradient>
+                                            </defs>
+                                            <path fill="url(#half-star)" d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
+                                        </svg>
+                                    @endif
+
+                                    <!-- Bintang Kosong -->
+                                    @for ($i = 0; $i < $emptyStars; $i++)
+                                        <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
+                                        </svg>
+                                    @endfor
+                            </div>                    
+                      
                             <!-- Harga Kursus -->
                             <p class="text-lg font-semibold text-gray-800 mb-4">
                                 <span class="text-sky-400">Rp {{ number_format($course->price, 0, ',', '.') }}</span>

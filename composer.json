@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^3.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "mckenziearts/laravel-notify": "^2.5",
         "midtrans/midtrans-php": "^2.6",
         "spatie/laravel-permission": "^6.10"
     },

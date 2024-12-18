@@ -31,7 +31,13 @@
                     Belum punya akun? 
                     <a href="{{ route('register') }}" class="text-blue-900 underline">Daftar</a>
                 </h4>
-            </div>            
+            </div>         
+            
+            @if (session('success'))
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
         
             <!-- Form -->
             <form action="{{ route('login') }}" method="POST" class="space-y-6">
@@ -49,7 +55,7 @@
                     <input type="password" name="password" id="password" class="w-full px-4 py-2 border border-sky-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" required autocomplete="current-password">
                 </div>
 
-                <!-- Remember Me & Forgot Password -->
+                {{-- <!-- Remember Me & Forgot Password -->
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <input id="remember_me" name="remember" type="checkbox" class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-sky-300 rounded">
@@ -59,7 +65,7 @@
                     <div class="text-sm">
                         <a href="#" class="font-medium text-sky-600 hover:text-sky-500">Forgot your password?</a>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Submit Button -->
                 <div>

@@ -23,8 +23,11 @@ class User extends Authenticatable
         'password',
         'phone_number',
         'role',          
-        'course',       
-        'experience',   
+        'profesi',       
+        'experience', 
+        'linkedin',
+        'company',
+        'years_of_experience',  
         'status', 
         'email_verified_at',       
     ];
@@ -61,9 +64,9 @@ class User extends Authenticatable
         }
     }
 
-    public function roles()
+    public function role()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
     public function payments()

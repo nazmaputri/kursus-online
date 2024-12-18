@@ -19,16 +19,17 @@
                 <ul class="space-y-2">
                     <li><a href="#home" class="hover:text-sky-200 transition">Home</a></li>
                     <li><a href="#about" class="hover:text-sky-200 transition">About</a></li>
-                    <li><a href="#services" class="hover:text-sky-200 transition">Services</a></li>
-                    <li><a href="#contact" class="hover:text-sky-200 transition">Contact</a></li>
+                    <li><a href="#category" class="hover:text-sky-200 transition">Category</a></li>
+                    <li><a href="#price" class="hover:text-sky-200 transition">Price</a></li>
+                    <li><a href="#rating" class="hover:text-sky-200 transition">Rating</a></li>
                     <li><a href="/login" class="hover:text-sky-200 transition">Login</a></li>
                 </ul>
             </div>
             <!-- Kontak & Sosial Media -->
             <div class="w-full sm:w-1/2 md:w-1/3 mb-6">
                 <h4 class="font-semibold mb-4">Kontak Kami</h4>
-                <p>Email: support@eduflix.com</p>
-                <p>Telp: +62 813 1234 5678</p>
+                <p>Email : support@eduflix.com</p>
+                <p>Telp : +62 813 1234 5678</p>
                 <div class="mt-4 flex space-x-3">
                     <a href="#" class="text-white hover:text-orange-300 transition">
                         <img src="https://img.icons8.com/ios-filled/30/ffffff/facebook-new.png" alt="Facebook">

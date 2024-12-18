@@ -11,10 +11,8 @@
 
         <!-- AOS CSS -->
         <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
         <!-- Tailwind CSS CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
-
         <!-- Custom Style -->
         <style>
             body {

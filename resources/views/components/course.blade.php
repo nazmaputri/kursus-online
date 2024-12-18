@@ -1,5 +1,5 @@
 <!-- Courses Section -->
-<section id="course" class="bg-white py-16">
+<section id="category" class="bg-white py-16">
     <div class="container mx-auto px-6">
         <div class="mb-6 text-center">
             <h3 class="text-3xl font-bold text-sky-400" data-aos="fade-up">

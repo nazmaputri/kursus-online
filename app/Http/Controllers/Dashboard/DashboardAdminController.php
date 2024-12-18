@@ -7,9 +7,12 @@ use App\Http\Controllers\DashboardMentor\CourseController;
 use App\Models\Course;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Role;
 use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Mail\HelloMail;
+use Illuminate\Support\Facades\Mail;
 
 class DashboardAdminController extends Controller
 {
@@ -60,9 +63,12 @@ class DashboardAdminController extends Controller
     }
 
     public function mentor() {
-        $users = User::where('role', 'mentor')->get(); 
+        // Mengambil data mentor dengan pagination 5 per halaman
+        $users = User::where('role', 'mentor')->paginate(5);
+    
+        // Mengirim data mentor ke view
         return view('dashboard-admin.data-mentor', compact('users'));
-    }    
+    }      
 
     public function detailpeserta($id)
     {
@@ -104,7 +110,10 @@ class DashboardAdminController extends Controller
             $user->status = 'active';
             $user->save();
 
-            return redirect()->back()->with('success', 'User status updated to active.');
+            // Kirim email ke user
+            Mail::to($user->email)->send(new HelloMail($user->name));
+
+            return redirect()->back()->with('success', 'User status updated to active and email has been sent.');
         }
 
         return redirect()->back()->with('info', 'User is already active.');
@@ -137,22 +146,16 @@ class DashboardAdminController extends Controller
     }
     
 
-    // Metode untuk menghapus pengguna
     public function destroy($id)
     {
-        // Temukan pengguna berdasarkan ID
-        $user = User::find($id);
+        // Cari user berdasarkan ID
+        $user = User::findOrFail($id);
 
-        // Cek apakah pengguna ditemukan
-        if (!$user) {
-            return redirect()->back()->with('error', 'User tidak ditemukan.');
-        }
-
-        // Hapus pengguna
+        // Hapus user
         $user->delete();
 
-        // Redirect kembali dengan pesan sukses
-        return redirect()->route('datapeserta-admin')->with('success', 'User berhasil dihapus.');
+        // Redirect ke halaman sebelumnya dengan pesan sukses
+        return redirect()->route('datamentor-admin')->with('success', 'User berhasil dihapus.');
     }
 
 }

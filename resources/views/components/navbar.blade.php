@@ -24,7 +24,7 @@
                     <a href="#about" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 dark:text-white">About</a>
                 </li>
                 <li class="mt-2 md:mt-0">
-                    <a href="#course" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 dark:text-white">Course</a>
+                    <a href="#category" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 dark:text-white">Category</a>
                 </li>
                 <li class="mt-2 md:mt-0">
                     <a href="#price" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 dark:text-white">Price</a>

@@ -35,10 +35,16 @@
             </div>
         </div> 
         <div class="flex mb-6">
-            <!-- Tombol Rating di sebelah kiri Tombol Kembali -->
-            <button id="ratingButton" class="bg-yellow-300 hover:bg-yellow-500 text-white font-bold py-2 px-3 rounded absolute bottom-0 right-24 mb-4 mr-4">
+           <!-- Tombol Rating -->
+            @if(!$hasRated)
+            <button id="ratingButton" class="bg-yellow-400 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded absolute bottom-0 right-24 mb-4 mr-4">
                 Beri Rating
             </button>
+            @else
+            <button class="bg-gray-400 text-white font-bold py-2 px-3 rounded absolute bottom-0 right-24 mb-4 mr-4 cursor-not-allowed" disabled>
+                Anda sudah memberikan rating
+            </button>
+            @endif
 
             <!-- Tombol Kembali di pojok kanan bawah -->
             <a href="{{ route('daftar-kursus') }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-3 rounded absolute bottom-0 right-0 mb-4 mr-4">
@@ -91,21 +97,25 @@
                     const stars = document.querySelectorAll('.star');
                     const ratingValue = document.getElementById('ratingValue');
 
-                    // Tampilkan modal
-                    ratingButton.addEventListener('click', () => {
-                        ratingModal.classList.remove('hidden');
-                    });
+                    if (ratingButton) {
+                        // Tampilkan modal jika tombol aktif
+                        ratingButton.addEventListener('click', () => {
+                            ratingModal.classList.remove('hidden');
+                        });
+                    }
 
                     // Tutup modal
-                    closeModal.addEventListener('click', () => {
-                        ratingModal.classList.add('hidden');
-                    });
+                    if (closeModal) {
+                        closeModal.addEventListener('click', () => {
+                            ratingModal.classList.add('hidden');
+                        });
+                    }
 
                     // Logika interaktif untuk bintang
                     stars.forEach(star => {
                         star.addEventListener('click', () => {
                             const value = star.getAttribute('data-value');
-                            ratingValue.value = value;  // Set nilai rating yang dipilih pada input hidden
+                            ratingValue.value = value; // Set nilai rating yang dipilih pada input hidden
 
                             // Reset warna bintang
                             stars.forEach(s => {
