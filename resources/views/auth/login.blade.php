@@ -19,7 +19,7 @@
     </style>
 </head>
 <body class="bg-sky-50">
-    <div class="flex justify-center items-center min-h-screen">
+    <div class="flex justify-center items-center min-h-screen px-4">
         <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
             <!-- Logo and Website Name -->
             <div class="flex flex-col items-center justify-center space-y-2">

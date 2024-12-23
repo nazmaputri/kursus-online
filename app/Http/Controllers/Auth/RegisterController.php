@@ -30,13 +30,28 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed', // Memastikan password dan konfirmasi sama
             'phone_number' => 'nullable|string|max:15',
-            'profesi' => 'nullable|string|max:255', // Ganti 'course' menjadi 'profesi'
-            'experience' => 'nullable|string|max:255',
-            'linkedin' => 'nullable|string|max:255',
-            'company' => 'nullable|string|max:255',
-            'years_of_experience' => 'nullable|integer',
             'role' => 'required|in:student,mentor', // Validasi role yang diinput
         ]);
+    
+        // Validasi tambahan jika role adalah mentor
+        if ($request->role === 'mentor') {
+            $mentorData = $request->validate([
+                'profesi' => 'required|string|max:255',
+                'experience' => 'required|string|max:255',
+                'linkedin' => 'nullable|string|max:255',
+                'company' => 'nullable|string|max:255',
+                'years_of_experience' => 'nullable|integer',
+            ]);
+        } else {
+            // Defaultkan nilai untuk student
+            $mentorData = [
+                'profesi' => null,
+                'experience' => null,
+                'linkedin' => null,
+                'company' => null,
+                'years_of_experience' => null,
+            ];
+        }
     
         // Atur status berdasarkan role
         $status = $validatedData['role'] === 'mentor' ? 'pending' : 'active';
@@ -49,21 +64,22 @@ class RegisterController extends Controller
             'phone_number' => $validatedData['phone_number'],
             'role' => $validatedData['role'],
             'status' => $status,
-            'email_verified_at' => now(), 
-            'profesi' => $validatedData['profesi'], // Ganti 'course' menjadi 'profesi'
-            'experience' => $validatedData['experience'],
-            'linkedin' => $validatedData['linkedin'], // Menambahkan kolom linkedin
-            'company' => $validatedData['company'], // Menambahkan kolom company
-            'years_of_experience' => $validatedData['years_of_experience'], // Menambahkan kolom years_of_experience
+            'email_verified_at' => now(),
+            'profesi' => $mentorData['profesi'],
+            'experience' => $mentorData['experience'],
+            'linkedin' => $mentorData['linkedin'],
+            'company' => $mentorData['company'],
+            'years_of_experience' => $mentorData['years_of_experience'],
         ]);
     
         // Redirect dan tampilkan notifikasi khusus mentor
-        $message = $validatedData['role'] === 'mentor' 
-        ? 'Permintaan Anda akan disetujui oleh admin dalam 1x24 jam, tunggu notifikasi selanjutnya agar bisa menjadi mentor.' 
-        : 'Pendaftaran berhasil. Silakan login.';
+        $message = $validatedData['role'] === 'mentor'
+            ? 'Permintaan Anda akan disetujui oleh admin dalam 1x24 jam, tunggu notifikasi selanjutnya agar bisa menjadi mentor.'
+            : 'Pendaftaran berhasil. Silakan login.';
     
         // Redirect ke halaman login dengan pesan sukses
         return redirect()->route('login')->with('success', $message);
     }
+    
     
 }

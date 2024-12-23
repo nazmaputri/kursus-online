@@ -49,10 +49,9 @@
                     </div>                    
                 </div>
             @empty
-                <div class="text-center">
-                    <p class="text-gray-600 mb-4">Anda belum membeli kursus apapun.</p>
-                    <a href="{{ route('courses.available') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Cari Kursus</a>
-                </div>
+            <div class="col-span-full">
+                <p class="text-gray-600 text-center">Anda belum membeli kursus apapun.</p>
+            </div>
             @endforelse
         </div>
     </div>
