@@ -8,5 +8,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        outDir: '../public_html/build', // Output langsung ke public_html/build
+        emptyOutDir: true, // Membersihkan folder sebelum build baru
+    },
 });
-
