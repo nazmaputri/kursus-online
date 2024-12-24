@@ -16,7 +16,6 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    // Proses login
     public function login(Request $request)
     {
         // Validasi input login
@@ -24,80 +23,83 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
-
-        // Log attempt login
-        \Log::info('Login attempt:', ['email' => $request->email]);
-
+    
         // Cek pengguna berdasarkan email
         $user = User::where('email', $request->email)->first();
-
-        // Jika pengguna tidak ditemukan berdasarkan email
+    
+        // Jika pengguna tidak ditemukan
         if (!$user) {
-            \Log::error('Login failed: Email tidak ditemukan', ['email' => $request->email]);
             return back()->withErrors([
                 'email' => 'Email tidak ditemukan.',
-            ]);
+            ])->withInput($request->except('password'));
         }
-
-        // Jika pengguna ditemukan, cek password
+    
         if (Hash::check($request->password, $user->password)) {
-            \Log::error('Login failed: Password salah untuk email yang valid', ['email' => $request->email]);
             return back()->withErrors([
                 'password' => 'Password salah.',
-            ]);
+            ])->withInput($request->except('password'));
         }
-
+    
         // Cek apakah email sudah terverifikasi
         if (is_null($user->email_verified_at)) {
-            \Log::warning('Login failed: Email belum terverifikasi', ['user_id' => $user->id]);
-            return redirect('login')->withErrors(['email' => 'Email Anda belum terverifikasi.']);
+            return back()->withErrors(['email' => 'Email Anda belum terverifikasi.']);
         }
-
+    
         // Cek apakah status pengguna aktif
         if ($user->status !== 'active') {
-            \Log::warning('Login failed: Akun tidak aktif', ['user_id' => $user->id]);
-            return redirect('login')->withErrors(['email' => 'Akun Anda tidak aktif.']);
+            return back()->withErrors(['email' => 'Akun Anda tidak aktif.']);
         }
-
-        // Jika semua kondisi terpenuhi, login pengguna
-        Auth::login($user);
-        $request->session()->regenerate(); // Amankan sesi baru
-
-        // Log info user yang berhasil login
-        \Log::info('User logged in successfully:', ['user_id' => $user->id, 'role' => $user->role]);
-
+    
+        // Login pengguna dan amankan sesi baru
+        $request->session()->regenerate();
+    
         // Redirect berdasarkan role
-        return $this->redirectUserBasedOnRole($user);
-    }
-
-    // Redirect berdasarkan role
-    protected function redirectUserBasedOnRole($user)
-    {
         switch ($user->role) {
             case 'admin':
+                Auth::guard('admin')->login($user); // Gunakan guard admin
                 return redirect()->route('welcome-admin');
+            
             case 'mentor':
+                Auth::guard('mentor')->login($user); 
                 return redirect()->route('welcome-mentor');
+            
             case 'student':
+                Auth::guard('student')->login($user);  
                 return redirect()->route('welcome-peserta');
+            
             default:
-                Auth::logout(); // Jika role tidak dikenal, logout dan tolak akses
-                \Log::error('Unknown role, user logged out:', ['user_id' => $user->id, 'role' => $user->role]);
-                return redirect('login')->withErrors(['email' => 'Akses tidak diizinkan.']);
+                // Jika role tidak dikenal, logout dan tolak akses
+                Auth::logout();
+                return redirect('login')->withErrors(['email' => 'Role tidak dikenal.']);
         }
     }
 
     // Proses logout
     public function logout(Request $request)
     {
-        $userId = Auth::id();
-        Auth::logout();
+        Auth::guard('student')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Log user logout
-        \Log::info('User logged out:', ['user_id' => $userId]);
+        return redirect('login')->with('success', 'Anda telah berhasil logout.');
+    }
+
+    public function logoutAdmin(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect('login')->with('success', 'Anda telah berhasil logout.');
     }
+
+    public function logoutMentor(Request $request)
+    {
+        Auth::guard('mentor')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('login')->with('success', 'Anda telah berhasil logout.');
+    }
+
 }

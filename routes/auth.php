@@ -15,4 +15,6 @@ Route::get('register-mentor', [RegisterController::class, 'showmentor'])->name('
 Route::post('register', [RegisterController::class, 'register']);
 
 // Route untuk logout
-Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/logoutadmin', [LoginController::class, 'logoutAdmin'])->name('logout.admin');
+Route::get('/logoutmentor', [LoginController::class, 'logoutMentor'])->name('logout.mentor');
