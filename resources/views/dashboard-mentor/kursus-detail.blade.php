@@ -72,13 +72,14 @@
                     <h2 class="text-2xl font-bold border-gray-300 uppercase pt-2">
                         Materi Kursus
                     </h2>
-                    <!-- Tombol untuk menambahkan materi -->
                     <a href="{{ route('materi.create', ['courseId' => $course->id]) }}" class="mt-4 inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-600 font-bold py-2 px-4 rounded-md">
+                        <!-- Ikon muncul pada semua ukuran layar -->
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
                             <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
                         </svg>
-                        <span>Tambah Materi</span>
-                    </a>
+                        <!-- Teks hanya muncul pada mode desktop (sm dan lebih besar) -->
+                        <span class="hidden sm:inline ml-2">Tambah Materi</span>
+                    </a>                                                          
                 </div>
         
                 @if (session('success'))

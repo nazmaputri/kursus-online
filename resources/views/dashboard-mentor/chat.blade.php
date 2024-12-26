@@ -12,7 +12,7 @@
             <a href="{{ route('chat.mentor', ['courseId' => $chat->course_id, 'chatId' => $chat->id]) }}" 
                 class="flex items-center p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 
                 {{ $activeChat && $activeChat->id == $chat->id ? 'bg-blue-100' : '' }}">
-                <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" alt="User Avatar">
+                <img width="40" height="40" src="https://img.icons8.com/pastel-glyph/64/user-male-circle.png" alt="user-male-circle"/>
                 <div class="ml-4">
                     <h3 class="text-gray-700 font-medium">
                         {{ $chat->student->name }}
@@ -22,22 +22,27 @@
             </a>
             @endforeach
 
-            <!-- Start New Chat Section -->
-            <h2 class="text-lg font-semibold mt-6">Start New Chat</h2>
-            @if ($students->isNotEmpty())
-                @foreach ($students as $student)
-                <a href="{{ route('chat.start', ['studentId' => $student->id]) }}" 
-                   class="flex items-center p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
-                    <img src="https://via.placeholder.com/40" class="w-10 h-10 rounded-full" alt="User Avatar">
-                    <div class="ml-4">
-                        <h3 class="text-gray-700 font-medium">{{ $student->name }}</h3>
-                        <p class="text-gray-500 text-sm">Start new chat</p>
-                    </div>
-                </a>
-                @endforeach
-            @else
-                <p class="text-gray-500 mt-4">No students have purchased your course yet.</p>
-            @endif
+            <!-- Start New Chat Section (Only visible if no chat exists) -->
+            <div class="lg:block hidden">
+                <h2 class="text-lg font-semibold mt-6">Start New Chat</h2>
+                @if ($students->isNotEmpty())
+                    @foreach ($students as $student)
+                        <!-- Only show "Start New Chat" if no existing chat with the student -->
+                        @if (!in_array($student->id, $chats->pluck('student_id')->toArray()))
+                        <a href="{{ route('chat.start', ['studentId' => $student->id]) }}" 
+                           class="flex items-center p-3 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200">
+                           <img width="40" height="40" src="https://img.icons8.com/pastel-glyph/64/user-male-circle.png" alt="user-male-circle"/>
+                            <div class="ml-4">
+                                <h3 class="text-gray-700 font-medium">{{ $student->name }}</h3>
+                                <p class="text-gray-500 text-sm">Start new chat</p>
+                            </div>
+                        </a>
+                        @endif
+                    @endforeach
+                @else
+                    <p class="text-gray-500 mt-4">No students have purchased your course yet.</p>
+                @endif
+            </div>
         </div>
     </aside>
 
@@ -45,14 +50,20 @@
     <main class="flex-1 flex flex-col bg-neutral-50">
         @if ($activeChat && $activeChat->student)
         <!-- Profil Student -->
-        <div class="bg-white border-b border-gray-300 p-4 flex items-center">
-            <img src="{{ $activeChat->student->profile_image ?? 'https://via.placeholder.com/40' }}" 
-                 class="w-10 h-10 rounded-full" alt="User Avatar">
+        <div class="bg-white border-b border-gray-300 p-4 flex items-center relative">
+            <img width="40" height="40" src="https://img.icons8.com/pastel-glyph/64/user-male-circle.png" alt="user-male-circle"/>
             <div class="ml-4">
                 <h3 class="text-gray-700 font-medium">{{ $activeChat->student->name }}</h3>
-                <p class="text-gray-500 text-sm">Online</p>
+                {{-- <p class="text-gray-500 text-sm">Online</p> --}}
             </div>
-        </div>
+            <a href="{{ route('courses.index') }}" class="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <button type="button" id="prev-btn" class="border hover:bg-neutral-100/50 font-semibold text-white px-4 py-2 rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="w-4 h-4">
+                        <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/>
+                    </svg>
+                </button>
+            </a>        
+        </div>        
     
         <!-- Chat Messages -->
         <div class="flex-1 overflow-y-auto p-4">

@@ -53,7 +53,7 @@
 
                             <!-- Checkbox untuk Jawaban Benar -->
                             <input type="radio" name="questions[{{ $index }}][correct_answer]" value="{{ $answerIndex }}" {{ $answer->is_correct ? 'checked' : '' }} class="focus:ring focus:ring-blue-300">
-                            <span class="text-sm text-gray-600">Benar</span>
+                            <span class="text-sm text-gray-600 hidden sm:inline ml-2">Benar</span>
                         </div>
                         @endforeach
                     </div>
@@ -106,10 +106,10 @@
              <!-- Tombol Submit -->
              <div class="mt-6 flex justify-end space-x-2">
                 <button type="submit" class="bg-sky-400 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
-                    Update
+                    Edit
                 </button>
                 <a href="{{ route('materi.show', ['courseId' => $course->id, 'materiId' => $materi->id]) }}" class="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                    Cancel
+                    Batal
                 </a>
             </div>
         </form>

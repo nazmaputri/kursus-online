@@ -4,6 +4,9 @@
 <div class="container mx-auto">
     <div class="bg-white rounded-lg shadow-md p-8">
         <h1 class="text-xl font-bold text-gray-800 mb-6 border-b-2 pb-2">Rating Kursus : {{ $course->title }}</h1>
+        
+        <!-- Wrapper for responsiveness -->
+        <div class="overflow-x-auto">
             <table class="min-w-full border-separate border-spacing-1 text-sm mt-4">
                 <thead>
                     <tr class="bg-sky-200 text-gray-600 leading-normal uppercase">
@@ -17,7 +20,7 @@
                 <tbody>
                     @forelse ($ratings as $index => $rating)
                     <tr class="bg-white hover:bg-sky-50 user-row text-sm">
-                        <td class="border text-center border-gray-300 px-4 py-2 rounded-md">1</td>
+                        <td class="border text-center border-gray-300 px-4 py-2 rounded-md">{{ $index + 1 }}</td>
                         <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $rating->user->name }}</td>
                         <td class="border border-gray-300 px-4 py-2 rounded-md">
                             @for ($i = 1; $i <= 5; $i++)
@@ -57,7 +60,7 @@
                                     form.submit();
                                 });
                             });
-                        </script>                                        
+                        </script>                                      
                     </tr>
                     @empty
                     <tr>
@@ -66,6 +69,12 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+        <div class="mt-6 flex justify-end space-x-2">
+            <a href="{{ route('rating-kursus') }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
+                Kembali
+            </a>
+        </div>   
     </div>
 </div>
 @endsection
