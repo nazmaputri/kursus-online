@@ -12,66 +12,45 @@
         body {
             font-family: 'IBM Plex Sans', sans-serif;
         }
-        
-        /* CSS tambahan untuk memastikan ikon tetap terlihat */
-        #svg-image {
-            display: inline-block;
-            width: 1.25rem; /* Menyesuaikan ukuran ikon saat sidebar kecil */
-            height: 1.25rem;
-        }
-
-        #dashboard-svg,
-        #kategori-svg,
-        #belajar-svg {
-            width: 1.25rem; /* Ukuran default ikon */
-            height: 1.25rem;
-        }
-
-        @media (max-width: 1024px) {
-            #dashboard-svg,
-            #kategori-svg,
-            #belajar-svg {
-                width: 1rem; /* Ukuran kecil ikon saat sidebar kecil */
-                height: 1rem;
-            }
-        }
     </style>
 </head>
 <body class="bg-sky-300/15">
     <div class="flex flex-col min-h-screen">
+             <!-- Tombol Hamburger -->
+            <button id="hamburger-button" class="fixed top-8 left-8 z-50 p-1 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md md:hidden">
+                <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
             <!-- Sidebar -->
-            <aside id="logo-sidebar" class="fixed top-4 left-4 w-64 h-[calc(100vh-2rem)] bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-xl transition-all transform lg:w-64 md:w-16" aria-label="Sidebar">
-                <!-- Tombol Hamburger -->
-                <button id="hamburger-button" class="absolute top-4 z-50 p-1 bg-sky-300 text-gray-700 hover:bg-sky-500 rounded-md md:hidden">
-                    <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-                <div class="flex flex-col items-center m-4 justify-center h-32 bg-white dark:bg-gray-800">
-                    <!-- Logo di tengah -->
+            <aside id="logo-sidebar" class="fixed top-4 left-0 md:left-4 z-40 w-64 h-[calc(100vh-2rem)] bg-white border border-gray-300 p-4 rounded-xl transform -translate-x-full transition-transform md:translate-x-0 md:block">
+                <div class="flex flex-col items-center justify-center h-32 bg-white dark:bg-gray-800">
                     <img id="logo" src="{{ asset('storage/eduflix-1.png') }}" class="h-32" alt="Eduflix Logo" />
                 </div>
-                <div class="h-full px-3 pb-4 mt-2 overflow-y-auto dark:bg-gray-800">
+                <div class="h-full px-3 pb-4 overflow-y-auto">
                     <ul class="space-y-2 font-medium">
+                        <!-- Dashboard -->
                         <li class="border-l-2 {{ Request::routeIs('welcome-peserta') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                             <a href="{{ route('welcome-peserta') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <svg id="dashboard-svg" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                                     <path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"/>
                                 </svg>
-                                <span id="dashboard-text" class="ms-3">Dashboard</span>
+                                <span class="ms-3">Dashboard</span>
                             </a>
                         </li>
+                        <!-- Daftar Kategori -->
                         <li class="border-l-2 {{ Request::routeIs('kategori-peserta', 'categories-detail', 'kursus-peserta') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                             <a href="{{ route('kategori-peserta') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <svg id="kategori-svg" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0z"/>
                                 </svg>
                                 <span class="ms-3">Daftar Kategori</span>
                             </a>
                         </li>
+                        <!-- Belajar -->
                         <li class="border-l-2 {{ Request::routeIs('daftar-kursus', 'detail-kursus', 'study-peserta', 'chat.student', 'quiz.show', 'quiz.result') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                             <a href="{{ route('daftar-kursus') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <svg id="belajar-svg" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
                                     <path d="M128 32C92.7 32 64 60.7 64 96l0 256 64 0 0-256 384 0 0 256 64 0 0-256c0-35.3-28.7-64-64-64L128 32zM19.2 384C8.6 384 0 392.6 0 403.2C0 445.6 34.4 480 76.8 480l486.4 0c42.4 0 76.8-34.4 76.8-76.8c0-10.6-8.6-19.2-19.2-19.2L19.2 384z"/>
                                 </svg>
                                 <span class="ms-3">Belajar</span>
@@ -79,132 +58,44 @@
                         </li>
                     </ul>
                 </div>
-            </aside>            
-            <!-- Script untuk menutup sidebar dan memperlebar konten -->
+            </aside>
+
+            <!-- Overlay -->
+            <div id="overlay" class="fixed inset-0 z-30 hidden bg-black bg-opacity-50 md:hidden"></div>
+
             <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                        // Mengambil elemen yang diperlukan
-                        const sidebar = document.getElementById("logo-sidebar");
-                        const content = document.getElementById("content");
-                        const header = document.getElementById("header");
-                        const hamburgerButton = document.getElementById("hamburger-button");
-                        const logo = document.getElementById("logo");
-                        const svgImage = document.getElementById("svg-image");
-                        const dashboardText = document.getElementById("dashboard-text");
-                        const kategoriText = document.getElementById("kategori-text");
-                        const belajarText = document.getElementById("belajar-text");
-                        const dashboardSvg = document.getElementById("dashboard-svg");
-                        const kategoriSvg = document.getElementById("kategori-svg");
-                        const belajarSvg = document.getElementById("belajar-svg");
-
-                        // Fungsi untuk mengubah tampilan saat sidebar diperkecil atau diperbesar
-                        function toggleSidebar() {
-                            // Toggle lebar sidebar antara w-64 dan w-16
-                            sidebar.classList.toggle("w-64");
-                            sidebar.classList.toggle("w-16");
-
-                            // Toggle margin pada konten utama
-                            content.classList.toggle("ml-64");
-                            content.classList.toggle("ml-16");
-
-                            // Toggle margin pada header
-                            header.classList.toggle("ml-64");
-                            header.classList.toggle("ml-16");
-
-                            // Mengatur ukuran logo dan ikon SVG
-                            if (sidebar.classList.contains("w-16")) {
-                                logo.classList.add("transform", "scale-75"); // Mengurangi ukuran logo
-                                dashboardText.classList.add("hidden"); // Sembunyikan teks dashboard
-                                kategoriText.classList.add("hidden"); // Sembunyikan teks kategori
-                                belajarText.classList.add("hidden"); // Sembunyikan teks belajar
-                                dashboardSvg.classList.remove("w-5"); // Ukuran kecil untuk ikon
-                                kategoriSvg.classList.remove("w-5"); // Ukuran kecil untuk ikon
-                                belajarSvg.classList.remove("w-5"); // Ukuran kecil untuk ikon
-                            } else {
-                                logo.classList.remove("transform", "scale-75"); // Kembalikan ukuran logo
-                                dashboardText.classList.remove("hidden"); // Tampilkan teks dashboard
-                                kategoriText.classList.remove("hidden"); // Tampilkan teks kategori
-                                belajarText.classList.remove("hidden"); // Tampilkan teks belajar
-                                dashboardSvg.classList.add("w-5"); // Ukuran besar untuk ikon
-                                kategoriSvg.classList.add("w-5"); // Ukuran besar untuk ikon
-                                belajarSvg.classList.add("w-5"); // Ukuran besar untuk ikon
-                            }
-                        }
-
-                        // Event klik pada tombol hamburger untuk mengubah ukuran sidebar
-                        hamburgerButton.addEventListener("click", toggleSidebar);
-
-                        // Mengatur tampilan sidebar sesuai dengan ukuran layar
-                        window.addEventListener("resize", function() {
-                            if (window.innerWidth >= 1024) {
-                                // Pada layar besar (desktop), tampilkan sidebar penuh
-                                sidebar.classList.add("w-64");
-                                sidebar.classList.remove("w-16");
-                                content.classList.add("ml-64");
-                                content.classList.remove("ml-16");
-                                header.classList.add("ml-64");
-                                header.classList.remove("ml-16");
-                                logo.classList.remove("transform", "scale-75");
-                                dashboardText.classList.remove("hidden");
-                                kategoriText.classList.remove("hidden");
-                                belajarText.classList.remove("hidden");
-                                dashboardSvg.classList.add("w-5");
-                                kategoriSvg.classList.add("w-5");
-                                belajarSvg.classList.add("w-5");
-                            } else {
-                                // Pada layar kecil (mobile), sembunyikan teks dan tampilkan ikon SVG
-                                sidebar.classList.remove("w-64");
-                                sidebar.classList.add("w-16");
-                                content.classList.remove("ml-64");
-                                content.classList.add("ml-16");
-                                header.classList.remove("ml-64");
-                                header.classList.add("ml-16");
-                                logo.classList.add("transform", "scale-75");
-                                dashboardText.classList.add("hidden");
-                                kategoriText.classList.add("hidden");
-                                belajarText.classList.add("hidden");
-                                dashboardSvg.classList.remove("w-5");
-                                kategoriSvg.classList.remove("w-5");
-                                belajarSvg.classList.remove("w-5");
-                            }
-                        });
-
-                        // Inisialisasi tampilan sesuai ukuran layar saat pertama kali dimuat
-                        if (window.innerWidth >= 1024) {
-                            sidebar.classList.add("w-64");
-                            sidebar.classList.remove("w-16");
-                            content.classList.add("ml-64");
-                            content.classList.remove("ml-16");
-                            header.classList.add("ml-64");
-                            header.classList.remove("ml-16");
-                            logo.classList.remove("transform", "scale-75");
-                            dashboardText.classList.remove("hidden");
-                            kategoriText.classList.remove("hidden");
-                            belajarText.classList.remove("hidden");
-                            dashboardSvg.classList.add("w-5");
-                            kategoriSvg.classList.add("w-5");
-                            belajarSvg.classList.add("w-5");
-                        } else {
-                            sidebar.classList.remove("w-64");
-                            sidebar.classList.add("w-16");
-                            content.classList.remove("ml-64");
-                            content.classList.add("ml-16");
-                            header.classList.remove("ml-64");
-                            header.classList.add("ml-16");
-                            logo.classList.add("transform", "scale-75");
-                            dashboardText.classList.add("hidden");
-                            kategoriText.classList.add("hidden");
-                            belajarText.classList.add("hidden");
-                            dashboardSvg.classList.remove("w-5");
-                            kategoriSvg.classList.remove("w-5");
-                            belajarSvg.classList.remove("w-5");
-                        }
+                document.addEventListener('DOMContentLoaded', () => {
+                    const hamburgerButton = document.getElementById('hamburger-button');
+                    const sidebar = document.getElementById('logo-sidebar');
+                    const overlay = document.getElementById('overlay');
+                    
+                    // Menambahkan kelas untuk transisi dan posisi sidebar
+                    sidebar.classList.add('transition-all', 'duration-300', 'ease-in-out');
+            
+                    hamburgerButton.addEventListener('click', () => {
+                        // Toggle untuk sidebar dan overlay
+                        sidebar.classList.toggle('-translate-x-full');
+                        sidebar.classList.toggle('left-4'); // Menambahkan kelas left-4 saat sidebar ditampilkan
+                        overlay.classList.toggle('hidden');
                     });
+                    
+                    overlay.addEventListener('click', () => {
+                        // Menutup sidebar dengan transisi yang halus
+                        sidebar.classList.add('-translate-x-full');
+                        sidebar.classList.remove('left-4'); // Menghapus kelas left-4 saat sidebar disembunyikan
+                        overlay.classList.add('hidden');
+                    });
+                });
             </script>
+                
+             <!-- Isi Content -->
+             <div class="p-4 mt-20 sm:mt-20 w-full sm:w-auto md:pl-72">
+                @yield('content')
+            </div>
         <!-- Main Content -->
-        <div id="content" class="flex-1 ml-64 transition-all duration-300 p-4 relative">
+        <div id="content" class="flex-1 ml-64 transition-all duration-300 relative">
             <!-- Header -->
-            <div id="header" class="flex items-center justify-between top-4 fixed left-8 right-8 border border-gray-300 bg-white w-3/4 p-2 rounded-xl">           
+            <div id="header" class="flex items-center justify-between fixed top-4 left-4 right-4 sm:left-72 sm:right-4 border border-gray-300 bg-white w-auto sm:w-auto p-2 sm:p-2 rounded-xl">
                 <!-- User Profile di Kanan -->
                 <div class="flex items-center ml-auto mr-4 relative"> <!-- Perbaikan: Menggunakan ml-auto untuk menempatkan di sebelah kanan -->
                     <!-- Pengecekan gambar profil -->
@@ -278,12 +169,7 @@
                     dropdownIcon.classList.remove('rotate-90');
                 }
             });
-        </script>
-
-        <!-- Isi Content -->
-            <div class="p-4 mt-16">
-                @yield('content')
-            </div>
+        </script>      
         </div>
     </div>
 </body>

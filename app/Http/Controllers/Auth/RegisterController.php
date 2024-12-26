@@ -21,7 +21,6 @@ class RegisterController extends Controller
         return view('auth.register-mentor');
     }
 
-    // Proses pendaftaran
     public function register(Request $request)
     {
         // Validasi input pendaftaran
@@ -56,7 +55,7 @@ class RegisterController extends Controller
         // Atur status berdasarkan role
         $status = $validatedData['role'] === 'mentor' ? 'pending' : 'active';
     
-        // Buat pengguna baru
+        // Buat pengguna baru dan hash password menggunakan Hash::make
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
@@ -80,6 +79,7 @@ class RegisterController extends Controller
         // Redirect ke halaman login dengan pesan sukses
         return redirect()->route('login')->with('success', $message);
     }
+    
     
     
 }

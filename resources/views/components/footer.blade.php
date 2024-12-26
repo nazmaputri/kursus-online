@@ -1,9 +1,9 @@
 <footer class="bg-sky-600 text-white py-10">
     <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-wrap justify-between">
+        <div class="flex flex-wrap justify-center sm:justify-between text-center sm:text-left">
             <!-- Logo & Deskripsi -->
-            <div class="w-full sm:w-1/2 md:w-1/3 mb-6">
-                <a href="#" class="flex items-center space-x-3">
+            <div class="w-full sm:w-1/2 md:w-1/3 mb-6 flex flex-col items-center sm:items-start">
+                <a href="#" class="flex items-center justify-center sm:justify-start space-x-3">
                     <div class="bg-white rounded-full aspect-w-1 aspect-h-1 w-14 h-14 pt-1">
                         <img src="{{ asset('storage/eduflix-1.png') }}" alt="EduFlix Logo" class="rounded-full object-cover">
                     </div>
@@ -14,19 +14,19 @@
                 </p>
             </div>
             <!-- Menu Navigasi -->
-            <div class="w-full sm:w-1/2 md:w-1/3 mb-6 pl-20">
+            <div class="w-full sm:w-1/2 md:w-1/3 mb-6 flex flex-col items-center sm:items-start lg:pl-40">
                 <h4 class="font-semibold mb-4">Navigasi</h4>
                 <ul class="space-y-2">
-                    <li><a href="#home" class="hover:text-sky-200 transition">Home</a></li>
-                    <li><a href="#about" class="hover:text-sky-200 transition">About</a></li>
-                    <li><a href="#category" class="hover:text-sky-200 transition">Category</a></li>
-                    <li><a href="#price" class="hover:text-sky-200 transition">Price</a></li>
+                    <li><a href="#home" class="hover:text-sky-200 transition">Beranda</a></li>
+                    <li><a href="#about" class="hover:text-sky-200 transition">Tentang</a></li>
+                    <li><a href="#category" class="hover:text-sky-200 transition">Kategori</a></li>
+                    <li><a href="#price" class="hover:text-sky-200 transition">Harga</a></li>
                     <li><a href="#rating" class="hover:text-sky-200 transition">Rating</a></li>
-                    <li><a href="/login" class="hover:text-sky-200 transition">Login</a></li>
+                    <li><a href="/login" class="hover:text-sky-200 transition">Masuk</a></li>
                 </ul>
             </div>
             <!-- Kontak & Sosial Media -->
-            <div class="w-full sm:w-1/2 md:w-1/3 mb-6">
+            <div class="w-full sm:w-1/2 md:w-1/3 mb-6 flex flex-col items-center sm:items-start">
                 <h4 class="font-semibold mb-4">Kontak Kami</h4>
                 <p>Email : eduflix00@gmail.com</p>
                 <p>Telp : +62 813 1234 5678</p>

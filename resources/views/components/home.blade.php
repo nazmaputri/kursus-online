@@ -23,7 +23,7 @@
 </section>
 
 <!-- Card Section -->
-<div class="relative z-10 -mt-20 pb-10 lg:pb-20" data-aos="fade-down">
+<div class="relative z-10 -mt-20 pb-10 lg:pb-20">
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
             <!-- Card 1 -->

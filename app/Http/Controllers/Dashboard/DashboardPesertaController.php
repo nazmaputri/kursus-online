@@ -106,17 +106,17 @@ class DashboardPesertaController extends Controller
         return view('dashboard-peserta.chat');
     }
 
-    public function kursus($id, $categoryId = null)
+    public function kursus($id, $categoryId)
     {
         // Ambil data kursus
         $course = Course::findOrFail($id);
-    
-        // Ambil kategori jika $categoryId diberikan
-        $category = $categoryId ? Category::findOrFail($categoryId) : null;
+        
+        // Ambil kategori yang terkait dengan kursus ini
+        $category = Category::findOrFail($categoryId);
     
         // Cek apakah user sudah membeli kursus ini
         $hasPurchased = Payment::where('course_id', $course->id)
-                                ->where('user_id', auth()->id())
+                                ->where('user_id', auth('student')->id())
                                 ->where('transaction_status', 'success')
                                 ->exists();
     
@@ -126,8 +126,8 @@ class DashboardPesertaController extends Controller
             $course->is_purchased = true;
         } else {
             $payment = Payment::where('course_id', $course->id)
-                                ->where('user_id', auth()->id())
-                                ->first();
+                              ->where('user_id', auth('student')->id())
+                              ->first();
             if ($payment) {
                 $paymentStatus = $payment->transaction_status;
             }
@@ -135,8 +135,7 @@ class DashboardPesertaController extends Controller
     
         // Kirim data kursus dan kategori ke view
         return view('dashboard-peserta.detail', compact('course', 'paymentStatus', 'hasPurchased', 'category'));
-    }
-    
+    }    
     
     public function study($id)
     {

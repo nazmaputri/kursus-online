@@ -48,7 +48,7 @@
                                       <span class="ml-2 text-gray-600 text-sm">({{ number_format($course->average_rating, 1) }} / 5)</span>
                                 </div>
                                 <!-- Tombol Lihat Detail -->
-                                <a href="{{ route('kursus-peserta', $course->id) }}" class="bg-sky-300 text-white px-4 py-2 rounded-lg hover:bg-sky-600">
+                                <a href="{{ route('kursus-peserta', ['id' => $course->id, 'categoryId' => $category->id]) }}" class="bg-sky-300 text-white px-4 py-2 rounded-lg hover:bg-sky-600">
                                     Lihat Detail
                                 </a>
                             </div> 

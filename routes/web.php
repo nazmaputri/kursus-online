@@ -56,7 +56,7 @@ Route::middleware(['auth:student'])->group(function () {
     Route::get('dashboard-peserta/welcome', [DashboardPesertaController::class, 'show'])->name('welcome-peserta');
     Route::get('dashboard-peserta/daftar', [DashboardPesertaController::class, 'daftar'])->name('daftar-peserta');
     Route::get('dashboard-peserta/kursus', [DashboardPesertaController::class, 'kursusTerdaftar'])->name('daftar-kursus');
-    Route::get('kursus/{id}', [DashboardPesertaController::class, 'kursus'])->name('kursus-peserta');
+    Route::get('/kursus-peserta/{id}/{categoryId?}', [DashboardPesertaController::class, 'kursus'])->name('kursus-peserta');
     Route::get('dashboard-peserta/kursus/{id}', [DashboardPesertaController::class, 'detail'])->name('detail-kursus');
     Route::get('dashboard-peserta/study/{id}', [DashboardPesertaController::class, 'study'])->name('study-peserta');
     Route::get('dashboard-peserta/video', [DashboardPesertaController::class, 'video'])->name('video-peserta');
@@ -111,7 +111,7 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/certificate/{courseId}', [CertificateController::class, 'showCertificate'])->name('certificate.show');
 Route::get('/certificate/download/{courseId}', [CertificateController::class, 'downloadCertificate'])->name('certificate.download');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:mentor,student')->group(function () {
     Route::get('chat/mentor/{courseId}/{chatId?}', [ChatController::class, 'chatMentor'])->name('chat.mentor');
     Route::get('chat/student/{courseId}/{chatId?}', [ChatController::class, 'chatStudent'])->name('chat.student');
     Route::post('chat/{chatId}/send', [ChatController::class, 'sendMessage'])->name('chat.send');

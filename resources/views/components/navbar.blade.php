@@ -7,7 +7,7 @@
         </a>
 
         <!-- Mobile Toggle Button -->
-        <button id="menu-toggle" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+        <button id="menu-toggle" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
             <span class="sr-only">Open main menu</span>
             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
@@ -16,25 +16,25 @@
 
         <!-- Navbar Links -->
         <div class="hidden w-full lg:flex md:w-auto" id="navbar-default">
-            <ul class="font-medium flex flex-col md:flex-row md:space-x-3 rtl:space-x-reverse mt-4 md:mt-0 p-4 md:p-0 bg-transparent md:bg-transparent rounded-lg dark:bg-gray-800 md:dark:bg-transparent">
+            <ul class="font-medium flex flex-col md:flex-row md:space-x-3 rtl:space-x-reverse mt-4 md:mt-0 p-4 md:p-0 bg-transparent md:bg-transparent rounded-lg">
                 <li class="mt-2 md:mt-0">
-                    <a href="#home" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 dark:text-white">Home</a>
+                    <a href="#home" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 ">Beranda</a>
                 </li>
                 <li class="mt-2 md:mt-0">
-                    <a href="#about" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 dark:text-white">About</a>
+                    <a href="#about" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 ">Tentang</a>
                 </li>
                 <li class="mt-2 md:mt-0">
-                    <a href="#category" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 dark:text-white">Category</a>
+                    <a href="#category" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 ">Kategori</a>
                 </li>
                 <li class="mt-2 md:mt-0">
-                    <a href="#price" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 dark:text-white">Price</a>
+                    <a href="#price" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600">Harga</a>
                 </li>
                 <li class="mt-2 md:mt-0">
-                    <a href="#rating" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600 dark:text-white">Rating</a>
+                    <a href="#rating" class="nav-link block py-2 px-4 text-sky-600 rounded-sm transition-all duration-300 hover:border-b-2 hover:border-sky-600">Rating</a>
                 </li>
                 <!-- Button -->
                 <li class="mt-4 md:mt-0">
-                    <a href="/login" class="block py-2 px-4 bg-white text-sky-600 border border-sky-600 rounded-full hover:bg-sky-600 hover:text-white transition">Daftar</a>
+                    <a href="/login" class="block py-2 px-4 bg-white text-sky-600 border border-sky-600 rounded-full hover:bg-sky-600 hover:text-white transition">Masuk</a>
                 </li>
             </ul>
         </div>

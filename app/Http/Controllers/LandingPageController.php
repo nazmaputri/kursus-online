@@ -22,14 +22,24 @@ class LandingPageController extends Controller
 
     public function category($name)
     {
+        // Mendapatkan kategori dengan kursus yang statusnya 'approved' atau 'published'
         $category = Category::with(['courses' => function ($query) {
             $query->whereIn('status', ['approved', 'published']);
         }])->where('name', $name)->firstOrFail();
-
+    
+        // Mengambil kursus dari kategori yang ditemukan
         $courses = $category->courses;
     
+        // Menghitung rata-rata rating untuk setiap kursus
+        foreach ($courses as $course) {
+            // Menghitung rata-rata rating dan membatasi maksimal 5
+            $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
+            $course->average_rating = min($averageRating, 5);  // Membatasi nilai rating maksimal 5
+        }
+    
+        // Mengirimkan data ke view
         return view('category-detail', compact('category', 'courses'));
-    }
+    }    
     
     public function lp()
     {

@@ -7,9 +7,9 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($courses as $course)
-                <a href="{{ route('kursus.detail', $course->id) }}" class="block bg-white rounded-lg shadow-md hover:shadow-lg  transition-transform transform hover:scale-105 duration-300">
+                <a href="{{ route('kursus.detail', $course->id) }}" class="block rounded-lg  transition-transform transform hover:scale-105 duration-300">
                     <!-- Card Kursus -->
-                    <div class="bg-white border border-gray-300 rounded-lg shadow-md flex flex-col overflow-hidden" data-aos="zoom-in">
+                    <div class="bg-white border border-gray-300 rounded-lg shadow-md  hover:shadow-lg  flex flex-col overflow-hidden" data-aos="zoom-in">
                         <!-- Gambar Kursus -->
                         <div class="w-full">
                             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="w-full h-48 object-cover">
@@ -53,8 +53,8 @@
                             </div>                 
                       
                             <!-- Harga Kursus -->
-                            <p class="text-lg font-semibold text-gray-800 mb-4">
-                                <span class="text-sky-400">Rp {{ number_format($course->price, 0, ',', '.') }}</span>
+                            <p class="inline-flex items-center text-xl mt-2 rounded-2xl font-bold">
+                                <span class="text-green-600 bg-green-300 inline-flex items-center text-xl p-3 rounded-2xl font-bold">Rp. {{ number_format($course->price, 0, ',', '.') }}</span>
                             </p>
                         </div>
                     </div>

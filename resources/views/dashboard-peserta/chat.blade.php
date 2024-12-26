@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-peserta')
 
 @section('content')
-<div class="inline-block h-[450px] flex">
+<div class="inline-block h-auto sm:h-[450px] flex">
     <!-- Main Chat Area -->
     <main class="flex-1 flex flex-col">
         @if ($activeChat)
@@ -24,14 +24,18 @@
                     <!-- Informasi Mentor -->
                     <div class="ml-4">
                         <h3 class="text-gray-700 font-medium">{{ $activeChat->mentor->name }}</h3>
-                        <p class="text-gray-500 text-sm">
+                        {{-- <p class="text-gray-500 text-sm">
                             {{ $activeChat->mentor->is_online ? 'Online' : 'Offline' }}
-                        </p>
+                        </p> --}}
                     </div>
                 </div>                
                 <!-- Tombol Kembali di samping kanan header -->
-                <a href="{{ route('daftar-kursus') }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded absolute right-4 top-1/2 transform -translate-y-1/2">
-                    Kembali
+                <a href="{{ route('daftar-kursus') }}" class=" text-white font-bold py-2 px-4 rounded absolute right-4 top-1/2 transform -translate-y-1/2">
+                    <button type="button" id="prev-btn" class="border  hover:bg-neutral-100/50 font-semibold text-white px-4 py-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="w-4 h-4">
+                            <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/>
+                        </svg>
+                    </button>
                 </a>        
             </div>            
 

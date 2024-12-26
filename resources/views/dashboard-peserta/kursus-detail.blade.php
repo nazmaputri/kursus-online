@@ -34,104 +34,22 @@
                 @endif
             </div>
         </div> 
-        <div class="flex mb-6">
-           <!-- Tombol Rating -->
+        <div class="flex flex-col sm:flex-row mb-6"> <!-- Menambahkan 'relative' pada induk -->
+            <!-- Tombol Rating -->
             @if(!$hasRated)
-            <button id="ratingButton" class="bg-yellow-400 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded absolute bottom-0 right-24 mb-4 mr-4">
+            <button id="ratingButton" class="bg-yellow-400 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded mb-4 sm:mb-0 sm:absolute sm:bottom-0 sm:right-24 sm:mr-4">
                 Beri Rating
             </button>
             @else
-            <button class="bg-gray-400 text-white font-bold py-2 px-3 rounded absolute bottom-0 right-24 mb-4 mr-4 cursor-not-allowed" disabled>
+            <button class="bg-gray-400 text-white font-bold py-2 px-3 rounded mb-4 sm:mb-4 sm:absolute sm:bottom-0 sm:right-24 sm:mr-4 cursor-not-allowed" disabled>
                 Anda sudah memberikan rating
             </button>
             @endif
-
+        
             <!-- Tombol Kembali di pojok kanan bawah -->
-            <a href="{{ route('daftar-kursus') }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-3 rounded absolute bottom-0 right-0 mb-4 mr-4">
+            <a href="{{ route('daftar-kursus') }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-3 text-center rounded sm:absolute sm:bottom-0 sm:right-0 sm:mr-4 sm:mb-4">
                 Kembali
             </a>
-
-            <!-- Pop-up Modal -->
-            <div id="ratingModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-                    <h2 class="text-xl font-semibold mb-4 text-center border-b-2 pb-2">Beri Rating Kursus</h2>
-                    <p class="mb-4 text-gray-600">Bagaimana pengalaman Anda dengan kursus ini?</p>
-
-                    <!-- Form Rating -->
-                    <form action="{{ route('ratings.store', $course->id) }}" method="POST">
-                        @csrf
-                        <!-- Rating Input -->
-                        <div class="flex space-x-2 mb-4">
-                            <input type="hidden" name="stars" id="ratingValue" value="">
-                            @for ($i = 1; $i <= 5; $i++)
-                            <span 
-                                class="star text-2xl cursor-pointer text-gray-400 hover:text-yellow-400" 
-                                data-value="{{ $i }}">★</span>
-                            @endfor
-                        </div>
-
-                        <!-- Komentar -->
-                        <div class="mb-4">
-                            <label for="comment" class="block text-gray-700 font-semibold mb-2">Komentar (Opsional)</label>
-                            <textarea name="comment" id="comment" rows="4" class="w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Berikan komentar Anda..."></textarea>
-                        </div>
-
-                        <!-- Tombol Submit -->
-                        <div class="flex justify-end space-x-2">
-                            <button id="closeModal" type="button" class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded">
-                                Tutup
-                            </button>
-                            <button type="submit" class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                                Kirim Rating
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const ratingButton = document.getElementById('ratingButton');
-                    const ratingModal = document.getElementById('ratingModal');
-                    const closeModal = document.getElementById('closeModal');
-                    const stars = document.querySelectorAll('.star');
-                    const ratingValue = document.getElementById('ratingValue');
-
-                    if (ratingButton) {
-                        // Tampilkan modal jika tombol aktif
-                        ratingButton.addEventListener('click', () => {
-                            ratingModal.classList.remove('hidden');
-                        });
-                    }
-
-                    // Tutup modal
-                    if (closeModal) {
-                        closeModal.addEventListener('click', () => {
-                            ratingModal.classList.add('hidden');
-                        });
-                    }
-
-                    // Logika interaktif untuk bintang
-                    stars.forEach(star => {
-                        star.addEventListener('click', () => {
-                            const value = star.getAttribute('data-value');
-                            ratingValue.value = value; // Set nilai rating yang dipilih pada input hidden
-
-                            // Reset warna bintang
-                            stars.forEach(s => {
-                                s.classList.remove('text-yellow-400');
-                                s.classList.add('text-gray-400');
-                            });
-
-                            // Warnai bintang yang dipilih dan sebelumnya
-                            for (let i = 0; i < value; i++) {
-                                stars[i].classList.remove('text-gray-400');
-                                stars[i].classList.add('text-yellow-400');
-                            }
-                        });
-                    });
-                });
-            </script>
         </div>
     </div>
 </div>

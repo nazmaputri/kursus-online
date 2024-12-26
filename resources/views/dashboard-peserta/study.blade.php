@@ -110,20 +110,20 @@
                             </div>
                         @endif
                         <!-- Modal -->
-                        <div id="quizModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-                            <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+                        <div id="quizModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+                            <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full sm:px-4 md:px-6 sm:mx-4 md:mx-6">
                                 <h3 id="modalTitle" class="text-lg font-semibold mb-4">Konfirmasi</h3>
                                 <p id="modalMessage" class="text-gray-700 mb-6"></p>
                                 <div class="flex justify-end space-x-4">
-                                    <button id="cancelButton" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none">
+                                    <button id="cancelButton" class="bg-gray-300 font-semibold text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none">
                                         Tidak
                                     </button>
-                                    <a id="confirmButton" href="#" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none">
+                                    <a id="confirmButton" href="#" class="bg-green-400 font-semibold text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none">
                                         Ya
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div>                                                               
                         <script>
                             document.addEventListener("DOMContentLoaded", function () {
                                 const quizLinks = document.querySelectorAll(".quiz-link");
@@ -132,33 +132,41 @@
                                 const modalMessage = document.getElementById("modalMessage");
                                 const confirmButton = document.getElementById("confirmButton");
                                 const cancelButton = document.getElementById("cancelButton");
-                        
+                                
                                 // Menambahkan event listener hanya pada elemen dengan kelas .quiz-link
                                 quizLinks.forEach(link => {
                                     link.addEventListener("click", function (event) {
                                         event.preventDefault(); // Mencegah navigasi langsung ke URL kuis
-                                    
+                                        
                                         const title = this.dataset.quizTitle;
                                         const url = this.dataset.quizUrl;
                                         const duration = this.dataset.quizDuration;
-                        
+                                        
                                         // Mengupdate konten modal
                                         modalTitle.textContent = `Apakah Anda yakin ingin mengambil kuis ini?`;
                                         modalMessage.textContent = `Kuis "${title}" membutuhkan waktu ${duration} menit untuk diselesaikan.`;
                                         confirmButton.href = url; // Memastikan link kuis diteruskan ke tombol konfirmasi
-                        
+                                        
                                         // Menampilkan modal
                                         modal.classList.remove("hidden");
                                     });
                                 });
-                        
+                                
                                 // Menangani tombol "Tidak"
                                 cancelButton.addEventListener("click", function () {
                                     modal.classList.add("hidden"); // Menyembunyikan modal jika dibatalkan
                                 });
+                        
+                                // Menangani event untuk membuka/menutup dropdown kuis
+                                const dropdowns = document.querySelectorAll(".quiz-dropdown");
+                                dropdowns.forEach(dropdown => {
+                                    dropdown.addEventListener("click", function () {
+                                        // Toggle visibility of the dropdown (menampilkan atau menyembunyikan dropdown)
+                                        this.classList.toggle("hidden");
+                                    });
+                                });
                             });
                         </script>
-                    
                     </div>
                 </div>
             @endforeach

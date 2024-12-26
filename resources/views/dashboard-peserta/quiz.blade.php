@@ -70,11 +70,11 @@
         </div>        
 
         <!-- Pop-up Validasi -->
-        <div id="confirmation-popup" class="fixed inset-0 bg-gray-800 bg-opacity-75 hidden">
+        <div id="confirmation-popup" class="fixed inset-0 bg-gray-800 bg-opacity-75 z-50 hidden">
             <div class="absolute inset-0 flex justify-center items-center">
                 <div class="bg-white p-6 rounded shadow-lg">
-                    <h3 class="text-lg font-bold">Yakin ingin mengirim kuis ini?</h3>
-                    <div class="flex justify-between mt-4">
+                    <h3 class="text-lg font-semibold">Yakin ingin mengirim kuis ini?</h3>
+                    <div class="flex justify-center space-x-3 mt-4">
                         <button id="confirm-submit" class="bg-red-500 text-white px-4 py-2 rounded">Ya</button>
                         <button id="cancel-submit" class="bg-gray-500 text-white px-4 py-2 rounded">Tidak</button>
                     </div>

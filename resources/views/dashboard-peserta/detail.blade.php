@@ -111,11 +111,10 @@
         </div>
     </div>
     <div class="mt-6 flex justify-end">
-        {{-- <a href="{{ route('categories-detail', ['id' => $category->id]) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"> --}}
+        <a href="{{ route('categories-detail', ['id' => $category->id]) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
             Kembali
-        </a>     
-    </div>        
-</div>
+        </a>           
+    </div>
 
 <script>
     document.querySelectorAll('[id^="pay-now"]').forEach(button => {

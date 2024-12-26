@@ -13,7 +13,7 @@
         <div class="overflow-x-auto hide-scrollbar"> 
             <div class="flex space-x-6 m-7">
                 @foreach($categories as $category)
-                    <div class="course-card bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden flex-none w-80 flex-shrink-0 flex flex-col transition-transform duration-300 ease-in-out" data-aos="flip-right">
+                    <div class="course-card bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden flex-none w-80 flex-shrink-0 flex flex-col transition-transform duration-300 ease-in-out" data-aos="zoom-in-down">
                         <div class="flex justify-center mt-5">
                             <img src="{{ asset('storage/' . $category->image_path) }}" alt="{{ $category->name }}" class="w-36 h-32">
                         </div>

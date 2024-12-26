@@ -34,7 +34,7 @@ class LoginController extends Controller
             ])->withInput($request->except('password'));
         }
     
-        if (Hash::check($request->password, $user->password)) {
+        if (!Hash::check($request->password, $user->password)) {
             return back()->withErrors([
                 'password' => 'Password salah.',
             ])->withInput($request->except('password'));
