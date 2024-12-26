@@ -47,10 +47,10 @@
             <!-- Tombol submit -->
             <div class="mt-6 text-right space-x-3">
                 <button type="submit" class="bg-sky-400 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
-                    Update
+                    Edit
                 </button>
                 <a href="{{ route('categories.index') }}" class="bg-red-400 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                    Cancel
+                    Batal
                 </a>
             </div>
         </form>

@@ -5,23 +5,23 @@
     <h2 class="text-2xl font-bold mb-6 text-center border-b-2 border-gray-300 pb-2 uppercase">Daftar Kategori</h2>
 
     <!-- Tombol Tambah Kategori -->
-    <div class="mb-6 p-1 flex justify-between items-center">
+    <div class="mb-6 p-1 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4">
         <!-- Tombol untuk menampilkan kursus -->
         <button id="showCoursesButton" class="bg-sky-300 shadow-md shadow-sky-100 hover:shadow-none text-white px-2 py-2 rounded-md font-semibold hover:bg-sky-600 flex items-center space-x-2">
             <!-- Gambar Ikon -->
-            <img id="toggleIcon" class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/ios-glyphs/30/fine-print--v1.png" alt="fine-print--v1"/>
+            <img id="toggleIcon" class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/ios-glyphs/30/fine-print--v1.png" alt="fine-print--v1" />
             <!-- Teks Tombol -->
             <span id="buttonText">Tampilkan Semua Kursus</span>
-        </button>        
-        
+        </button>
+    
         <!-- Tambah Kategori -->
-        <a href="{{ route('categories.create') }}" class="inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-600 font-bold py-2 px-4 rounded-md">
+        <a id="addCategoryButton" href="{{ route('categories.create') }}" class="inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-600 font-bold py-2 px-4 rounded-md">
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
             </svg>
             <span>Tambah Kategori</span>
         </a>
-    </div>
+    </div>    
     
     @if (session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
@@ -59,11 +59,47 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                     </svg>
                                 </a>
+                                <!-- Tombol Hapus -->
                                 <button type="button" class="text-white bg-red-500 p-1 rounded-md hover:bg-red-800" onclick="openDeleteModal('{{ route('categories.destroy', $category->id) }}')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                     </svg>
                                 </button>
+
+                                <!-- Modal Konfirmasi -->
+                                <div id="deleteModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center hidden">
+                                    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                                        <h3 class="text-xl font-semibold text-center">Apakah Anda yakin ingin menghapus kategori ini?</h3>
+                                        <div class="mt-4 flex justify-center space-x-3">
+                                            <button onclick="closeDeleteModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded">
+                                                Batal
+                                            </button>
+                                            <form id="deleteForm" method="POST" action="" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- JavaScript untuk Modal -->
+                                <script>
+                                    function openDeleteModal(url) {
+                                        // Set the action URL of the form to the delete route
+                                        document.getElementById('deleteForm').action = url;
+                                        // Show the modal
+                                        document.getElementById('deleteModal').classList.remove('hidden');
+                                    }
+
+                                    function closeDeleteModal() {
+                                        // Hide the modal
+                                        document.getElementById('deleteModal').classList.add('hidden');
+                                    }
+                                </script>
+
                             </td>
                         </tr>
                     @endforeach
@@ -79,92 +115,99 @@
         @endif
     </div>
 
-   <!-- Daftar Kursus (Awalnya disembunyikan) -->
+    <!-- Daftar Kursus (Awalnya disembunyikan) -->
     <div id="coursesList" class="hidden mt-6">
-        <table class="min-w-full border-separate border-spacing-1">
-            <thead>
-                <tr class="bg-sky-200 text-gray-600 uppercase text-sm leading-normal">
-                    <th class="border border-gray-300 px-2 py-2 rounded-md">No</th>
-                    <th class="border border-gray-300 px-4 py-2 rounded-md">Kursus</th>
-                    <th class="border border-gray-300 px-4 py-2 rounded-md">Kategori</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($courses as $index => $course)
-                <tr>
-                    <td class="border border-gray-300 py-4 px-4 text-center rounded-md">{{ $index + 1 }}</td>
-                    <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $course->title }}</td>
-                    <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $course->category }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <!-- Wrapper responsif -->
+        <div class="overflow-x-auto w-full">
+            <table class="min-w-full border-separate border-spacing-1">
+                <thead>
+                    <tr class="bg-sky-200 text-gray-600 uppercase text-sm leading-normal">
+                        <th class="border border-gray-300 px-2 py-2 rounded-md">No</th>
+                        <th class="border border-gray-300 px-4 py-2 rounded-md">Kursus</th>
+                        <th class="border border-gray-300 px-4 py-2 rounded-md">Kategori</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($courses as $index => $course)
+                    <tr>
+                        <td class="border border-gray-300 py-4 px-4 text-center rounded-md">{{ $index + 1 }}</td>
+                        <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $course->title }}</td>
+                        <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $course->category }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
         <!-- Pagination untuk kursus -->
         <div class="mt-4">
             {{ $courses->links() }} 
         </div>
+        </div>
     </div>
-
-</div>
 
 <!-- JavaScript -->
 <script>
     const showCoursesButton = document.getElementById('showCoursesButton');
-const coursesList = document.getElementById('coursesList');
-const categoriesTable = document.getElementById('categoriesTable');
-const buttonText = document.getElementById('buttonText');
-const toggleIcon = document.getElementById('toggleIcon');
+    const coursesList = document.getElementById('coursesList');
+    const categoriesTable = document.getElementById('categoriesTable');
+    const buttonText = document.getElementById('buttonText');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const addCategoryButton = document.getElementById('addCategoryButton'); // Tombol Tambah Kategori
 
-// Menyembunyikan elemen yang tidak perlu setiap kali halaman berpindah
-function handlePagination() {
-    if (coursesList.classList.contains('hidden')) {
-        // Tampilkan kategori, sembunyikan kursus
-        coursesList.classList.add('hidden');
-        categoriesTable.classList.remove('hidden');
-    } else {
-        // Tampilkan kursus, sembunyikan kategori
-        coursesList.classList.remove('hidden');
-        categoriesTable.classList.add('hidden');
-    }
-}
-
-// Menangani perubahan tampilan saat tombol diklik
-showCoursesButton.addEventListener('click', function() {
-    if (coursesList.classList.contains('hidden')) {
-        coursesList.classList.remove('hidden');
-        categoriesTable.classList.add('hidden');
-        buttonText.innerText = 'Tampilkan Semua Kategori';
-        toggleIcon.src = 'https://img.icons8.com/ios-glyphs/30/fine-print--v1.png';  // Ikon untuk kursus
-    } else {
-        coursesList.classList.add('hidden');
-        categoriesTable.classList.remove('hidden');
-        buttonText.innerText = 'Tampilkan Semua Kursus';
-        toggleIcon.src = 'https://img.icons8.com/ios-glyphs/30/fine-print--v1.png';  // Ikon untuk kategori
-    }
-});
-
-// Menambahkan event listener untuk menangani perubahan halaman setelah klik pagination
-document.querySelectorAll('.pagination a').forEach(function(link) {
-    link.addEventListener('click', function(event) {
-        event.preventDefault();
-        // Dapatkan link pagination yang diklik
-        const url = this.href;
-
-        // Panggil AJAX atau reload konten untuk memuat ulang tabel sesuai dengan halaman yang dipilih
-        fetch(url)
-            .then(response => response.text())
-            .then(data => {
-                // Ganti konten tabel kursus dan kategori berdasarkan data baru
-                document.getElementById('categoriesTable').innerHTML = data.match(/<table[^>]*>([\s\S]*)<\/table>/)[0];
-                document.getElementById('coursesList').innerHTML = data.match(/<table[^>]*>([\s\S]*)<\/table>/)[1];
-
-                // Menangani visibilitas setelah memuat konten baru
-                handlePagination();
-            })
-            .catch(error => console.error('Error:', error));
+    // Menangani perubahan tampilan saat tombol diklik
+    showCoursesButton.addEventListener('click', function () {
+        if (coursesList.classList.contains('hidden')) {
+            // Tampilkan kursus, sembunyikan kategori, sembunyikan tombol Tambah Kategori
+            coursesList.classList.remove('hidden');
+            categoriesTable.classList.add('hidden');
+            addCategoryButton.classList.add('hidden'); // Sembunyikan tombol
+            buttonText.innerText = 'Tampilkan Semua Kategori';
+            toggleIcon.src = 'https://img.icons8.com/ios-glyphs/30/fine-print--v1.png'; // Ikon untuk kategori
+        } else {
+            // Tampilkan kategori, sembunyikan kursus, tampilkan tombol Tambah Kategori
+            coursesList.classList.add('hidden');
+            categoriesTable.classList.remove('hidden');
+            addCategoryButton.classList.remove('hidden'); // Tampilkan tombol
+            buttonText.innerText = 'Tampilkan Semua Kursus';
+            toggleIcon.src = 'https://img.icons8.com/ios-glyphs/30/fine-print--v1.png'; // Ikon untuk kursus
+        }
     });
-});
 
+    // Menambahkan event listener untuk menangani perubahan halaman setelah klik pagination
+    document.querySelectorAll('.pagination a').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const url = this.href;
+
+            // Panggil AJAX atau reload konten untuk memuat ulang tabel sesuai dengan halaman yang dipilih
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    // Ganti konten tabel kursus dan kategori berdasarkan data baru
+                    document.getElementById('categoriesTable').innerHTML = data.match(/<table[^>]*>([\s\S]*?)<\/table>/)[0];
+                    document.getElementById('coursesList').innerHTML = data.match(/<table[^>]*>([\s\S]*?)<\/table>/)[1];
+
+                    // Menangani visibilitas setelah memuat konten baru
+                    handlePagination();
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+
+    // Fungsi untuk menangani visibilitas elemen
+    function handlePagination() {
+        if (coursesList.classList.contains('hidden')) {
+            // Sembunyikan kursus, tampilkan kategori
+            coursesList.classList.add('hidden');
+            categoriesTable.classList.remove('hidden');
+            addCategoryButton.classList.remove('hidden'); // Tampilkan tombol
+        } else {
+            // Tampilkan kursus, sembunyikan kategori
+            coursesList.classList.remove('hidden');
+            categoriesTable.classList.add('hidden');
+            addCategoryButton.classList.add('hidden'); // Sembunyikan tombol
+        }
+    }
 </script>
 @endsection
