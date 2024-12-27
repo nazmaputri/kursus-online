@@ -102,7 +102,7 @@
             <h3 class="text-xl font-bold text-gray-800 mb-4">Yang Akan Didapatkan</h3>
             
             <!-- Daftar Button -->
-            <div class="flex space-x-4">
+            <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
                 <button class="bg-blue-400 hover:bg-blue-600 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                     <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/fluency-systems-regular/50/certificate--v1.png" alt="certificate--v1"/>
                     <span>Sertifikat</span>
@@ -120,7 +120,7 @@
                     <span>Video Pembelajaran</span>
                 </button>
             </div>                     
-        </div>       
+        </div>        
         
         <div class="border-t mt-8 pt-6">
             <!-- Judul -->
