@@ -70,6 +70,10 @@ Route::middleware(['auth:student'])->group(function () {
     Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('quiz.show');
     Route::post('/quiz/{quiz}/submit', [QuizController::class, 'submit'])->name('quiz.submit');
     Route::get('/quiz/{quiz}/result', [QuizController::class, 'result'])->name('quiz.result');
+
+    Route::get('/certificate/download/{courseId}', [CertificateController::class, 'downloadCertificate'])->name('certificate.download');
+    Route::post('/create-payment/{course_id}', [PaymentController::class, 'createPayment'])->name('create.payment');
+    Route::post('/payment-success', [PaymentController::class, 'updatePaymentStatus']);
 });
 
 Route::middleware(['auth:mentor'])->group(function () {
@@ -105,11 +109,8 @@ Route::middleware(['auth:mentor'])->group(function () {
 });
 
 //Umum
-Route::post('/create-payment/{course_id}', [PaymentController::class, 'createPayment'])->name('create.payment');
-Route::post('/payment-success', [PaymentController::class, 'updatePaymentStatus']);
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/certificate/{courseId}', [CertificateController::class, 'showCertificate'])->name('certificate.show');
-Route::get('/certificate/download/{courseId}', [CertificateController::class, 'downloadCertificate'])->name('certificate.download');
 
 Route::middleware('auth:mentor,student')->group(function () {
     Route::get('chat/mentor/{courseId}/{chatId?}', [ChatController::class, 'chatMentor'])->name('chat.mentor');
