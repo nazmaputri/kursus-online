@@ -62,13 +62,24 @@ class DashboardAdminController extends Controller
         return view('dashboard-admin.detail-mentor', compact('user'));
     }
 
-    public function mentor() {
-        // Mengambil data mentor dengan pagination 5 per halaman
-        $users = User::where('role', 'mentor')->paginate(5);
-    
-        // Mengirim data mentor ke view
-        return view('dashboard-admin.data-mentor', compact('users'));
-    }      
+    public function mentor(Request $request)
+    {
+        // Ambil query pencarian dari input
+        $query = $request->input('search');
+
+        // Filter data mentor berdasarkan role dan query pencarian
+        $users = User::where('role', 'mentor') // Pastikan hanya role mentor
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($subQuery) use ($query) {
+                    $subQuery->where('name', 'LIKE', "%{$query}%")
+                        ->orWhere('status', 'LIKE', "%{$query}%");
+                });
+            })
+            ->paginate(5); // Pagination 5 per halaman
+
+        // Mengirim data mentor dan query ke view
+        return view('dashboard-admin.data-mentor', compact('users', 'query'));
+    }
 
     public function detailpeserta($id)
     {
@@ -76,10 +87,24 @@ class DashboardAdminController extends Controller
         return view('dashboard-admin.detail-peserta', compact('user'));
     }
 
-    public function peserta() {
-        $users = User::where('role', 'student')->get(); 
-        return view('dashboard-admin.data-peserta', compact('users'));
-    }
+    public function peserta(Request $request)
+    {
+        // Ambil query pencarian dari input
+        $query = $request->input('search');
+    
+        // Filter data peserta berdasarkan role dan query pencarian
+        $users = User::where('role', 'student') // Hanya role 'student'
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($subQuery) use ($query) {
+                    $subQuery->where('name', 'LIKE', "%{$query}%")
+                        ->orWhere('email', 'LIKE', "%{$query}%");
+                });
+            })
+            ->paginate(5); // Pagination 5 per halaman
+    
+        // Kirim data ke view
+        return view('dashboard-admin.data-peserta', compact('users', 'query'));
+    }    
 
     public function show() {
         $jumlahMentor = User::where('role', 'mentor')->count();

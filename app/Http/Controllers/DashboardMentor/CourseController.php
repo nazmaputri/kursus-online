@@ -15,16 +15,24 @@ use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Ambil ID mentor yang sedang login
         $mentorId = Auth::id();
-    
+
+        // Ambil query pencarian dari input
+        $search = $request->input('search');
+
         // Ambil kursus yang hanya dimiliki oleh mentor yang login
-        $courses = Course::where('mentor_id', $mentorId)->paginate(5);
-    
+        $courses = Course::where('mentor_id', $mentorId)
+            ->when($search, function ($query) use ($search) {
+                $query->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('price', 'LIKE', "%{$search}%");
+            })
+            ->paginate(5);
+
         // Kirim data ke view
-        return view('dashboard-mentor.kursus', compact('courses'));
+        return view('dashboard-mentor.kursus', compact('courses', 'search'));
     }
 
     public function create()

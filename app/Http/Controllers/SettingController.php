@@ -12,11 +12,18 @@ class SettingController extends Controller
 {
     public function admin()
     {
+        // Ambil informasi pengguna yang sedang login
         $user = Auth::user();
-        
-        return view('dashboard-admin.setting', compact('user'));
+    
+        // Periksa apakah pengguna memiliki peran admin
+        if ($user && $user->role === 'admin') {
+            return view('dashboard-admin.setting', compact('user'));
+        }
+    
+        // Jika bukan admin, redirect ke halaman lain (contoh: dashboard utama) dengan pesan error
+        return redirect()->route('welcome-admin')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
     }
-
+    
     public function mentor()
     {
         $user = Auth::user();

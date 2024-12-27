@@ -42,7 +42,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::delete('/admin/users/{id}', [DashboardAdminController::class, 'deleteUser'])->name('admin.delete');
     Route::get('/mentor/user/{id}', [DashboardAdminController::class, 'detailmentor'])->name('detaildata-mentor');
     Route::get('/peserta/user/{id}', [DashboardAdminController::class, 'detailpeserta'])->name('detaildata-peserta');
-    Route::get('/settings', [SettingController::class, 'admin'])->name('settings.admin');
+    Route::get('/settings-admin', [SettingController::class, 'admin'])->name('settings.admin');
     Route::post('/settings', [SettingController::class, 'update']);
     // Kategori
     Route::patch('/courses/{id}/{name}/approve', [DashboardAdminController::class, 'approve'])->name('courses.approve');
@@ -84,7 +84,7 @@ Route::middleware(['auth:mentor'])->group(function () {
     Route::get('dashboard-mentor/rating', [DashboardMentorController::class, 'rating'])->name('rating-kursus');
     Route::get('dashboard-mentor/rating/{id}', [DashboardMentorController::class, 'ratingDetail'])->name('rating-detail');
     Route::post('/rating/{id}/toggle-display', [RatingKursusController::class, 'toggleDisplay'])->name('toggle.displaymentor');
-    Route::get('/settings', [SettingController::class, 'mentor'])->name('settings.mentor');
+    Route::get('/settings-mentor', [SettingController::class, 'mentor'])->name('settings.mentor');
 
     //Kursus
     Route::resource('courses', CourseController::class);
