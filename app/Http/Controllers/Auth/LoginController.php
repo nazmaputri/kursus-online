@@ -34,6 +34,7 @@ class LoginController extends Controller
             ])->withInput($request->except('password'));
         }
     
+        // Cek apakah password cocok dengan hash yang ada di database
         if (!Hash::check($request->password, $user->password)) {
             return back()->withErrors([
                 'password' => 'Password salah.',
@@ -56,7 +57,7 @@ class LoginController extends Controller
         // Redirect berdasarkan role
         switch ($user->role) {
             case 'admin':
-                Auth::guard('admin')->login($user); // Gunakan guard admin
+                Auth::guard('admin')->login($user); 
                 return redirect()->route('welcome-admin');
             
             case 'mentor':
@@ -72,7 +73,7 @@ class LoginController extends Controller
                 Auth::logout();
                 return redirect('login')->withErrors(['email' => 'Role tidak dikenal.']);
         }
-    }
+    }    
 
     // Proses logout
     public function logout(Request $request)

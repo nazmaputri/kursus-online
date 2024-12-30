@@ -55,18 +55,6 @@
                     <input type="password" name="password" id="password" class="w-full px-4 py-2 border border-sky-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500" required autocomplete="current-password">
                 </div>
 
-                {{-- <!-- Remember Me & Forgot Password -->
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember_me" name="remember" type="checkbox" class="h-4 w-4 text-sky-600 focus:ring-sky-500 border-sky-300 rounded">
-                        <label for="remember_me" class="ml-2 block text-sm text-sky-600">Remember me</label>
-                    </div>
-
-                    <div class="text-sm">
-                        <a href="#" class="font-medium text-sky-600 hover:text-sky-500">Forgot your password?</a>
-                    </div>
-                </div> --}}
-
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" class="w-full px-4 py-2 bg-sky-600 text-white font-bold rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">

@@ -25,14 +25,15 @@
             </div>
         </form>
 
-        <div class="text-right p-1">
-            <a href="{{ route('courses.create') }}" class="inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-600 font-bold py-2 px-4 rounded-md">
+        <div class="text-right p-1 md:text-right md:p-1 mt-4 md:mt-0 flex justify-center md:justify-end">
+            <a href="{{ route('courses.create') }}" 
+               class="inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-600 font-bold py-2 px-4 rounded-md">
                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
                     <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
                 </svg>
                 <span>Tambah Kursus</span>
             </a>
-        </div>
+        </div>        
 
         @if (session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
