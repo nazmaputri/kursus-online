@@ -27,6 +27,11 @@ class Materi extends Model
         return $this->hasMany(MateriPdf::class);
     }
 
+    public function youtubes()
+    {
+        return $this->hasMany(YouTube::class);
+    }
+
     public function quizzes()
     {
         return $this->hasMany(Quiz::class);

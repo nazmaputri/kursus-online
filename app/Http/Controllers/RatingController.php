@@ -37,4 +37,13 @@ class RatingController extends Controller
         // Redirect dengan pesan sukses
         return redirect()->back()->with('success', 'Terima kasih atas penilaian Anda!');
     }
+
+    public function destroy($id)
+    {
+        $rating = Rating::findOrFail($id); // Cari rating berdasarkan ID
+        $rating->delete(); // Hapus rating
+
+        return redirect()->route('rating-admin')->with('success', 'Rating berhasil dihapus');
+    }
+
 }

@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Payment;
 use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -122,7 +123,13 @@ class DashboardAdminController extends Controller
         $category = Category::with('courses')->where('name', $name)->firstOrFail();
         $course = Course::findOrFail($id);
 
-        return view('dashboard-admin.detail-kursus', compact('course', 'category'));
+        // Ambil peserta yang pembayaran kursusnya lunas
+        $participants = Payment::where('course_id', $id)
+        ->where('transaction_status', 'success') 
+        ->with('user') 
+        ->paginate(5); 
+
+        return view('dashboard-admin.detail-kursus', compact('course', 'category', 'participants'));
     }
 
     public function updateStatus($id)

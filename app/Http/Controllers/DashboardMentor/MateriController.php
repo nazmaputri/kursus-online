@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Materi;
 use App\Models\MateriVideo;
 use App\Models\MateriPdf;
+use App\Models\YouTube;
 use App\Models\Quiz;
 use App\Models\Question;
 use App\Models\Answer;
@@ -30,7 +31,7 @@ class MateriController extends Controller
 
     public function show($courseId, $materiId)
     {
-        $materi = Materi::with(['videos', 'pdfs', 'course'])->findOrFail($materiId);
+        $materi = Materi::with(['videos', 'pdfs', 'youtubes', 'course'])->findOrFail($materiId);
         $course = Course::findOrFail($courseId);
         $quizzes = Quiz::where('materi_id', $materiId)->paginate(5);
     
@@ -43,12 +44,14 @@ class MateriController extends Controller
         $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'videos.*' => 'file|mimes:mp4,avi,mkv|max:1024000', 
-            'video_titles.*' => 'nullable|string|max:255', 
-            'material_files.*' => 'file|mimes:pdf,doc,docx,ppt,pptx|max:10240', 
-            'material_titles.*' => 'nullable|string|max:255', 
+            'videos.*' => 'file|mimes:mp4,avi,mkv|max:1024000',
+            'video_titles.*' => 'nullable|string|max:255',
+            'material_files.*' => 'file|mimes:pdf,doc,docx,ppt,pptx|max:10240',
+            'material_titles.*' => 'nullable|string|max:255',
+            'youtube_links.*' => 'nullable|url', // Validasi untuk link YouTube
+            'youtube_titles.*' => 'nullable|string|max:255', // Validasi untuk judul YouTube
         ]);
-        
+    
         // Temukan kursus yang sesuai dengan ID yang diteruskan
         $course = Course::findOrFail($courseId);
     
@@ -82,6 +85,20 @@ class MateriController extends Controller
                     'judul' => $request->material_titles[$index],
                     'course_id' => $courseId,  // Menyimpan course_id pada materi pdf
                 ]);
+            }
+        }
+    
+        // Simpan link YouTube dan judulnya
+        if ($request->has('youtube_links')) {
+            foreach ($request->youtube_links as $index => $link) {
+                if (!empty($link)) { // Pastikan link tidak kosong
+                    YouTube::create([
+                        'materi_id' => $materi->id,
+                        'course_id' => $courseId,
+                        'judul' => $request->youtube_titles[$index] ?? 'Video YouTube', // Judul default jika tidak ada
+                        'link_youtube' => $link,
+                    ]);
+                }
             }
         }
     

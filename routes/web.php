@@ -44,6 +44,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/peserta/user/{id}', [DashboardAdminController::class, 'detailpeserta'])->name('detaildata-peserta');
     Route::get('/settings-admin', [SettingController::class, 'admin'])->name('settings.admin');
     Route::post('/settings', [SettingController::class, 'update']);
+    Route::delete('/ratings/{id}', [RatingController::class, 'destroy'])->name('ratings.destroy');
+
     // Kategori
     Route::patch('/courses/{id}/{name}/approve', [DashboardAdminController::class, 'approve'])->name('courses.approve');
     Route::patch('/courses/{id}/{name}/publish', [DashboardAdminController::class, 'publish'])->name('courses.publish');

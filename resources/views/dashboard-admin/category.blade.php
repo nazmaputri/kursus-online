@@ -67,9 +67,9 @@
                                 </button>
 
                                 <!-- Modal Konfirmasi -->
-                                <div id="deleteModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center hidden">
+                                <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
                                     <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-                                        <h3 class="text-xl font-semibold text-center">Apakah Anda yakin ingin menghapus kategori ini?</h3>
+                                        <h3 class="text-md font-medium text-center">Apakah Anda yakin ingin menghapus kategori ini?</h3>
                                         <div class="mt-4 flex justify-center space-x-3">
                                             <button onclick="closeDeleteModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded">
                                                 Batal

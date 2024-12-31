@@ -60,6 +60,31 @@
         <p class="mt-4 text-gray-500">Tidak ada file materi yang tersedia.</p>
         @endif
 
+        <!-- Video YouTube Materi -->
+        @if($materi->youtubes->isNotEmpty())
+        <div class="mt-6">
+            <details class="mb-4">
+                <summary class="cursor-pointer text-sky-400 mb-4">Lihat Video YouTube</summary>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"> <!-- Layout untuk dua video per baris -->
+                    @foreach($materi->youtubes as $youtube)
+                        <div class="border p-4 rounded-md shadow-md">
+                            <h4 class="font-semibold mb-2 capitalize">{{ $youtube->judul }}</h4>
+                            <div class="relative" style="padding-top: 56.25%;"> <!-- Aspect ratio 16:9 -->
+                                <iframe src="https://www.youtube.com/embed/{{ basename($youtube->link_youtube) }}" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen 
+                                        class="absolute top-0 left-0 w-full h-full rounded-md shadow-md">
+                                </iframe>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </details>
+        </div>
+        @else
+        <p class="mt-4 text-gray-500">Tidak ada video YouTube yang tersedia.</p>
+        @endif
     </div>
 
 

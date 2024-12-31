@@ -4,17 +4,6 @@
 <div class="container mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
         <h2 class="text-2xl uppercase font-bold mb-8 inline-block border-b-2 border-gray-300 pb-2">Data Mentor</h2>
-        @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if(session('info'))
-            <div class="bg-yellow-100 border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4">
-                {{ session('info') }}
-            </div>
-        @endif
         
          <!-- Search Bar -->
          <form action="{{ route('datamentor-admin') }}" method="GET" class="max-w-sm mx-auto mb-4">
@@ -33,7 +22,17 @@
                 </button>
             </div>
         </form>
+        @if (session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+            {{ session('success') }}
+            </div>
+        @endif
 
+        @if(session('info'))
+            <div class="bg-yellow-100 border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-4">
+                {{ session('info') }}
+            </div>
+        @endif
         <!-- Tabel data user -->
         <div class="overflow-x-auto">
             <table class="min-w-full border-separate border-spacing-1" id="userTable">
@@ -82,11 +81,11 @@
                                     </form>
 
                                     <!-- Modal Konfirmasi -->
-                                    <div id="deleteModal" class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 hidden">
+                                    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
                                         <div class="bg-white p-6 rounded-lg shadow-lg">
                                             <h2 class="text-lg font-semibold">Konfirmasi Penghapusan</h2>
                                             <p>Apakah Anda yakin ingin menghapus pengguna ini?</p>
-                                            <div class="mt-4 flex justify-end">
+                                            <div class="mt-4 flex justify-center space-x-4">
                                                 <button onclick="closeDeleteModal()" class="px-4 py-2 bg-gray-500 text-white rounded-md">Batal</button>
                                                 <button onclick="confirmDelete()" class="ml-2 px-4 py-2 bg-red-500 text-white rounded-md">Hapus</button>
                                             </div>

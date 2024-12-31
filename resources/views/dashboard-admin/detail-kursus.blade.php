@@ -119,35 +119,43 @@
                 </div>
             </div>
         </div>
-         <!-- Tabel Peserta Terdaftar -->
+        <!-- Tabel Peserta Terdaftar -->
         <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
             <h3 class="text-xl font-bold mb-6 text-left border-b-2 border-gray-300 pb-2 uppercase">Peserta Terdaftar</h3>
             <div class="overflow-x-auto">
                 <table class="min-w-full border-separate border-spacing-1" id="courseTable">
                     <thead>
                         <tr class="bg-sky-200 text-gray-600 uppercase text-sm leading-normal">
+                            <th class="border border-gray-300 py-2 px-2 rounded-md">No</th>
                             <th class="border border-gray-300 py-2 px-4 rounded-md">Nama Peserta</th>
                             <th class="border border-gray-300 py-2 px-4 rounded-md">Email</th>
-                            <th class="border border-gray-300 py-2 px-4 rounded-md">Status</th>
+                            <th class="border border-gray-300 py-2 rounded-md">Status Pembayaran</th>
                         </tr>
                     </thead>
-                    {{-- <tbody>
-                        @foreach($participants as $participant)
-                        <tr class="hover:bg-gray-50">
-                            <td class="py-2 px-4 border-b">{{ $participant->user->name }}</td> <!-- Nama peserta -->
-                            <td class="py-2 px-4 border-b">{{ $participant->user->email }}</td> <!-- Email peserta -->
-                            <td class="py-2 px-4 border-b">{{ $participant->status }}</td> <!-- Status peserta -->
+                    <tbody>
+                        @forelse ($participants as $index => $participant)
+                        <tr class="bg-white hover:bg-sky-50 user-row">
+                            <td class="py-2 px-4 text-center border border-gray-300 rounded-md">{{ $index + 1 }}</td>
+                            <td class="py-2 px-4 border border-gray-300 rounded-md">{{ $participant->user->name }}</td>
+                            <td class="py-2 px-4 border border-gray-300 rounded-md">{{ $participant->user->email }}</td>
+                            <td class="py-2 border border-gray-300 rounded-md text-center text-green-500">{{ $participant->transaction_status }}</td>
                         </tr>
-                        @endforeach
-                    </tbody> --}}
+                        @empty
+                        <tr>
+                            <td colspan="4" class="py-4 text-center text-gray-500">Belum ada peserta terdaftar.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
                 </table>
+                <div class="mt-4">
+                    {{ $participants->links() }}
+                </div>
             </div>
-            <div class="mt-6 flex justify-end space-x-2">
-                <a href="{{ route('categories.show', $category->name) }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
-                    Kembali
-                </a>
-            </div>    
-        </div>
+            <div class="mt-6 flex justify-end">
+            <a href="{{ route('categories.show', $category->name) }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                Kembali
+            </a>
+        </div> 
     </div>
 </div>
 

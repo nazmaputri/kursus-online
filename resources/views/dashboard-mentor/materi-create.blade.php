@@ -36,6 +36,48 @@
                             <div class="text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
+                    <!-- Input Untuk Link Youtube-->
+                    <div class="mb-4" id="youtube-upload">
+                        <label class="block text-gray-700 font-bold">Tambahkan Link YouTube</label>
+                        
+                        <!-- Kontainer untuk link YouTube yang ditambahkan -->
+                        <div id="youtube-container" class="hidden">
+                            <!-- Template untuk input judul dan link YouTube -->
+                            <div class="youtube-item mb-4">
+                                <input 
+                                    type="text" 
+                                    name="youtube_titles[]" 
+                                    class="w-full p-2 border rounded mb-2" 
+                                    placeholder="Masukkan judul video YouTube">
+                                <input 
+                                    type="url" 
+                                    name="youtube_links[]" 
+                                    class="w-full p-2 border rounded mb-2" 
+                                    placeholder="Masukkan link YouTube">
+                                <button 
+                                    type="button" 
+                                    class="font-bold mt-2 bg-red-400 text-white p-2 rounded" 
+                                    onclick="removeYoutubeItem(this)">Hapus
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Tombol untuk menambahkan link YouTube -->
+                        <button 
+                            type="button" 
+                            onclick="addYoutubeItem()" 
+                            class="font-bold mt-2 bg-green-400 text-white p-2 rounded">Tambah Link YouTube
+                        </button>
+                        
+                        <small class="text-gray-600">Jika ukuran video lebih dari 1GB, gunakan link YouTube.</small>
+                        
+                        @error('youtube_links')
+                            <div class="text-red-600">{{ $message }}</div>
+                        @enderror
+                        @error('youtube_titles')
+                            <div class="text-red-600">{{ $message }}</div>
+                        @enderror
+                    </div>                    
                 </div>
                 
                 <!-- Kanan: Input File Video dan Materi -->
@@ -118,6 +160,45 @@
     // Menghapus input
     function removeInput(button) {
         button.parentElement.remove();
+    }
+
+    // Fungsi untuk menampilkan kontainer dan menambahkan input YouTube baru
+    function addYoutubeItem() {
+        const container = document.getElementById('youtube-container');
+        
+        // Menampilkan kontainer jika tersembunyi
+        container.classList.remove('hidden');
+        
+        const newItem = document.createElement('div');
+        newItem.classList.add('youtube-item', 'mb-4');
+        newItem.innerHTML = `
+            <input 
+                type="text" 
+                name="youtube_titles[]" 
+                class="w-full p-2 border rounded mb-2" 
+                placeholder="Masukkan judul video YouTube"
+            >
+            <input 
+                type="url" 
+                name="youtube_links[]" 
+                class="w-full p-2 border rounded mb-2" 
+                placeholder="Masukkan link YouTube"
+            >
+            <button 
+                type="button" 
+                class="font-bold mt-2 bg-red-400 text-white p-2 rounded" 
+                onclick="removeYoutubeItem(this)"
+            >
+                Hapus
+            </button>
+        `;
+        container.appendChild(newItem);
+    }
+
+    // Fungsi untuk menghapus input tertentu
+    function removeYoutubeItem(button) {
+        const item = button.closest('.youtube-item');
+        item.remove();
     }
 </script>
 @endsection
