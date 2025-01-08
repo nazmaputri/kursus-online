@@ -10,7 +10,7 @@
     <p>Selamat! Akun Anda telah diaktifkan oleh Admin.</p>
     <p>Sekarang anda sudah resmi menjadi mentor di EduFlix!</p>
     <p>Silakan login untuk mengakses akun Anda.</p>
-    <p>http://127.0.0.1:8000/login</p>
+    <p>https://nazmaputri-smkn1ciomas-kursusonline-2024.qelopak.com/login</p>
     <br>
     <p>Salam,</p>
     <p>EduFlix</p>
