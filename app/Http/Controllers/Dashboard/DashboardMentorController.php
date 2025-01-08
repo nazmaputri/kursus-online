@@ -77,31 +77,35 @@ class DashboardMentorController extends Controller
         return view('dashboard-mentor.data-peserta', compact('users'));
     }
 
-    public function laporan()
+    public function laporan(Request $request)
     {
         $mentorId = Auth::id();
-
-        // Ambil data pendapatan bulanan berdasarkan kursus mentor
+        $currentYear = $request->input('year', date('Y')); // Ambil tahun dari URL atau gunakan tahun sekarang sebagai default
+    
+        // Ambil data pendapatan bulanan berdasarkan kursus mentor dan tahun yang dipilih
         $payments = DB::table('payments')
             ->join('courses', 'payments.course_id', '=', 'courses.id') // Gabungkan dengan tabel courses
             ->selectRaw('MONTH(payments.created_at) as month, SUM(payments.amount) as total')
             ->where('courses.mentor_id', $mentorId) // Filter berdasarkan mentor yang login
             ->where('payments.transaction_status', 'success') // Hanya transaksi sukses
+            ->whereYear('payments.created_at', $currentYear) // Filter berdasarkan tahun
             ->groupBy('month')
             ->orderBy('month')
             ->get();
-
+    
         // Siapkan data untuk grafik
         $months = collect(range(1, 12))->map(function ($month) {
             return Carbon::create()->month($month)->format('F'); // Nama bulan
         });
-
+    
         $revenueData = $months->map(function ($monthName, $index) use ($payments) {
             $payment = $payments->firstWhere('month', $index + 1);
             return $payment ? $payment->total : 0; // Isi dengan 0 jika tidak ada data
         });
-
-        return view('dashboard-mentor.laporan', compact('revenueData', 'months'));
-    }
+    
+        $years = range(date('Y'), date('Y') - 2); // Tahun saat ini hingga 2 tahun terakhir
+    
+        return view('dashboard-mentor.laporan', compact('revenueData', 'months', 'years', 'currentYear'));
+    }    
 
 }

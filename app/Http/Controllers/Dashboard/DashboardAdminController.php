@@ -151,38 +151,46 @@ class DashboardAdminController extends Controller
         return redirect()->back()->with('info', 'User is already active.');
     }
     
-    public function laporan()
+    public function laporan(Request $request)
     {
-        // Ambil data jumlah pengguna yang mendaftar setiap bulan
+        // Ambil tahun dari request atau default ke tahun saat ini
+        $year = $request->input('year', date('Y'));
+    
+        // Ambil data jumlah pengguna yang mendaftar setiap bulan di tahun tertentu
         $userGrowth = User::select(
                             DB::raw('MONTH(created_at) as month'),
-                            DB::raw('YEAR(created_at) as year'),
                             DB::raw('COUNT(*) as user_count')
                         )
-                        ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
-                        ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'), 'asc')
+                        ->whereYear('created_at', $year) // Filter berdasarkan tahun
+                        ->groupBy(DB::raw('MONTH(created_at)'))
+                        ->orderBy(DB::raw('MONTH(created_at)'), 'asc')
                         ->get();
-        
+    
         // Nama bulan
         $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        
-        // Format data untuk grafik, inisialisasi dengan 0 untuk setiap bulan
-        $userGrowthData = array_fill(0, 12, 0);  // Array dengan 12 bulan, semua nilai awal 0
-        
+    
+        // Inisialisasi data untuk grafik
+        $userGrowthData = array_fill(0, 12, 0);
+    
         // Isi data pengguna yang terdaftar di bulan yang sesuai
         foreach ($userGrowth as $data) {
             $userGrowthData[$data->month - 1] = $data->user_count; // Month-1 untuk indexing dari 0
         }
     
-        return view('dashboard-admin.laporan', compact('userGrowthData', 'monthNames'));
+        // Ambil daftar tahun dari data pengguna
+        $years = User::select(DB::raw('YEAR(created_at) as year'))
+                    ->distinct()
+                    ->orderBy('year', 'asc')
+                    ->pluck('year');
+    
+        return view('dashboard-admin.laporan', compact('userGrowthData', 'monthNames', 'years', 'year'));
     }
     
-
+    
     public function destroy($id)
     {
         // Cari user berdasarkan ID
         $user = User::findOrFail($id);
-
         // Hapus user
         $user->delete();
 

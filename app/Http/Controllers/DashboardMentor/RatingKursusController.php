@@ -40,6 +40,6 @@ class RatingKursusController extends Controller
 
         // Redirect dengan notifikasi sukses
         return redirect()->route('detail-kursus', ['id' => $course_id])
-                        ->with('success', 'Rating berhasil disimpan!');
+                        ->with('success', 'Terimakasih atas penilaian anda!');
     }
 }

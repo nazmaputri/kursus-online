@@ -67,6 +67,11 @@ class RegisterController extends Controller
             ? 'Permintaan Anda akan disetujui oleh admin dalam 1x24 jam, tunggu notifikasi selanjutnya agar bisa menjadi mentor.'
             : 'Pendaftaran berhasil. Silakan login.';
 
+        // Cek apakah admin yang menambahkan
+        if ($request->has('added_by_admin')) {
+            return redirect()->route('datamentor-admin')->with('success', 'Mentor berhasil ditambahkan!');
+        }
+
         // Redirect ke halaman login dengan pesan sukses
         return redirect()->route('login')->with('success', $message);
     }

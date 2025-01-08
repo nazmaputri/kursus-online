@@ -35,7 +35,7 @@
                     <!-- Input untuk Deskripsi -->
                     <div class="mb-4">
                         <label for="description" class="block text-gray-700 font-bold mb-2">Deskripsi</label>
-                        <textarea name="description" id="description" rows="4" class="w-full p-2 border rounded @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description') }}</textarea>
+                        <textarea name="description" id="description" rows="4" class="w-full p-2 border rounded @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus" required>{{ old('description') }}</textarea>
                         @error('description')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
