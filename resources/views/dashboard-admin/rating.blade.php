@@ -72,12 +72,7 @@
                 <div class="mt-4">
                     {{ $ratings->links() }}
                 </div>
-            </div>
-            <div class="mt-6 flex justify-end space-x-2">
-                <a href="{{ route('rating-kursus') }}" class="bg-sky-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
-                    Kembali
-                </a>
-            </div>   
+            </div> 
         </div>
     </div>
 @endsection

@@ -23,7 +23,7 @@
                                 <!-- Nama dan Rating -->
                                 <div class="ml-4">
                                     <!-- Nama User -->
-                                    <h4 class="text-xl font-semibold text-sky-400">{{ $rating->nama }}</h4>
+                                    <h4 class="text-xl font-semibold text-sky-400 capitalize">{{ $rating->nama }}</h4>
                                     <div class="flex items-center mt-1">
                                         <!-- Menampilkan bintang berdasarkan rating -->
                                         @for ($i = 0; $i < 5; $i++)

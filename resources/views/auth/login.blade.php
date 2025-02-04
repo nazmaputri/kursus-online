@@ -47,8 +47,8 @@
                 <div>
                     <label for="email" class="block text-sm font-medium text-sky-600 pb-2">Email Address</label>
                     <input type="email" name="email" id="email"
-                        class="w-full px-4 py-2 border border-sky-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 
-                        @error('email') border-red-500 @enderror">
+                        class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 
+                        @error('email') border-red-500 @enderror" placeholder="Masukkan email">
                     @error('email')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -58,8 +58,8 @@
                 <div>
                     <label for="password" class="block text-sm font-medium text-sky-600 pb-2">Password</label>
                     <input type="password" name="password" id="password"
-                        class="w-full px-4 py-2 border border-sky-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 
-                        @error('password') border-red-500 @enderror">
+                        class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 
+                        @error('password') border-red-500 @enderror" placeholder="Masukkan password">
                     @error('password')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
