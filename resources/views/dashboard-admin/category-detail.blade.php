@@ -9,7 +9,7 @@
     <div class="flex flex-col md:flex-row mb-4">
         <div class="w-full md:w-1/3 p-6">
             @if ($category->image_path)
-                <img src="{{ asset('storage/' . $category->image_path) }}" alt="{{ $category->name }}" class="rounded-lg w-full h-auto">
+                <img src="{{ Storage::url($category->image_path) }}" alt="{{ $category->name }}" class="rounded-lg w-full h-auto">
             @else
                 <div class="bg-gray-200 text-gray-500 flex items-center justify-center rounded-lg w-full h-48">
                     <span>Gambar tidak tersedia</span>

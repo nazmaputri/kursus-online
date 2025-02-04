@@ -22,6 +22,10 @@ class LoginController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
+        ], [
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password harus diisi.'
         ]);
     
         // Cek pengguna berdasarkan email

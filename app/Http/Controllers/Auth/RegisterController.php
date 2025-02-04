@@ -28,8 +28,26 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed', // Memastikan password dan konfirmasi sama
-            'phone_number' => 'nullable|string|max:15',
+            'phone_number' => 'required|string|max:15',
             'role' => 'required|in:student,mentor', // Validasi role yang diinput
+        ], [
+            'name.required' => 'Nama lengkap harus diisi.',
+            'name.string' => 'Nama lengkap harus berupa teks.',
+            'name.max' => 'Nama lengkap tidak boleh lebih dari 255 karakter.',
+        
+            'email.required' => 'Email harus diisi.',
+            'email.string' => 'Email harus berupa teks.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar, gunakan email lain.',
+        
+            'password.required' => 'Password harus diisi.',
+            'password.min' => 'Password minimal harus terdiri dari 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+        
+            'phone_number.required' => 'Nomor telepon harus diisi',
+            'phone_number.string' => 'Nomor telepon harus berupa teks.',
+            'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 15 karakter.',        
         ]);
 
         // Validasi tambahan jika role adalah mentor
@@ -40,6 +58,22 @@ class RegisterController extends Controller
                 'linkedin' => 'nullable|string|max:255',
                 'company' => 'nullable|string|max:255',
                 'years_of_experience' => 'nullable|integer',
+            ], [
+                'profesi.required' => 'Profesi harus diisi.',
+                'profesi.string' => 'Profesi harus berupa teks.',
+                'profesi.max' => 'Profesi tidak boleh lebih dari 255 karakter.',
+
+                'experience.required' => 'Pengalaman harus diisi.',
+                'experience.string' => 'Pengalaman harus berupa teks.',
+                'experience.max' => 'Pengalaman tidak boleh lebih dari 255 karakter.',
+
+                'linkedin.string' => 'LinkedIn harus berupa teks.',
+                'linkedin.max' => 'LinkedIn tidak boleh lebih dari 255 karakter.',
+
+                'company.string' => 'Nama perusahaan harus berupa teks.',
+                'company.max' => 'Nama perusahaan tidak boleh lebih dari 255 karakter.',
+
+                'years_of_experience.integer' => 'Tahun pengalaman harus berupa angka.',
             ]);
         }
 
@@ -64,7 +98,7 @@ class RegisterController extends Controller
 
         // Redirect dan tampilkan notifikasi khusus mentor
         $message = $request->role === 'mentor'
-            ? 'Permintaan Anda akan disetujui oleh admin dalam 1x24 jam, tunggu notifikasi selanjutnya agar bisa menjadi mentor.'
+            ? 'Permintaan Anda akan disetujui oleh admin dalam 1x24 jam, tunggu notifikasi dari email anda agar bisa menjadi mentor.'
             : 'Pendaftaran berhasil. Silakan login.';
 
         // Cek apakah admin yang menambahkan
