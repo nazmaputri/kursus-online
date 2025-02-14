@@ -89,4 +89,35 @@ class SettingController extends Controller
         // Jika role tidak ditemukan, arahkan ke halaman default
         return redirect()->route('welcome-admin')->with('success', 'Profil berhasil diperbarui!');
     }
+
+    public function updatePeserta(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+            'password' => 'nullable|confirmed|min:8',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('photo')) {
+            if ($user->photo) {
+                Storage::delete('public/' . $user->photo);
+            }
+
+            $path = $request->file('photo')->store('images/profile', 'public');
+            $user->photo = $path;
+        }
+
+        $user->save();
+
+        return redirect()->route('welcome-peserta')->with('success', 'Profil berhasil diperbarui!');
+    }
 }

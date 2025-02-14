@@ -73,17 +73,20 @@
                         </button>
                     </a>
                 
-                    <a href="{{ $course->isCompletedForCertificate ? route('certificate.download', $course->id) : '#' }}" class="flex-1">
-                        <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 
-                            {{ !$course->isCompletedForCertificate ? 'bg-gray-400 text-gray-600 border-gray-600 cursor-not-allowed opacity-50' : 'bg-red-100/50 text-red-500 border border-red-500 hover:bg-red-600 hover:text-white transition-colors group' }}">
-                            <svg class="h-5 w-5 transition-colors 
-                                {{ !$course->isCompletedForCertificate ? 'text-gray-600' : 'text-red-500 group-hover:text-white' }}" 
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                                <path d="M128 0C92.7 0 64 28.7 64 64l0 96 64 0 0-96 226.7 0L384 93.3l0 66.7 64 0 0-66.7c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0L128 0zM384 352l0 32 0 64-256 0 0-64 0-16 0-16 256 0zm64 32l32 0c17.7 0 32-14.3 32-32l0-96c0-35.3-28.7-64-64-64L64 192c-35.3 0-64 28.7-64 64l0 96c0 17.7 14.3 32 32 32l32 0 0 64c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-64zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
-                            </svg>
-                           Unduh Sertifikat
-                        </button>
-                    </a>                                  
+                    <a href="{{ $course->isCompletedForCertificate ? route('certificate-detail', ['courseId' => $course->id]) : '#' }}" 
+                        class="flex-1 {{ !$course->isCompletedForCertificate ? 'pointer-events-none' : '' }}">
+                         <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 
+                             {{ !$course->isCompletedForCertificate ? 'bg-gray-400 text-gray-600 border-gray-600 cursor-not-allowed opacity-50' : 'bg-red-100/50 text-red-500 border border-red-500 hover:bg-red-600 hover:text-white transition-colors group' }}">
+                             
+                             <!-- SVG Icon with transition effects -->
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" class="w-5 h-5 transition-all 
+                                 {{ !$course->isCompletedForCertificate ? 'grayscale opacity-50 cursor-not-allowed' : 'group-hover:fill-white fill-red-500' }}">
+                                 <path d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/>
+                             </svg>
+                             
+                             Sertifikat
+                         </button>
+                     </a>                            
                 </div>                
             </div>
         @empty

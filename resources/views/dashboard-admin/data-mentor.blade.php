@@ -134,9 +134,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                @php
+                    $startNumber = ($users->currentPage() - 1) * $users->perPage() + 1;
+                @endphp
                     @foreach ($users as $index => $user)
                         <tr class="bg-white hover:bg-sky-50 user-row" data-role="{{ $user->role }}">
-                            <td class="border border-gray-300 px-4 py-2 rounded-md text-center">{{ $index + 1 }}</td>
+                            <td class="border border-gray-300 px-4 py-2 rounded-md text-center">{{ $startNumber + $index }}</td>
                             <td class="border border-gray-300 px-4 py-2 rounded-md">{{ $user->name }}</td>
                             <td class="py-3 px-4 text-center border border-gray-300 rounded-md">
                                 <form action="{{ route('admin.users.updateStatus', $user->id) }}" method="POST">

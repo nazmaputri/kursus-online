@@ -145,7 +145,7 @@ class DashboardAdminController extends Controller
             // Kirim email ke user
             Mail::to($user->email)->send(new HelloMail($user->name));
 
-            return redirect()->back()->with('success', 'User status updated to active and email has been sent.');
+            return redirect()->back()->with('success', 'Status mentor berhasil di perbaharui dan email telah terkirim!');
         }
 
         return redirect()->back()->with('info', 'User is already active.');

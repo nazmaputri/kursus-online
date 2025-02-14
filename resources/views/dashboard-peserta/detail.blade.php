@@ -35,13 +35,13 @@
                 <p class="text-xl rounded-md bg-green-200 inline-block p-2 font-bold text-green-600">
                     Rp. {{ number_format($course->price, 0, ',', '.') }}
                 </p>
-                @if(!$hasPurchased) <!-- Cek apakah kursus sudah dibeli -->
+                {{-- @if(!$hasPurchased) <!-- Cek apakah kursus sudah dibeli -->
                 <button class="bg-sky-300 text-white font-semibold px-4 py-2 rounded-lg hover:bg-sky-600" id="pay-now-{{ $course->id }}" data-course-id="{{ $course->id }}" data-course-price="{{ $course->price }}">
                     Beli Sekarang
                 </button>
                 @else
                 <p class="text-red-500 mt-4">Anda sudah membeli kursus ini.</p>
-                @endif
+                @endif --}}
             @endif
         </div>        
     </div>

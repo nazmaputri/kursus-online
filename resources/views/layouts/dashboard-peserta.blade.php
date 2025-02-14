@@ -98,6 +98,22 @@
             <div id="header" class="flex items-center justify-between fixed top-4 left-4 right-4 sm:left-72 sm:right-4 border border-gray-300 bg-white w-auto sm:w-auto p-2 sm:p-2 rounded-xl">
                 <!-- User Profile di Kanan -->
                 <div class="flex items-center ml-auto mr-4 relative"> <!-- Perbaikan: Menggunakan ml-auto untuk menempatkan di sebelah kanan -->
+                    @php
+                    $cartCount = \App\Models\Keranjang::where('user_id', Auth::id())->count();
+                @endphp
+                
+                <a href="{{ route('cart.index') }}" class="relative cursor-pointer mr-6">
+                    @if($cartCount > 0)
+                        <div class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
+                            {{ $cartCount }}
+                        </div>
+                    @endif
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-7 h-7 text-gray-700 hover:text-gray-900">
+                        <path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+                    </svg>
+                </a>
+                                              
                     <!-- Pengecekan gambar profil -->
                     @if(Auth::user()->photo)
                     <!-- Tampilkan gambar profil jika ada -->
@@ -112,8 +128,10 @@
                         <div>
                             <!-- Memeriksa apakah pengguna sudah login -->
                             @if(Auth::check())
+                            <div class="hidden md:block flex flex-col">
                                 <p class="text-gray-800 font-semibold mr-2">{{ Auth::user()->name }}</p>
                                 <p class="text-gray-600 text-sm">{{ Auth::user()->role }}</p> <!-- Menampilkan role pengguna -->
+                            </div>
                             @else
                                 <p class="text-gray-800 font-semibold mr-2">Guest</p>
                                 <p class="text-gray-600 text-sm">Not logged in</p>

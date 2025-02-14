@@ -16,6 +16,8 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\CertificateController;
 use App\Models\Course;
 use App\Mail\HelloMail;
@@ -46,6 +48,11 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/settings', [SettingController::class, 'update']);
     Route::delete('/ratings/{id}', [RatingController::class, 'destroy'])->name('ratings.destroy');
 
+    //Discount 
+    Route::get('discount', [DiscountController::class, 'index'])->name('discount');
+    Route::get('discount-tambah', [DiscountController::class, 'create'])->name('discount-tambah');
+    Route::post('discount.store', [DiscountController::class, 'store'])->name('discount.store');
+
     // Kategori
     Route::patch('/courses/{id}/{name}/approve', [DashboardAdminController::class, 'approve'])->name('courses.approve');
     Route::patch('/courses/{id}/{name}/publish', [DashboardAdminController::class, 'publish'])->name('courses.publish');
@@ -66,15 +73,24 @@ Route::middleware(['auth:student'])->group(function () {
     Route::get('dashboard-peserta/kategori', [DashboardPesertaController::class, 'kategori'])->name('kategori-peserta');
     Route::get('/categories/{id}/detail', [DashboardPesertaController::class, 'showCategoryDetail'])->name('categories-detail');
     Route::get('/settings-student', [SettingController::class, 'student'])->name('settings-student');
+    Route::put('/update-peserta', [SettingController::class, 'updatePeserta'])->name('update-peserta');
     Route::post('/kursus/{course_id}/rating', [RatingKursusController::class, 'store'])->name('ratings.store');
+ 
+    //Keranjang
+    Route::get('/keranjang', [KeranjangController::class, 'index'])->name('cart.index');
+    Route::post('/keranjang/tambah/{id}', [KeranjangController::class, 'addToCart'])->name('cart.add');
+    Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'removeFromCart'])->name('cart.remove');
+
+    Route::post('/apply-discount', [DiscountController::class, 'applyDiscount'])->name('apply.discount');
 
     //Quiz Peserta
     Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('quiz.show');
     Route::post('/quiz/{quiz}/submit', [QuizController::class, 'submit'])->name('quiz.submit');
     Route::get('/quiz/{quiz}/result', [QuizController::class, 'result'])->name('quiz.result');
 
+    Route::get('/certificate-detail/{courseId}', [CertificateController::class, 'certificate'])->name('certificate-detail');
     Route::get('/certificate/download/{courseId}', [CertificateController::class, 'downloadCertificate'])->name('certificate.download');
-    Route::post('/create-payment/{course_id}', [PaymentController::class, 'createPayment'])->name('create.payment');
+    Route::post('/create-payment', [PaymentController::class, 'createPayment']);
     Route::post('/payment-success', [PaymentController::class, 'updatePaymentStatus']);
 });
 

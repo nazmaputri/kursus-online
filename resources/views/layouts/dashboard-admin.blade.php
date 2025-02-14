@@ -102,6 +102,15 @@
                             <span class="ms-3">Kategori</span>
                         </a>
                     </li>   
+                    <li class="border-l-2 {{ Request::routeIs('discount.index', 'discount.create') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
+                        <a href="{{ route('discount') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <!-- Ikon SVG -->
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                <path d="M374.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-320 320c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l320-320zM128 128A64 64 0 1 0 0 128a64 64 0 1 0 128 0zM384 384a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/>
+                            </svg>
+                            <span class="ms-3">Diskon</span>
+                        </a>
+                    </li>   
                     <li class="border-l-2 {{ Request::routeIs('rating-admin') ? 'border-sky-500' : 'border-transparent hover:border-sky-500' }}">
                         <a href="{{ route('rating-admin') }}" class="flex items-center p-2 text-gray-900 rounded-sm dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">

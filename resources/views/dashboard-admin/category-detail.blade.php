@@ -70,16 +70,16 @@
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" 
-                                        class="font-bold py-2 px-4 rounded
+                                        class="font-bold py-2 px-2 rounded
                                                @if($course->status == 'approved' || $course->status == 'published') 
                                                    bg-gray-300 text-gray-500 cursor-not-allowed 
                                                @else 
                                                    bg-green-400 hover:bg-green-600 text-white 
                                                @endif"
                                         @if($course->status == 'approved' || $course->status == 'published') disabled @endif>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-                                        </svg>                                                                                 
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-5 h-5">
+                                            <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
+                                        </svg>
                                 </button>
                             </form>
                         
@@ -89,7 +89,7 @@
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" 
-                                            class="bg-sky-400 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded">
+                                            class="bg-sky-400 hover:bg-sky-600 text-white font-bold py-2 px-2 rounded">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
                                             </svg>                                              

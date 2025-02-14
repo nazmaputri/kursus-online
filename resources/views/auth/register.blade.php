@@ -85,8 +85,8 @@
                     <label for="password_confirmation" class="block text-sm font-medium text-sky-600 pb-2">Konfirmasi Password</label>
                     <input type="password" name="password_confirmation" id="password_confirmation" 
                         class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-                        @error('password.confirmed') border-red-500 @enderror" placeholder="Masukkan konfirmasi password">
-                        @error('password.confirmed')
+                        @error('password_confirmation') border-red-500 @enderror" placeholder="Masukkan konfirmasi password">
+                        @error('password_confirmation')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                 </div>

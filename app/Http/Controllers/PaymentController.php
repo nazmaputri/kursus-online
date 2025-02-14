@@ -9,73 +9,64 @@ use Midtrans\Config;
 use Midtrans\Snap;
 use Auth;
 use Log;
-
+ 
 class PaymentController extends Controller
 {
-    public function createPayment(Request $request, $courseId)
+    public function createPayment(Request $request)
     {
-        // Ambil kursus berdasarkan course_id
-        $course = Course::find($courseId);
-    
-        if (!$course) {
-            return response()->json(['error' => 'Course not found'], 404);
+        // Validasi amount yang dikirim
+        $amount = $request->input('amount');
+        if (!$amount || !is_numeric($amount)) {
+            return response()->json(['error' => 'Invalid amount'], 400);
         }
-    
-        // Pastikan user sudah login
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json(['error' => 'User not authenticated'], 401);
-        }
-    
+
         // Konfigurasi Midtrans
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$clientKey = config('midtrans.client_key');
-        Config::$isProduction = config('midtrans.is_production');
-    
-        // Detail transaksi untuk Midtrans
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY'); // Pastikan serverKey diambil dari .env
+        Config::$clientKey = env('MIDTRANS_CLIENT_KEY'); // Pastikan clientKey diambil dari .env
+        Config::$isProduction = false; // Gunakan false untuk mode sandbox
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
+
+        // Detail transaksi
         $transaction_details = [
-            'order_id' => 'EduFlix/ORDER-' . uniqid(),
-            'gross_amount' => $course->price,
+            'order_id' => 'ORDER-' . time(), // ID unik transaksi
+            'gross_amount' => $amount,
         ];
-    
+
+        // Detail barang
+        $item_details = [
+            [
+                'id' => 'ITEM-001',
+                'price' => $amount,
+                'quantity' => 1,
+                'name' => 'Pembayaran Event',
+            ]
+        ];
+
+        // Detail customer
         $customer_details = [
-            'first_name' => $user->name,
-            'email' => $user->email,
+            'first_name' => 'Customer',
+            'last_name' => 'Example',
+            'email' => 'customer@example.com',
+            'phone' => '08123456789',
         ];
-    
-        $transaction = [
+
+        // Data transaksi lengkap
+        $transaction_data = [
             'transaction_details' => $transaction_details,
+            'item_details' => $item_details,
             'customer_details' => $customer_details,
         ];
-    
+
         try {
-            // Mendapatkan Snap Token dari Midtrans
-            $snapToken = Snap::getSnapToken($transaction);
-    
-            if (!$snapToken) {
-                return response()->json(['error' => 'Token not found'], 400);
-            }
-    
-            // Menyimpan pembayaran di database
-            Payment::create([
-                'user_id' => $user->id,
-                'course_id' => $courseId,
-                'amount' => $course->price,
-                'payment_type' => 'qris',
-                'transaction_status' => 'pending', 
-                'transaction_id' => $transaction_details['order_id'],
-                'snap_token' => $snapToken,
-            ]);
-    
-            return response()->json([
-                'snapToken' => $snapToken,
-                'transactionId' => $transaction_details['order_id'],
-            ]);
+            // Mendapatkan snap token dari Midtrans
+            $snapToken = Snap::getSnapToken($transaction_data);
+            return response()->json(['snapToken' => $snapToken]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Terjadi kesalahan saat memproses pembayaran: ' . $e->getMessage()], 500);
+            // Tangkap error dan kirimkan detail error
+            return response()->json(['error' => 'Gagal mendapatkan token pembayaran', 'message' => $e->getMessage()], 500);
         }
     }
-
     public function updatePaymentStatus(Request $request)
     {
         $orderId = $request->input('order_id');

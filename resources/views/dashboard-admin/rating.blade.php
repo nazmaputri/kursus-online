@@ -18,9 +18,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                    @php
+                        $startNumber = ($ratings->currentPage() - 1) * $ratings->perPage() + 1;
+                    @endphp
                         @forelse ($ratings as $index => $rating)
                         <tr class="bg-white hover:bg-sky-50 user-row text-sm">
-                            <td class="border text-center border-gray-300 px-4 py-2 rounded-md">{{ $index + 1 }}</td>
+                            <td class="border text-center border-gray-300 px-4 py-2 rounded-md">{{ $startNumber + $index }}</td>
                             <td class="border border-gray-300 px-4 py-2 rounded-md capitalize">{{ $rating->nama }}</td>
                             <td class="border border-gray-300 px-4 py-2 rounded-md">
                                 @for ($i = 1; $i <= 5; $i++)

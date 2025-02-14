@@ -27,7 +27,8 @@ class RegisterController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed', // Memastikan password dan konfirmasi sama
+            'password' => 'required|string|min:8', // Memastikan password dan konfirmasi sama
+            'password_confirmation' => 'required',
             'phone_number' => 'required|string|max:15',
             'role' => 'required|in:student,mentor', // Validasi role yang diinput
         ], [
@@ -43,7 +44,7 @@ class RegisterController extends Controller
         
             'password.required' => 'Password harus diisi.',
             'password.min' => 'Password minimal harus terdiri dari 8 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password_confirmation' => 'Konfirmasi password tidak cocok.',
         
             'phone_number.required' => 'Nomor telepon harus diisi',
             'phone_number.string' => 'Nomor telepon harus berupa teks.',
